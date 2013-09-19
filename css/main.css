@@ -22,10 +22,6 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-size: 100%; }
 
-h1 {
-  margin-top: 2em;
-  margin-bottom: 0.5em;
-}
 p { margin: 1em 0; }
 
 a         { color: #00a; }
@@ -131,6 +127,11 @@ ul.posts span {
 /*
 /*****************************************************************************/
 
+.post h1 {
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
 .post-header {
   position: relative;
 }
@@ -171,4 +172,25 @@ ul.posts span {
 .post-tags li a:hover {
   color: black;
   text-decoration: none;
+}
+
+/*****************************************************************************/
+/*
+/* Tags
+/*
+/*****************************************************************************/
+
+.tags-page h1 {
+  font-size: 200%;
+  margin-bottom: 1em;
+}
+
+.tags-page h2 {
+  font-size: 150%;
+  margin-top: 0.5em;
+}
+
+.tags-page ul {
+  list-style-type: none;
+  line-height: 1em;
 }

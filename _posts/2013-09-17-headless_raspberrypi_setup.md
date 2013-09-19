@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Headless Raspberry Pi setup
+tags:
+- raspberrypi
 ---
 
 SDCard setup on Mac OS X

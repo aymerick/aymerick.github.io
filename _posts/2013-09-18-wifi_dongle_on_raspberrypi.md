@@ -1,6 +1,6 @@
 ---
 layout: post
-title: TL-WN725N wifi dongle Raspberry Pi
+title: TL-WN725N wifi dongle on Raspberry Pi
 ---
 
 References:

@@ -193,4 +193,5 @@ ul.posts span {
 .tags-page ul {
   list-style-type: none;
   line-height: 1em;
+  margin-left: 2em;
 }

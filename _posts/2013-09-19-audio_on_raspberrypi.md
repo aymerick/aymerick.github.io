@@ -3,7 +3,7 @@ layout: post
 title: Audio on Raspberry Pi
 tags:
 - raspberrypi
-- piwi
+- piwi.local
 ---
 
 Sound tests

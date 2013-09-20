@@ -8,13 +8,12 @@ tags:
 - freebox
 ---
 
+Prerequisites:
+
+- [Headless Raspberry Pi setup]({% post_url 2013-09-17-headless_raspberrypi_setup %})
+
 Mount folders on NAS
 ====================
-
-References:
-
-- <https://help.ubuntu.com/community/SettingUpNFSHowTo>
-- <https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/3/html/System_Administration_Guide/s1-nfs-mount.html>
 
 My goal is to share folders that are on my [NAS](http://www.synology.com/) which hostname is `chezak.local`. So first:
 
@@ -65,15 +64,17 @@ chezak.local:/volume1/music /mnt/music nfs ro,hard,intr 0 0
 chezak.local:/volume1/video /mnt/video nfs ro,hard,intr 0 0
 ```
 
+
+External References:
+
+- <https://help.ubuntu.com/community/SettingUpNFSHowTo>
+- <https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/3/html/System_Administration_Guide/s1-nfs-mount.html>
+
+
 Mount folder on Freebox v6
 ==========================
 
-References:
-
-- <http://www.mumbly58.fr/monter-automatiquement-les-disques-de-la-freebox/>
-- <http://doc.ubuntu-fr.org/freeboxv6>
-
-First, enable windows share on freebox with user/pass and `CHEZAK` workgroup.
+First, enable windows share on [freebox](http://en.wikipedia.org/wiki/Freebox) with user/pass and `CHEZAK` workgroup.
 
 Freebox's hostname is `mafreebox.freebox.fr`.
 
@@ -106,3 +107,9 @@ Mount folder:
 {% highlight bash %}
 $ sudo mount /mnt/freebox
 {% endhighlight %}
+
+
+External References:
+
+- <http://www.mumbly58.fr/monter-automatiquement-les-disques-de-la-freebox/>
+- <http://doc.ubuntu-fr.org/freeboxv6>

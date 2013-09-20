@@ -6,11 +6,9 @@ tags:
 - piwi.local
 ---
 
-References:
+Prerequisites:
 
-- <http://www.raspberrypi.org/phpBB3/viewtopic.php?f=65&t=43398>
-- <http://burogu.makotoworkshop.org/index.php?post/2013/04/27/TL-WN725N-v2>
-- <http://blog.pi3g.com/2013/05/tp-link-tl-wn725n-nano-wifi-adapter-v2-0-raspberry-pi-driver/>
+- [Headless Raspberry Pi setup]({% post_url 2013-09-17-headless_raspberrypi_setup %})
 
 Network setup
 =============
@@ -74,3 +72,11 @@ If wifi becomes unavailable after an update, run:
 $ sudo depmod -a
 $ sudo modprobe 8188eu
 {% endhighlight %}
+
+
+External References
+===================
+
+- <http://www.raspberrypi.org/phpBB3/viewtopic.php?f=65&t=43398>
+- <http://burogu.makotoworkshop.org/index.php?post/2013/04/27/TL-WN725N-v2>
+- <http://blog.pi3g.com/2013/05/tp-link-tl-wn725n-nano-wifi-adapter-v2-0-raspberry-pi-driver/>

@@ -8,8 +8,6 @@ tags:
 SDCard setup on Mac OS X
 ========================
 
-Reference: <http://elinux.org/RPi_Easy_SD_Card_Setup#Using_command_line_tools_.282.29>
-
 Download raspbian [here](http://www.raspberrypi.org/downloads).
 
 {% highlight bash %}
@@ -33,6 +31,11 @@ $ sudo diskutil eject /dev/rdisk2
 Insert SDCard in the raspberry pi then power it.
 
 Login is `pi` and password is `raspberry`.
+
+
+External References:
+
+- <http://elinux.org/RPi_Easy_SD_Card_Setup#Using_command_line_tools_.282.29>
 
 
 Raspi config
@@ -60,8 +63,6 @@ $ sudo reboot
 Fix the 'Setting locale failed' issue during ssh
 ================================================
 
-Reference: <http://stackoverflow.com/questions/2499794/how-can-i-fix-a-locale-warning-from-perl>
-
 {% highlight bash %}
 $ sudo emacs /etc/ssh/sshd_config
 {% endhighlight %}
@@ -76,6 +77,11 @@ Test with:
 {% highlight bash %}
 $ perl -e exit
 {% endhighlight %}
+
+
+External References:
+
+- <http://stackoverflow.com/questions/2499794/how-can-i-fix-a-locale-warning-from-perl>
 
 
 Optimizations
@@ -125,11 +131,6 @@ $ scp id_rsa.pub pi@<IP>:/home/pi/.ssh/
 avahi/netatalk setup
 ====================
 
-References:
-
-- <http://elinux.org/RPi_Advanced_Setup>
-- <http://gettingstartedwithraspberrypi.tumblr.com/post/24398167109/file-sharing-with-afp-and-auto-discovery-with-bonjour>
-
 Install avahi:
 {% highlight bash %}
 $ sudo apt-get install avahi-daemon
@@ -174,3 +175,9 @@ Can be tested with:
 $ sudo apt-get install avahi-utils
 $ avahi-browse -arp
 {% endhighlight %}
+
+
+External References:
+
+- <http://elinux.org/RPi_Advanced_Setup>
+- <http://gettingstartedwithraspberrypi.tumblr.com/post/24398167109/file-sharing-with-afp-and-auto-discovery-with-bonjour>

@@ -6,6 +6,10 @@ tags:
 - piwi.local
 ---
 
+Prerequisites:
+
+- [Headless Raspberry Pi setup]({% post_url 2013-09-17-headless_raspberrypi_setup %})
+
 Sound tests
 ===========
 
@@ -63,8 +67,6 @@ Install squeezelite
 
 I already have a [Logitec Media Server](http://en.wikipedia.org/wiki/Logitech_Media_Server) installed on my [NAS](http://www.synology.com/) for my [Squeezebox Radio](http://en.wikipedia.org/wiki/Squeezebox_(network_music_player). So let's install [SqueezeLite](https://code.google.com/p/squeezelite/) client on the raspberry pi.
 
-Reference: <http://www.raspberrypi.org/phpBB3/viewtopic.php?f=38&t=23108>
-
 Install dependencies:
 
 {% highlight bash %}
@@ -119,17 +121,17 @@ $ sudo service squeezelite start
 {% endhighlight %}
 
 
+External References:
+
+- <http://www.raspberrypi.org/phpBB3/viewtopic.php?f=38&t=23108>
+
+
 Install AirPlay
 ===============
 
 Now I want to stream the music stored on my [NAS](http://www.synology.com/) to the raspberry pi through [Audio Station](http://www.synology.com/dsm/home_home_applications_audio_station.php), controlling it with [DS Audio](http://www.synology.com/dsm/home_mobile_support_ds_audio.php).
 
 Thanks to [ShairPort](https://github.com/abrasive/shairport) that's easy.
-
-References:
-
-- <http://pihomeserver.wordpress.com/2012/12/05/raspberry-pi-home-server-etape-6-installer-un-serveur-airplay-avec-shairport/>
-- <http://blog.nicolargo.com/2013/03/utiliser-votre-raspberry-pi-comme-borne-airplay.html>
 
 Install dependencies:
 
@@ -174,3 +176,9 @@ Start daemon:
 $ sudo update-rc.d shairport defaults
 $ sudo service shairport start
 {% endhighlight %}
+
+
+External References:
+
+- <http://pihomeserver.wordpress.com/2012/12/05/raspberry-pi-home-server-etape-6-installer-un-serveur-airplay-avec-shairport/>
+- <http://blog.nicolargo.com/2013/03/utiliser-votre-raspberry-pi-comme-borne-airplay.html>

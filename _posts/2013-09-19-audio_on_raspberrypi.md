@@ -6,7 +6,8 @@ tags:
 - piwi.local
 ---
 
-Prerequisites:
+Prerequisites
+=============
 
 - [Headless Raspberry Pi setup]({% post_url 2013-09-17-headless_raspberrypi_setup %})
 

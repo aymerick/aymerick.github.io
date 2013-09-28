@@ -41,6 +41,15 @@ Set those lines:
   inotify=yes
 ```
 
+Reload database
+===============
+
+It seems that inotify does not work with NFS shares, so when I add new animes I have to run:
+
+{% highlight bash %}
+$ sudo minidlna -R
+{% endhighlight %}
+
 Restart daemon
 ==============
 

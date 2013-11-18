@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Setup go language on Mac
+title: Setup go language workspace
 tags:
 - dev
 - golang

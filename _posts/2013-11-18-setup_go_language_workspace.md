@@ -38,7 +38,7 @@ $ go get github.com/aymerick/jeego
 
 {% endhighlight %}
 
-To Fetch update package:
+To Fetch updated package:
 
 {% highlight bash %}
 

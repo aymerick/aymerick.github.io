@@ -16,12 +16,10 @@ $ emacs ~/.bash_profile
 
 {% endhighlight %}
 
-{% highlight %}
-
+```
 export GOPATH=$HOME/Dev/go
 export PATH=$PATH:$GOPATH/bin
-
-{% endhighlight %}
+```
 
 {% highlight bash %}
 

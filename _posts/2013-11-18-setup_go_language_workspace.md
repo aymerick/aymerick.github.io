@@ -29,13 +29,40 @@ $ echo $GOPATH
 {% endhighlight %}
 
 
-Fetch external package
-======================
+Fetch package
+=============
 
 {% highlight bash %}
 
-$ go get github.com/tarm/goserial
-$ ls ~/Dev/go/src/github.com/tarm/
+$ go get github.com/aymerick/jeego
+
+{% endhighlight %}
+
+To Fetch update package:
+
+{% highlight bash %}
+
+$ go get -u github.com/aymerick/jeego
+
+{% endhighlight %}
+
+
+Dev on package
+==============
+
+{% highlight bash %}
+
+$ cd ~/Dev/go/src/github.com/aymerick/jeego/
+
+{% endhighlight %}
+
+Make some changes to source files.
+
+{% highlight bash %}
+
+$ go build
+$ go install
+$ jeego
 
 {% endhighlight %}
 

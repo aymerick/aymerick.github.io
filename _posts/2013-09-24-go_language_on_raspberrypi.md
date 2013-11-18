@@ -16,8 +16,8 @@ Install
 =======
 
 {% highlight bash %}
-$ wget http://dave.cheney.net/paste/go1.1.linux-arm~armv6-multiarch-1.tar.gz
-$ sudo tar -C /usr/local -xzf go1.1.linux-arm~armv6-multiarch-1.tar.gz
+$ wget http://dave.cheney.net/paste/go1.1.2.linux-arm~multiarch-armv6-1.tar.gz
+$ sudo tar -C /usr/local -xzf go1.1.2.linux-arm~multiarch-armv6-1.tar.gz
 {% endhighlight %}
 
 Setup

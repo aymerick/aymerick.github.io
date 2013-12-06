@@ -92,6 +92,7 @@ Optimizations
 
 {% highlight bash %}
 $ sudo apt-get purge consolekit desktop-base* desktop-file-utils* gnome-icon-theme* gnome-themes-standard* hicolor-icon-theme* leafpad* lxde* lxde-core* midori* xserver-common* xserver-xorg* xserver-xorg-core* xserver-xorg-input-all* xserver-xorg-input-evdev* xserver-xorg-input-synaptics* xserver-xorg-video-fbdev* gconf gconf2 gconf2-common gnome-accessibility-themes libmenu-cache1 lxappearance lxinput lxmenu-data lxpanel lxpolkit lxrandr lxsession lxsession-edit lxshortcut lxtask lxterminal scratch
+$ sudo apt-get -y remove cups* gnome* x11-common*
 $ sudo apt-get -y autoremove
 $ sudo apt-get -y autoclean
 {% endhighlight %}

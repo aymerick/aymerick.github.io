@@ -75,7 +75,7 @@ AcceptEnv LANG LC_*
 
 To test:
 {% highlight bash %}
-$ sudo /etc/init.t/ssh restart
+$ sudo /etc/init.d/ssh restart
 $ exit
 $ ssh pi@<PI IP>
 $ perl -e exit

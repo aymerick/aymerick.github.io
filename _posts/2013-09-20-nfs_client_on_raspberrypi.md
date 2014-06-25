@@ -16,7 +16,7 @@ Prerequisites
 Mount folders on NAS
 ====================
 
-My goal is to share folders that are on my [NAS](http://www.synology.com/) which hostname is `chezak.local`. So first:
+My goal is to share folders that are on my [NAS](http://www.synology.com/) which hostname is `chezak.local` and IP is `192.168.0.13`. So first:
 
 - create a `pi` user/group on the NAS with the sames uids as on the pi: `1000/1000`
 - setup NFS permissions on shared directories on the NAS via the web interface
@@ -60,9 +60,9 @@ $ sudo emacs /etc/fstab
 Add those lines:
 
 ```
-chezak.local:/volume1/incoming /mnt/incoming nfs rw,hard,intr 0 0
-chezak.local:/volume1/music /mnt/music nfs ro,hard,intr 0 0
-chezak.local:/volume1/video /mnt/video nfs ro,hard,intr 0 0
+192.168.0.13:/volume1/incoming /mnt/incoming nfs rw,hard,intr 0 0
+192.168.0.13:/volume1/music /mnt/music nfs ro,hard,intr 0 0
+192.168.0.13:/volume1/video /mnt/video nfs ro,hard,intr 0 0
 ```
 
 

@@ -3,7 +3,6 @@ layout: post
 title: Munin Server on a Raspberry Pi
 tags:
 - raspberrypi
-- pikan.local
 ---
 
 Prerequisites

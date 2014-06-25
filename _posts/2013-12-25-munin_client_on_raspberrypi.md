@@ -3,7 +3,6 @@ layout: post
 title: Munin Client on a raspberry pi
 tags:
 - raspberrypi
-- pipi.local
 ---
 
 Prerequisites

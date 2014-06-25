@@ -144,8 +144,9 @@ $ sudo cpan install Net::SDP
 Install ShairPort:
 
 {% highlight bash %}
-$ git clone https://github.com/albertz/shairport.git shairport
+$ git clone https://github.com/abrasive/shairport.git shairport
 $ cd shairport
+$ ./configure
 $ make
 $ sudo make install
 {% endhighlight %}

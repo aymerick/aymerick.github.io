@@ -3,7 +3,6 @@ layout: post
 title: Sickbeard on Raspberry Pi
 tags:
 - raspberrypi
-- pipi.local
 - freebox
 ---
 

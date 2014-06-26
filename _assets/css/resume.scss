@@ -1,15 +1,48 @@
 /* CSS adapted from http://joshuasortino.com */
 
+@mixin rotate($value) {
+    -webkit-transform: rotate($value);
+       -moz-transform: rotate($value);
+        -ms-transform: rotate($value);
+         -o-transform: rotate($value);
+            transform: rotate($value);
+}
+
+@mixin background-size($value) {
+    -webkit-background-size: $value;
+       -moz-background-size: $value;
+         -o-background-size: $value;
+            background-size: $value;
+}
+
+@mixin border-radius($value) {
+    -webkit-border-radius: $value;
+       -moz-border-radius: $value;
+            border-radius: $value;
+}
+
+@mixin box-sizing($value) {
+    -webkit-box-sizing: $value;
+       -moz-box-sizing: $value;
+            box-sizing: $value;
+}
+
+@mixin box-shadow($shadows...) {
+    -webkit-box-shadow: $shadows;
+       -moz-box-shadow: $shadows;
+            box-shadow: $shadows;
+}
+
 .perso {
     font-family: Georgia, "Times New Roman", Times, serif;
     text-align: center;
 
-    margin: 3em auto;
+    margin: 2em auto;
     @media (min-width: 575px) and (max-width: 887px) {
         margin: 4em auto;
     }
     @media (min-width: 888px) {
-        margin: 5em auto;
+        margin: 4em auto;
     }
 
     h1 {
@@ -79,9 +112,7 @@
             border: 2px solid #fff;
             background: #758AA8;
 
-            -webkit-box-shadow: -1px 0 0 0 #758AA8;
-               -moz-box-shadow: -1px 0 0 0 #758AA8;
-                    box-shadow: -1px 0 0 0 #758AA8;
+            @include box-shadow(-1px 0 0 0 #758AA8);
         }
 
         &:after {
@@ -105,9 +136,7 @@
         border-right: none;
         border-bottom: none;
 
-        -webkit-box-shadow: 0 -1px 0 0px #758AA8;
-           -moz-box-shadow: 0 -1px 0 0px #758AA8;
-                box-shadow: 0 -1px 0 0px #758AA8;
+        @include box-shadow(0 -1px 0 0 #758AA8);
     }
 
     .timeline {
@@ -145,18 +174,11 @@
 
         background: #fff scroll;
 
-        -webkit-background-size: 485px;
-           -moz-background-size: 485px;
-             -o-background-size: 485px;
-                background-size: 485px;
+        @include background-size(485px);
 
-        -webkit-box-shadow: 0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff;
-           -moz-box-shadow: 0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff;
-                box-shadow: 0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff;
+        @include box-shadow(0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff);
 
-        -webkit-border-radius: 1.7em;
-           -moz-border-radius: 1.7em;
-                border-radius: 1.7em;
+        @include border-radius(1.7em);
 
         @media (min-width: 575px) and (max-width: 887px) {
             position: absolute;
@@ -180,19 +202,11 @@
 
         background-color: #fff;
 
-        -webkit-background-size: 485px;
-           -moz-background-size: 485px;
-             -o-background-size: 485px;
-                background-size: 485px;
+        @include background-size(485px);
 
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
+        @include box-sizing(border-box);
 
-        -webkit-box-shadow: 0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff;
-           -moz-box-shadow: 0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff;
-                box-shadow: 0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff;
-
+        @include box-shadow(0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff);
 
         @media (min-width: 575px) and (max-width: 887px) {
             position: absolute;
@@ -259,21 +273,15 @@
         background-color: #a00;
         overflow: hidden;
         white-space: nowrap;
+
         /* top left corner */
         position: absolute;
         left: -20px;
         top: -3px;
 
-        /* 45 deg ccw rotation */
-        -webkit-transform: rotate(-25deg);
-           -moz-transform: rotate(-25deg);
-            -ms-transform: rotate(-25deg);
-             -o-transform: rotate(-25deg);
-                transform: rotate(-25deg);
-        /* shadow */
-        -webkit-box-shadow: 0 0 10px #888;
-           -moz-box-shadow: 0 0 10px #888;
-                box-shadow: 0 0 10px #888;
+        @include rotate(-25deg);
+
+        @include box-shadow(0 0 10px 0 #888);
     }
     .github-ribbon a {
         border: 1px solid #faa;
@@ -284,6 +292,7 @@
         padding: 4px 6px;
         text-align: center;
         text-decoration: none;
+
         /* shadow */
         text-shadow: 0 0 5px #444;
     }
@@ -302,9 +311,7 @@
         background-color: #B7CDEC;
         font-size: 12px;
 
-        -webkit-border-radius: 4px;
-           -moz-border-radius: 4px;
-                border-radius: 4px;
+        @include border-radius(4px);
     }
 
     .job {
@@ -314,9 +321,7 @@
             &:before {
                 right: -68px;
 
-                -webkit-box-shadow: -1px -3px 0px -2px #758AA8;
-                   -moz-box-shadow: -1px -3px 0px -2px #758AA8;
-                        box-shadow: -1px -3px 0px -2px #758AA8;
+                @include box-shadow(-1px -3px 0px -2px #758AA8);
             }
         }
         @media (min-width: 888px) {
@@ -325,9 +330,7 @@
             &:before {
                 bottom: -45px;
 
-                -webkit-box-shadow: 3px -1px 0px -2px #758AA8;
-                   -moz-box-shadow: 3px -1px 0px -2px #758AA8;
-                        box-shadow: 3px -1px 0px -2px #758AA8;
+                @include box-shadow(3px -1px 0px -2px #758AA8);
             }
         }
     }
@@ -339,9 +342,7 @@
             &:before {
                 left: -68px;
 
-                -webkit-box-shadow: 0 -1px 0px 0px #758AA8;
-                   -moz-box-shadow: 0 -1px 0px 0px #758AA8;
-                        box-shadow: 0 -1px 0px 0px #758AA8;
+                @include box-shadow(0 -1px 0px 0px #758AA8);
             }
         }
         @media (min-width: 888px) {
@@ -350,10 +351,7 @@
             &:before {
                 top: -45px;
 
-                -webkit-box-shadow: 1px 0px 0px 0px #758AA8;
-                   -moz-box-shadow: 1px 0px 0px 0px #758AA8;
-                        box-shadow: 1px 0px 0px 0px #758AA8;
-
+                @include box-shadow(1px 0px 0px 0px #758AA8);
             }
         }
     }

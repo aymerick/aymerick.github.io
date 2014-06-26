@@ -2,13 +2,13 @@
 .perso {
   font-family: Georgia, "Times New Roman", Times, serif;
   text-align: center;
-  margin: 3em auto; }
+  margin: 2em auto; }
   @media (min-width: 575px) and (max-width: 887px) {
     .perso {
       margin: 4em auto; } }
   @media (min-width: 888px) {
     .perso {
-      margin: 5em auto; } }
+      margin: 4em auto; } }
   .perso h1 {
     font-weight: bold;
     font-size: 30px; }
@@ -58,9 +58,9 @@
       margin: 0 auto;
       border: 2px solid #fff;
       background: #758AA8;
-      -webkit-box-shadow: -1px 0 0 0 #758AA8;
-      -moz-box-shadow: -1px 0 0 0 #758AA8;
-      box-shadow: -1px 0 0 0 #758AA8; }
+      -webkit-box-shadow: -1px 0 0 0 #758aa8;
+      -moz-box-shadow: -1px 0 0 0 #758aa8;
+      box-shadow: -1px 0 0 0 #758aa8; }
     .resume:after {
       display: table;
       clear: both;
@@ -75,9 +75,9 @@
       border-left: none;
       border-right: none;
       border-bottom: none;
-      -webkit-box-shadow: 0 -1px 0 0px #758AA8;
-      -moz-box-shadow: 0 -1px 0 0px #758AA8;
-      box-shadow: 0 -1px 0 0px #758AA8; } }
+      -webkit-box-shadow: 0 -1px 0 0 #758aa8;
+      -moz-box-shadow: 0 -1px 0 0 #758aa8;
+      box-shadow: 0 -1px 0 0 #758aa8; } }
   .resume .timeline {
     position: relative;
     max-width: 960px;
@@ -106,9 +106,9 @@
     -moz-background-size: 485px;
     -o-background-size: 485px;
     background-size: 485px;
-    -webkit-box-shadow: 0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff;
-    -moz-box-shadow: 0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff;
-    box-shadow: 0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff;
+    -webkit-box-shadow: 0 0 0 1px #758aa8, 0 0 0 3px white, 0 0 0 6px #758aa8, 0 0 0 8px white;
+    -moz-box-shadow: 0 0 0 1px #758aa8, 0 0 0 3px white, 0 0 0 6px #758aa8, 0 0 0 8px white;
+    box-shadow: 0 0 0 1px #758aa8, 0 0 0 3px white, 0 0 0 6px #758aa8, 0 0 0 8px white;
     -webkit-border-radius: 1.7em;
     -moz-border-radius: 1.7em;
     border-radius: 1.7em; }
@@ -135,9 +135,9 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-    -webkit-box-shadow: 0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff;
-    -moz-box-shadow: 0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff;
-    box-shadow: 0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff; }
+    -webkit-box-shadow: 0 0 0 1px #758aa8, 0 0 0 3px white, 0 0 0 6px #758aa8, 0 0 0 8px white;
+    -moz-box-shadow: 0 0 0 1px #758aa8, 0 0 0 3px white, 0 0 0 6px #758aa8, 0 0 0 8px white;
+    box-shadow: 0 0 0 1px #758aa8, 0 0 0 3px white, 0 0 0 6px #758aa8, 0 0 0 8px white; }
     @media (min-width: 575px) and (max-width: 887px) {
       .resume .entry {
         position: absolute;
@@ -187,16 +187,14 @@
     position: absolute;
     left: -20px;
     top: -3px;
-    /* 45 deg ccw rotation */
     -webkit-transform: rotate(-25deg);
     -moz-transform: rotate(-25deg);
     -ms-transform: rotate(-25deg);
     -o-transform: rotate(-25deg);
     transform: rotate(-25deg);
-    /* shadow */
-    -webkit-box-shadow: 0 0 10px #888;
-    -moz-box-shadow: 0 0 10px #888;
-    box-shadow: 0 0 10px #888; }
+    -webkit-box-shadow: 0 0 10px 0 #888888;
+    -moz-box-shadow: 0 0 10px 0 #888888;
+    box-shadow: 0 0 10px 0 #888888; }
   .resume .github-ribbon a {
     border: 1px solid #faa;
     color: #fff;
@@ -226,33 +224,33 @@
       left: -260px; }
       .resume .job:before {
         right: -68px;
-        -webkit-box-shadow: -1px -3px 0px -2px #758AA8;
-        -moz-box-shadow: -1px -3px 0px -2px #758AA8;
-        box-shadow: -1px -3px 0px -2px #758AA8; } }
+        -webkit-box-shadow: -1px -3px 0px -2px #758aa8;
+        -moz-box-shadow: -1px -3px 0px -2px #758aa8;
+        box-shadow: -1px -3px 0px -2px #758aa8; } }
   @media (min-width: 888px) {
     .resume .job {
       top: -125px; }
       .resume .job:before {
         bottom: -45px;
-        -webkit-box-shadow: 3px -1px 0px -2px #758AA8;
-        -moz-box-shadow: 3px -1px 0px -2px #758AA8;
-        box-shadow: 3px -1px 0px -2px #758AA8; } }
+        -webkit-box-shadow: 3px -1px 0px -2px #758aa8;
+        -moz-box-shadow: 3px -1px 0px -2px #758aa8;
+        box-shadow: 3px -1px 0px -2px #758aa8; } }
   @media (min-width: 575px) and (max-width: 887px) {
     .resume .oss {
       right: -262px; }
       .resume .oss:before {
         left: -68px;
-        -webkit-box-shadow: 0 -1px 0px 0px #758AA8;
-        -moz-box-shadow: 0 -1px 0px 0px #758AA8;
-        box-shadow: 0 -1px 0px 0px #758AA8; } }
+        -webkit-box-shadow: 0 -1px 0px 0px #758aa8;
+        -moz-box-shadow: 0 -1px 0px 0px #758aa8;
+        box-shadow: 0 -1px 0px 0px #758aa8; } }
   @media (min-width: 888px) {
     .resume .oss {
       bottom: -119px; }
       .resume .oss:before {
         top: -45px;
-        -webkit-box-shadow: 1px 0px 0px 0px #758AA8;
-        -moz-box-shadow: 1px 0px 0px 0px #758AA8;
-        box-shadow: 1px 0px 0px 0px #758AA8; } }
+        -webkit-box-shadow: 1px 0px 0px 0px #758aa8;
+        -moz-box-shadow: 1px 0px 0px 0px #758aa8;
+        box-shadow: 1px 0px 0px 0px #758aa8; } }
   @media (min-width: 888px) {
     .resume .oss.level2 {
       bottom: -219px; }

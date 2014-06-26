@@ -55,9 +55,9 @@ Push `master` to remote:
 
     $ git push -u origin master
 
-Checkout `master` in _deploy subdirectory:
+Checkout `master` in `_site` subdirectory:
 
-    $ git clone git@github.com:aymerick/aymerick.github.io.git -b master _deploy
+    $ git clone git@github.com:aymerick/aymerick.github.io.git -b master `_site`
 
 References
 ==========
@@ -67,4 +67,4 @@ References
 - Build system/workflow inspirations:
   - <https://github.com/myna/help>
   - <http://winstonyw.com/2013/02/24/jekyll_haml_sass_and_github_pages>
-  - <https://github.com/imathis/octopress>
+  - <https://github.com/imathis/octopress/blob/master/Rakefile>

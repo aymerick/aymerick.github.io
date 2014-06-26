@@ -24,6 +24,19 @@ Build the site and watch for changes:
 
 Browse: http://127.0.0.1:4000
 
+Repository setup
+================
+
+  $ git branch -m master source
+  $ mkdir _deploy
+  $ cd _deploy
+  $ git init
+  $ echo 'Coming soon' > index.html
+  $ git add .
+  $ git commit -m "Init"
+  $ git remote add origin https://github.com/aymerick/aymerick.github.io
+  $ ...
+
 References
 ==========
 

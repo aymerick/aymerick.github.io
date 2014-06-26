@@ -27,6 +27,8 @@ Browse: http://127.0.0.1:4000
 References
 ==========
 
-- Jekyll: http://jekyllrb.com
-- Pygment CSS: https://github.com/richleland/pygments-css/blob/master/zenburn.css
-- Build system inspiration: https://github.com/myna/help
+- Jekyll: <http://jekyllrb.com>
+- Pygment CSS: <https://github.com/richleland/pygments-css/blob/master/zenburn.css>
+- Build system inspirations:
+  - <https://github.com/myna/help>
+  - <http://winstonyw.com/2013/02/24/jekyll_haml_sass_and_github_pages>

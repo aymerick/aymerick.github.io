@@ -37,7 +37,11 @@ Delete remote master:
   $ git push origin :master
 
 Create new local master (empty):
-  $ git checkout --orphan -b master
+  $ git checkout --orphan master
+  $ git rm --cached -r .
+  $ echo 'soon' >> index.html
+  $ git add index.html
+  $ git commit -m "init"
 
 Push remote master:
   $ git push -u origin master

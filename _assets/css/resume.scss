@@ -175,9 +175,7 @@
         background: #fff scroll;
 
         @include background-size(485px);
-
         @include box-shadow(0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff);
-
         @include border-radius(1.7em);
 
         @media (min-width: 575px) and (max-width: 887px) {
@@ -203,9 +201,7 @@
         background-color: #fff;
 
         @include background-size(485px);
-
         @include box-sizing(border-box);
-
         @include box-shadow(0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff);
 
         @media (min-width: 575px) and (max-width: 887px) {
@@ -270,30 +266,30 @@
     }
 
     .github-ribbon {
-        background-color: #a00;
-        overflow: hidden;
-        white-space: nowrap;
-
-        /* top left corner */
         position: absolute;
         left: -20px;
         top: -3px;
 
-        @include rotate(-25deg);
+        overflow: hidden;
 
+        background-color: #a00;
+        white-space: nowrap;
+
+        @include rotate(-25deg);
         @include box-shadow(0 0 10px 0 #888);
     }
     .github-ribbon a {
-        border: 1px solid #faa;
-        color: #fff;
         display: block;
-        font: bold 81.25% 'Helvetica Neue', Helvetica, Arial, sans-serif;
         margin: 1px 0;
         padding: 4px 6px;
+
+        border: 1px solid #faa;
+
+        color: #fff;
+        font: bold 81.25% 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
         text-align: center;
         text-decoration: none;
-
-        /* shadow */
         text-shadow: 0 0 5px #444;
     }
 

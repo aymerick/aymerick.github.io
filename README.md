@@ -29,38 +29,38 @@ Repository setup
 
 Rename local master to source:
 
-  $ git branch -m master source
+    $ git branch -m master source
 
 Push remote source:
 
-  $ git push -u origin source
+    $ git push -u origin source
 
 Delete remote master:
 
-  $ git push origin :master
+    $ git push origin :master
 
 Create new local master (empty):
 
-  $ git checkout --orphan master
-  $ git rm --cached -r .
-  $ echo 'soon' >> index.html
-  $ git add index.html
-  $ git commit -m "init"
+    $ git checkout --orphan master
+    $ git rm --cached -r .
+    $ echo 'soon' >> index.html
+    $ git add index.html
+    $ git commit -m "init"
 
 Push remote master:
 
-  $ git push -u origin master
+    $ git push -u origin master
 
 Checkout master in _deploy subdirectory:
 
-  $ mkdir _deploy
-  $ cd _deploy
-  $ git init
-  $ echo 'Coming soon' > index.html
-  $ git add .
-  $ git commit -m "Init"
-  $ git remote add origin git@github.com:aymerick/aymerick.github.com.git
-  $ ...
+    $ mkdir _deploy
+    $ cd _deploy
+    $ git init
+    $ echo 'Coming soon' > index.html
+    $ git add .
+    $ git commit -m "Init"
+    $ git remote add origin git@github.com:aymerick/aymerick.github.com.git
+    $ ...
 
 References
 ==========

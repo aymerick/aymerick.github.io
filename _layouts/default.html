@@ -3,57 +3,83 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>{{ page.title }}</title>
-        <meta name="viewport" content="width=device-width">
+        <title>aymerick - {{ page.title }}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="/assets/css/syntax.css">
-
-        <!-- Custom CSS -->
         <link rel="stylesheet" href="/assets/css/main.css">
+
+        {% for css_name in page.extra_css %}
+            <link rel="stylesheet" href="/assets/css/{{ css_name }}">
+        {% endfor %}
     </head>
-    <body>
 
-        <div class="site">
-          <div class="header">
-            <h1 class="title"><a href="/">{{ site.name }}</a></h1>
-            <a class="extra" href="/">home</a>
-            <a class="extra" href="/tags/">tags</a>
-          </div>
+    <body id="{{ page.body-id }}">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
 
-          {{ content }}
+              <a href="/index.html" class='navbar-brand{% if page.body-id == 'home' %} active{% endif %}'>Aymerick</a>
+            </div>
 
-          <div class="footer">
-            <div class="contact">
-              <p>
-                Aymerick JEHANNE<br />
-                Developer at <a href="http://www.fotopedia.com">Fotopedia</a><br />
-                <a href="http://www.aymerick.com">http://www.aymerick.com</a><br />
-              </p>
-            </div>
-            <div class="contact">
-              <p>
-                <a href="https://github.com/aymerick">github</a><br />
-                <a href="https://twitter.com/aymerick">twitter</a><br />
-                <a href="http://www.linkedin.com/in/aymerick">linkedin</a><br />
-              </p>
-            </div>
-            <div class="contact">
-              <p>
-                <a href="https://pinboard.in/u:aymerick">pinboard</a><br />
-                <a href="http://fudahu.tumblr.com/">tumblr</a><br />
-                <a href="http://www.flickr.com/photos/aymerick">flickr</a><br />
-              </p>
-            </div>
-            <div class="contact">
-              <p>
-                <a href="http://fotopedia.com/users/aymerick">fotopedia</a><br />
-                <a href="http://www.youtube.com/ajehanne">youtube</a><br />
-                <a href="http://soundcloud.com/aymerick-jehanne">soundcloud</a><br />
-              </p>
+            <div class="collapse navbar-collapse" id="navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li class="{% if page.body-id == 'stuff' %}active{% endif %}">
+                  <a href="/stuff.html">Stuff</a>
+                </li>
+                <li class="{% if page.body-id == 'tags' %}active{% endif %}">
+                  <a href="/tags/">Tags</a>
+                </li>
+              </ul>
             </div>
           </div>
-        </div>
+        </nav>
 
+        {{ content }}
+
+<!--         <footer>
+          <div class="container">
+            <div class="row">
+              <div class="col-md-3">
+                <p>
+                  Aymerick JEHANNE<br />
+                  Developer at <a href="http://www.fotopedia.com">Fotopedia</a><br />
+                  <a href="http://www.aymerick.com">http://www.aymerick.com</a><br />
+                </p>
+              </div>
+              <div class="col-md-2">
+                <p>
+                  <a href="https://github.com/aymerick">github</a><br />
+                  <a href="https://twitter.com/aymerick">twitter</a><br />
+                  <a href="http://www.linkedin.com/in/aymerick">linkedin</a><br />
+                </p>
+              </div>
+              <div class="col-md-2">
+                <p>
+                  <a href="https://pinboard.in/u:aymerick">pinboard</a><br />
+                  <a href="http://fudahu.tumblr.com/">tumblr</a><br />
+                  <a href="http://www.flickr.com/photos/aymerick">flickr</a><br />
+                </p>
+              </div>
+              <div class="col-md-2">
+                <p>
+                  <a href="http://fotopedia.com/users/aymerick">fotopedia</a><br />
+                  <a href="http://www.youtube.com/ajehanne">youtube</a><br />
+                  <a href="http://soundcloud.com/aymerick-jehanne">soundcloud</a><br />
+                </p>
+              </div>
+            </div>
+          </div>
+        </footer> -->
+
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="/assets/js/bootstrap.min.js"></script>
     </body>
 </html>

@@ -31,6 +31,26 @@ module.exports = (grunt) ->
           src: ["*.css"]
           dest: "assets/css/"
         }]
+      jquery:
+        files: [{
+          expand: true
+          cwd: "bower_components/jquery/dist/"
+          src: "jquery.min.js"
+          dest: "assets/js/"
+        }]
+      bootstrap:
+        files: [{
+          expand: true
+          cwd: "bower_components/bootstrap/dist/css/"
+          src: "bootstrap.min.css"
+          dest: "assets/css/"
+        },
+        {
+          expand: true
+          cwd: "bower_components/bootstrap/dist/js/"
+          src: "bootstrap.min.js"
+          dest: "assets/js/"
+        }]
 
     exec:
       install:

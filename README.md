@@ -27,14 +27,29 @@ Browse: http://127.0.0.1:4000
 Repository setup
 ================
 
+Rename local master to source:
   $ git branch -m master source
+
+Push remote source:
+  $ git push -u origin source
+
+Delete remote master:
+  $ git push origin :master
+
+Create new local master (empty):
+  $ git checkout --orphan -b master
+
+Push remote master:
+  $ git push -u origin master
+
+Checkout master in _deploy subdirectory:
   $ mkdir _deploy
   $ cd _deploy
   $ git init
   $ echo 'Coming soon' > index.html
   $ git add .
   $ git commit -m "Init"
-  $ git remote add origin https://github.com/aymerick/aymerick.github.io
+  $ git remote add origin git@github.com:aymerick/aymerick.github.com.git
   $ ...
 
 References

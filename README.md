@@ -60,6 +60,7 @@ References
 
 - Jekyll: <http://jekyllrb.com>
 - Pygment CSS: <https://github.com/richleland/pygments-css/blob/master/zenburn.css>
-- Build system inspirations:
+- Build system/workflow inspirations:
   - <https://github.com/myna/help>
   - <http://winstonyw.com/2013/02/24/jekyll_haml_sass_and_github_pages>
+  - <https://github.com/imathis/octopress>

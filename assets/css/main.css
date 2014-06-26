@@ -16,8 +16,12 @@ body {
 
 /* about */
 #about .avatar {
-  float: left;
-  margin: 15px 30px 0px 15px; }
+  display: block;
+  margin: 0 auto 1.5em; }
+  @media (min-width: 575px) {
+    #about .avatar {
+      float: left;
+      margin: 15px 30px 0px 15px; } }
 #about .bio {
   margin-top: 2em;
   font-family: Georgia, "Times New Roman", Times, serif;

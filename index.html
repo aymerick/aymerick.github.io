@@ -3,89 +3,168 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Aymerick's stuff</title>
-        <meta name="viewport" content="width=device-width">
+        <title>aymerick - Home</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="/assets/css/syntax.css">
-
-        <!-- Custom CSS -->
         <link rel="stylesheet" href="/assets/css/main.css">
+
+        
+            <link rel="stylesheet" href="/assets/css/resume.css">
+        
     </head>
-    <body>
 
-        <div class="site">
-          <div class="header">
-            <h1 class="title"><a href="/">Aymerick's stuff</a></h1>
-            <a class="extra" href="/">home</a>
-            <a class="extra" href="/tags/">tags</a>
+    <body id="home">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a href="/index.html" class='navbar-brand active'>Aymerick</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li class="">
+                  <a href="/stuff.html">Stuff</a>
+                </li>
+                <li class="">
+                  <a href="/tags/">Tags</a>
+                </li>
+              </ul>
+            </div>
           </div>
+        </nav>
 
-          <div id="home">
-  <h1>Stuff</h1>
-  <ul class="posts">
-    
-      <li><span>29 Jan 2014</span> &raquo; <a href="/2014/01/29/logitech_media_server_on_raspberrypi.html">Logitec Media Server on a raspberry pi</a></li>
-    
-      <li><span>25 Dec 2013</span> &raquo; <a href="/2013/12/25/munin_client_on_raspberrypi.html">Munin Client on a raspberry pi</a></li>
-    
-      <li><span>24 Dec 2013</span> &raquo; <a href="/2013/12/24/munin_server_on_raspberrypi.html">Munin Server on a Raspberry Pi</a></li>
-    
-      <li><span>23 Dec 2013</span> &raquo; <a href="/2013/12/23/nginx_on_raspberrypi.html">Nginx on a Raspberry Pi</a></li>
-    
-      <li><span>18 Nov 2013</span> &raquo; <a href="/2013/11/18/setup_go_language_workspace.html">Setup go language workspace</a></li>
-    
-      <li><span>24 Sep 2013</span> &raquo; <a href="/2013/09/24/go_language_on_raspberrypi.html">Go language on Raspberry Pi</a></li>
-    
-      <li><span>23 Sep 2013</span> &raquo; <a href="/2013/09/23/raspberrypi_camera_setup.html">Raspberry Pi Camera setup</a></li>
-    
-      <li><span>22 Sep 2013</span> &raquo; <a href="/2013/09/22/sickbeard_on_raspberrypi.html">Sickbeard on Raspberry Pi</a></li>
-    
-      <li><span>21 Sep 2013</span> &raquo; <a href="/2013/09/21/mini_dlna_on_raspberrypi.html">minidlna on Raspberry Pi</a></li>
-    
-      <li><span>20 Sep 2013</span> &raquo; <a href="/2013/09/20/nfs_client_on_raspberrypi.html">NFS Client on Raspberry Pi</a></li>
-    
-      <li><span>19 Sep 2013</span> &raquo; <a href="/2013/09/19/audio_on_raspberrypi.html">Audio on Raspberry Pi</a></li>
-    
-      <li><span>18 Sep 2013</span> &raquo; <a href="/2013/09/18/wifi_dongle_on_raspberrypi.html">TL-WN725N wifi dongle on Raspberry Pi</a></li>
-    
-      <li><span>17 Sep 2013</span> &raquo; <a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
-    
-  </ul>
+        <div class="container-fluid">
+    <div class="row">
+        <header class="perso">
+            <h1>Aymerick Jéhanne</h1>
+            <h2>Software developer</h2>
+        </header>
+    </div>
+    <div class="row">
+        <div class="resume">
+            <div class="timeline">
+                <h1 class="year">2000</h1>
+                <!-- jobs -->
+                <div class="entry job yaccom">
+                    <h1>Telecom industry</h1>
+                    WAP, MMS...
+                    <div class="tags">
+                        <span>c</span>
+                    </div>
+                </div>
+
+                <div class="entry oss wbxml">
+                    <h1>WBXML library</h1>
+                    WBXML parser and encoder
+                    <div class="tags">
+                        <span>c</span>
+                    </div>
+                    <div class="github-ribbon">
+                      <a href="https://github.com/aymerick/libwbxml-0.9.3">GitHub</a>
+                    </div>
+                </div>
+
+                <div class="entry job newlc">
+                    <h1>Apple contractor</h1>
+                    SyncML protocol in iSync
+                    <div class="tags">
+                        <span>objective-c</span>
+                    </div>
+                </div>
+
+                <div class="entry job fotopedia">
+                    <h1>Fotopedia</h1>
+                    Full stack web developer
+                    <div class="tags">
+                        <span>rails</span><span>mongodb</span><span>js</span><span>css</span><span>chef</span>
+                    </div>
+                </div>
+
+                <div class="entry oss fwissr">
+                    <h1>Fwissr</h1>
+                    Configuration registry tool
+                    <div class="tags">
+                        <span>ruby</span><span>mongodb</span>
+                    </div>
+                    <div class="github-ribbon">
+                      <a href="https://github.com/fotonauts/fwissr">GitHub</a>
+                    </div>
+                </div>
+
+                <div class="entry oss level2 activr">
+                    <h1>Activr</h1>
+                    Activity news feed system
+                    <div class="tags">
+                        <span>ruby</span><span>mongodb</span>
+                    </div>
+                    <div class="github-ribbon">
+                      <a href="https://github.com/fotonauts/activr">GitHub</a>
+                    </div>
+                </div>
+
+                <div class="entry oss jeego">
+                    <h1>Jeego</h1>
+                    DIY home monitoring
+                    <div class="tags">
+                        <span>go</span><span>emberjs</span>
+                    </div>
+                    <div class="github-ribbon">
+                      <a href="https://github.com/aymerick/jeego">GitHub</a>
+                    </div>
+                </div>
+
+                <h1 class="year">2014</h1>
+            </div>
+        </div>
+    </div>
 </div>
 
 
-          <div class="footer">
-            <div class="contact">
-              <p>
-                Aymerick JEHANNE<br />
-                Developer at <a href="http://www.fotopedia.com">Fotopedia</a><br />
-                <a href="http://www.aymerick.com">http://www.aymerick.com</a><br />
-              </p>
-            </div>
-            <div class="contact">
-              <p>
-                <a href="https://github.com/aymerick">github</a><br />
-                <a href="https://twitter.com/aymerick">twitter</a><br />
-                <a href="http://www.linkedin.com/in/aymerick">linkedin</a><br />
-              </p>
-            </div>
-            <div class="contact">
-              <p>
-                <a href="https://pinboard.in/u:aymerick">pinboard</a><br />
-                <a href="http://fudahu.tumblr.com/">tumblr</a><br />
-                <a href="http://www.flickr.com/photos/aymerick">flickr</a><br />
-              </p>
-            </div>
-            <div class="contact">
-              <p>
-                <a href="http://fotopedia.com/users/aymerick">fotopedia</a><br />
-                <a href="http://www.youtube.com/ajehanne">youtube</a><br />
-                <a href="http://soundcloud.com/aymerick-jehanne">soundcloud</a><br />
-              </p>
+<!--         <footer>
+          <div class="container">
+            <div class="row">
+              <div class="col-md-3">
+                <p>
+                  Aymerick JEHANNE<br />
+                  Developer at <a href="http://www.fotopedia.com">Fotopedia</a><br />
+                  <a href="http://www.aymerick.com">http://www.aymerick.com</a><br />
+                </p>
+              </div>
+              <div class="col-md-2">
+                <p>
+                  <a href="https://github.com/aymerick">github</a><br />
+                  <a href="https://twitter.com/aymerick">twitter</a><br />
+                  <a href="http://www.linkedin.com/in/aymerick">linkedin</a><br />
+                </p>
+              </div>
+              <div class="col-md-2">
+                <p>
+                  <a href="https://pinboard.in/u:aymerick">pinboard</a><br />
+                  <a href="http://fudahu.tumblr.com/">tumblr</a><br />
+                  <a href="http://www.flickr.com/photos/aymerick">flickr</a><br />
+                </p>
+              </div>
+              <div class="col-md-2">
+                <p>
+                  <a href="http://fotopedia.com/users/aymerick">fotopedia</a><br />
+                  <a href="http://www.youtube.com/ajehanne">youtube</a><br />
+                  <a href="http://soundcloud.com/aymerick-jehanne">soundcloud</a><br />
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        </footer> -->
 
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="/assets/js/bootstrap.min.js"></script>
     </body>
 </html>

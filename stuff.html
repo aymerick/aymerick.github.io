@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>aymerick - minidlna on Raspberry Pi</title>
+        <title>aymerick - Stuff</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
@@ -13,7 +13,7 @@
         
     </head>
 
-    <body id="">
+    <body id="stuff">
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
           <div class="container-fluid">
             <div class="navbar-header">
@@ -29,7 +29,7 @@
 
             <div class="collapse navbar-collapse" id="navbar-collapse-1">
               <ul class="nav navbar-nav">
-                <li class="">
+                <li class="active">
                   <a href="/stuff.html">Stuff</a>
                 </li>
                 <li class="">
@@ -42,68 +42,36 @@
 
         <div class="container">
     <div class="row">
-        <div class="post-header">
-          <h2 class='post-title'>minidlna on Raspberry Pi</h2>
+        <h1>Stuff</h1>
+        <ul class="posts">
           
-            <ul class="post-tags">
-              
-                <li><a href="/tags/#raspberrypi-ref">#raspberrypi</a></li>
-              
-                <li><a href="/tags/#pipi.local-ref">#pipi.local</a></li>
-              
-                <li><a href="/tags/#freebox-ref">#freebox</a></li>
-              
-            </ul>
+            <li><span>29 Jan 2014</span> &raquo; <a href="/2014/01/29/logitech_media_server_on_raspberrypi.html">Logitec Media Server on a raspberry pi</a></li>
           
-          <p class="meta">21 Sep 2013</p>
-        </div>
-
-        <div class="post">
-        <h1>Prerequisites</h1>
-
-<ul>
-<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
-<li><a href="/2013/09/20/nfs_client_on_raspberrypi.html">NFS Client on Raspberry Pi</a></li>
-</ul>
-
-<h1>Goal</h1>
-
-<p>There are some animes on my <a href="http://www.synology.com/">NAS</a> for my kids. They mainly watch them on TV thanks to the <a href="http://en.wikipedia.org/wiki/Freebox">freebox</a> that acts as a DLNA client talking to the <a href="http://www.synology.com/dsm/home_home_applications_media_server.php">Media Server</a> intalled on the NAS. But my NAS is a but overloaded, so I decided to replace its <a href="http://www.synology.com/dsm/home_home_applications_media_server.php">Media Server</a> with a light DLNA server on a raspberry pi.</p>
-
-<h1>Install</h1>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install minidlna</code></pre></div>
-
-<h1>Configure</h1>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/minidlna.conf</code></pre></div>
-
-<p>Set those lines:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">  media_dir=V,/mnt/video/dessins_animes
-  friendly_name=Dessins animes
-  root_container=B
-  inotify=yes
-</code></pre></div>
-<h1>Reload database</h1>
-
-<p>It seems that inotify does not work with NFS shares, so when I add new animes I have to run:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo minidlna -R</code></pre></div>
-
-<h1>Restart daemon</h1>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo /etc/init.d/minidlna restart
-<span class="nv">$ </span>sudo /etc/init.d/minidlna force-reload</code></pre></div>
-
-<p>Note that <code>minidlna</code> reindex all files at each restart, so you have to wait a bit before trying to access the videos from the freebox.</p>
-
-<h1>External References</h1>
-
-<ul>
-<li><a href="http://doc.ubuntu-fr.org/minidlna">http://doc.ubuntu-fr.org/minidlna</a></li>
-</ul>
-
-        </div>
+            <li><span>25 Dec 2013</span> &raquo; <a href="/2013/12/25/munin_client_on_raspberrypi.html">Munin Client on a raspberry pi</a></li>
+          
+            <li><span>24 Dec 2013</span> &raquo; <a href="/2013/12/24/munin_server_on_raspberrypi.html">Munin Server on a Raspberry Pi</a></li>
+          
+            <li><span>23 Dec 2013</span> &raquo; <a href="/2013/12/23/nginx_on_raspberrypi.html">Nginx on a Raspberry Pi</a></li>
+          
+            <li><span>18 Nov 2013</span> &raquo; <a href="/2013/11/18/setup_go_language_workspace.html">Setup go language workspace</a></li>
+          
+            <li><span>24 Sep 2013</span> &raquo; <a href="/2013/09/24/go_language_on_raspberrypi.html">Go language on Raspberry Pi</a></li>
+          
+            <li><span>23 Sep 2013</span> &raquo; <a href="/2013/09/23/raspberrypi_camera_setup.html">Raspberry Pi Camera setup</a></li>
+          
+            <li><span>22 Sep 2013</span> &raquo; <a href="/2013/09/22/sickbeard_on_raspberrypi.html">Sickbeard on Raspberry Pi</a></li>
+          
+            <li><span>21 Sep 2013</span> &raquo; <a href="/2013/09/21/mini_dlna_on_raspberrypi.html">minidlna on Raspberry Pi</a></li>
+          
+            <li><span>20 Sep 2013</span> &raquo; <a href="/2013/09/20/nfs_client_on_raspberrypi.html">NFS Client on Raspberry Pi</a></li>
+          
+            <li><span>19 Sep 2013</span> &raquo; <a href="/2013/09/19/audio_on_raspberrypi.html">Audio on Raspberry Pi</a></li>
+          
+            <li><span>18 Sep 2013</span> &raquo; <a href="/2013/09/18/wifi_dongle_on_raspberrypi.html">TL-WN725N wifi dongle on Raspberry Pi</a></li>
+          
+            <li><span>17 Sep 2013</span> &raquo; <a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+          
+        </ul>
     </div>
 </div>
 

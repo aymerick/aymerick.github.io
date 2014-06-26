@@ -1,0 +1,309 @@
+/* CSS adapted from http://joshuasortino.com */
+.perso {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  text-align: center;
+  margin: 3em auto; }
+  @media (min-width: 575px) and (max-width: 887px) {
+    .perso {
+      margin: 4em auto; } }
+  @media (min-width: 888px) {
+    .perso {
+      margin: 5em auto; } }
+  .perso h1 {
+    font-weight: bold;
+    font-size: 35px; }
+    @media (min-width: 575px) and (max-width: 887px) {
+      .perso h1 {
+        font-size: 45px; } }
+    @media (min-width: 888px) {
+      .perso h1 {
+        font-size: 50px; } }
+  .perso h2 {
+    color: #a39996;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 16px; }
+    @media (min-width: 575px) and (max-width: 887px) {
+      .perso h2 {
+        font-size: 18px; } }
+    @media (min-width: 888px) {
+      .perso h2 {
+        font-size: 20px; } }
+
+.resume {
+  position: relative;
+  width: 100%;
+  margin: 1em 0 5em;
+  padding: 0;
+  text-align: center;
+  font-family: Helvetica, Arial, sans-serif; }
+  @media (max-width: 887px) {
+    .resume:before {
+      position: absolute;
+      content: "";
+      line-height: 0;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 7px;
+      margin: 0 auto;
+      border: 2px solid #fff;
+      background: #758AA8;
+      -webkit-box-shadow: -1px 0 0 0 #758AA8;
+      -moz-box-shadow: -1px 0 0 0 #758AA8;
+      box-shadow: -1px 0 0 0 #758AA8; }
+    .resume:after {
+      display: table;
+      clear: both;
+      content: "";
+      line-height: 0; } }
+  @media (min-width: 888px) {
+    .resume {
+      height: 5px;
+      margin: 10em 0 20em 0;
+      background: #758AA8;
+      border: 2px solid #fff;
+      border-left: none;
+      border-right: none;
+      border-bottom: none;
+      -webkit-box-shadow: 0 -1px 0 0px #758AA8;
+      -moz-box-shadow: 0 -1px 0 0px #758AA8;
+      box-shadow: 0 -1px 0 0px #758AA8; } }
+  .resume .timeline {
+    position: relative;
+    max-width: 960px;
+    margin: 0 auto; }
+    @media (min-width: 575px) and (max-width: 887px) {
+      .resume .timeline {
+        width: 47px;
+        height: 800px; }
+        .resume .timeline > .year:last-child {
+          bottom: -3.2em; } }
+    @media (min-width: 888px) {
+      .resume .timeline {
+        height: 9px; }
+        .resume .timeline > .year:last-child {
+          right: 1.35em; } }
+  .resume .year {
+    width: 3.2em;
+    height: 3.2em;
+    margin: 0 auto;
+    color: #5a504e;
+    font-size: 14px;
+    line-height: 3.25em;
+    text-align: center;
+    background: #fff scroll;
+    -webkit-background-size: 485px;
+    -moz-background-size: 485px;
+    -o-background-size: 485px;
+    background-size: 485px;
+    -webkit-box-shadow: 0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff;
+    -moz-box-shadow: 0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff;
+    box-shadow: 0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff;
+    -webkit-border-radius: 1.7em;
+    -moz-border-radius: 1.7em;
+    border-radius: 1.7em; }
+    @media (min-width: 575px) and (max-width: 887px) {
+      .resume .year {
+        position: absolute; } }
+    @media (min-width: 888px) {
+      .resume .year {
+        position: absolute;
+        top: -1.5em; } }
+  .resume .entry {
+    position: relative;
+    height: 80px;
+    margin: 2em 1em;
+    padding: .4em;
+    color: #5a504e;
+    font-size: 14px;
+    vertical-align: middle;
+    background-color: #fff;
+    -webkit-background-size: 485px;
+    -moz-background-size: 485px;
+    -o-background-size: 485px;
+    background-size: 485px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-box-shadow: 0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff;
+    -moz-box-shadow: 0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff;
+    box-shadow: 0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff; }
+    @media (min-width: 575px) and (max-width: 887px) {
+      .resume .entry {
+        position: absolute;
+        margin: 0 1em;
+        width: 200px; }
+        .resume .entry:before {
+          position: absolute;
+          content: "";
+          top: 50%;
+          width: 57px;
+          height: 7px;
+          margin-top: -2px;
+          background-color: #758AA8;
+          border: 2px solid #f5f5ef;
+          border-left: none;
+          border-right: none; } }
+    @media (min-width: 888px) {
+      .resume .entry {
+        position: absolute;
+        margin: 0 1em; }
+        .resume .entry:before {
+          position: absolute;
+          content: "";
+          left: 50%;
+          width: 7px;
+          height: 36px;
+          margin-left: -2px;
+          background-color: #758AA8;
+          border: 2px solid #fff;
+          border-top: none;
+          border-bottom: none; } }
+  .resume .entry h1 {
+    margin: 0 auto;
+    margin-bottom: 5px;
+    clear: both;
+    color: #5a504e;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1.2em;
+    text-align: center;
+    vertical-align: middle; }
+  .resume .github-ribbon {
+    background-color: #a00;
+    overflow: hidden;
+    white-space: nowrap;
+    /* top left corner */
+    position: absolute;
+    left: -20px;
+    top: -3px;
+    /* 45 deg ccw rotation */
+    -webkit-transform: rotate(-25deg);
+    -moz-transform: rotate(-25deg);
+    -ms-transform: rotate(-25deg);
+    -o-transform: rotate(-25deg);
+    transform: rotate(-25deg);
+    /* shadow */
+    -webkit-box-shadow: 0 0 10px #888;
+    -moz-box-shadow: 0 0 10px #888;
+    box-shadow: 0 0 10px #888; }
+  .resume .github-ribbon a {
+    border: 1px solid #faa;
+    color: #fff;
+    display: block;
+    font: bold 81.25% 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 1px 0;
+    padding: 4px 6px;
+    text-align: center;
+    text-decoration: none;
+    /* shadow */
+    text-shadow: 0 0 5px #444; }
+  .resume .tags {
+    position: absolute;
+    bottom: 7px;
+    right: 1px; }
+  .resume .tags span {
+    padding: 4px;
+    margin: 2px;
+    color: #fff;
+    background-color: #B7CDEC;
+    font-size: 12px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px; }
+  @media (min-width: 575px) and (max-width: 887px) {
+    .resume .job {
+      left: -260px; }
+      .resume .job:before {
+        right: -68px;
+        -webkit-box-shadow: -1px -3px 0px -2px #758AA8;
+        -moz-box-shadow: -1px -3px 0px -2px #758AA8;
+        box-shadow: -1px -3px 0px -2px #758AA8; } }
+  @media (min-width: 888px) {
+    .resume .job {
+      top: -125px; }
+      .resume .job:before {
+        bottom: -45px;
+        -webkit-box-shadow: 3px -1px 0px -2px #758AA8;
+        -moz-box-shadow: 3px -1px 0px -2px #758AA8;
+        box-shadow: 3px -1px 0px -2px #758AA8; } }
+  @media (min-width: 575px) and (max-width: 887px) {
+    .resume .oss {
+      right: -262px; }
+      .resume .oss:before {
+        left: -68px;
+        -webkit-box-shadow: 0 -1px 0px 0px #758AA8;
+        -moz-box-shadow: 0 -1px 0px 0px #758AA8;
+        box-shadow: 0 -1px 0px 0px #758AA8; } }
+  @media (min-width: 888px) {
+    .resume .oss {
+      bottom: -119px; }
+      .resume .oss:before {
+        top: -45px;
+        -webkit-box-shadow: 1px 0px 0px 0px #758AA8;
+        -moz-box-shadow: 1px 0px 0px 0px #758AA8;
+        box-shadow: 1px 0px 0px 0px #758AA8; } }
+  @media (min-width: 888px) {
+    .resume .oss.level2 {
+      bottom: -219px; }
+      .resume .oss.level2:before {
+        top: -145px;
+        height: 136px; } }
+  @media (min-width: 575px) and (max-width: 887px) {
+    .resume .yaccom {
+      bottom: 82%; } }
+  @media (min-width: 888px) {
+    .resume .yaccom {
+      left: 5%;
+      width: 200px; }
+      .resume .yaccom:before {
+        left: 10%; } }
+  @media (min-width: 575px) and (max-width: 887px) {
+    .resume .wbxml {
+      bottom: 75%; } }
+  @media (min-width: 888px) {
+    .resume .wbxml {
+      left: 15%; } }
+  @media (min-width: 575px) and (max-width: 887px) {
+    .resume .newlc {
+      bottom: 59%; } }
+  @media (min-width: 888px) {
+    .resume .newlc {
+      left: 30%;
+      width: 200px; }
+      .resume .newlc:before {
+        left: 10%; } }
+  @media (min-width: 575px) and (max-width: 887px) {
+    .resume .fotopedia {
+      bottom: 38%; } }
+  @media (min-width: 888px) {
+    .resume .fotopedia {
+      left: 55%;
+      width: 300px; }
+      .resume .fotopedia:before {
+        left: 10%; } }
+  @media (min-width: 575px) and (max-width: 887px) {
+    .resume .fwissr {
+      bottom: 26%; } }
+  @media (min-width: 888px) {
+    .resume .fwissr {
+      left: 51%; }
+      .resume .fwissr:before {
+        left: 60%; } }
+  @media (min-width: 575px) and (max-width: 887px) {
+    .resume .activr {
+      bottom: 13%; } }
+  @media (min-width: 888px) {
+    .resume .activr {
+      left: 62%;
+      bottom: -190px; } }
+  @media (min-width: 575px) and (max-width: 887px) {
+    .resume .jeego {
+      bottom: 0%; } }
+  @media (min-width: 888px) {
+    .resume .jeego {
+      left: 74%; }
+      .resume .jeego:before {
+        left: 65%; } }

@@ -27,19 +27,19 @@ Browse: http://127.0.0.1:4000
 Repository setup
 ================
 
-Rename local master to source:
+Rename local `master` to `source`:
 
     $ git branch -m master source
 
-Push remote source:
+Push `source` to remote:
 
     $ git push -u origin source
 
-Delete remote master:
+Delete remote `master`:
 
     $ git push origin :master
 
-Create new local master (empty):
+Create new local `master` (empty):
 
     $ git checkout --orphan master
     $ git rm --cached -r .
@@ -47,11 +47,11 @@ Create new local master (empty):
     $ git add index.html
     $ git commit -m "init"
 
-Push remote master:
+Push `master` to remote:
 
     $ git push -u origin master
 
-Checkout master in _deploy subdirectory:
+Checkout `master` in _deploy subdirectory:
 
     $ mkdir _deploy
     $ cd _deploy

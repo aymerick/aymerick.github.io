@@ -22,13 +22,21 @@
     color: #a39996;
     font-style: italic;
     font-weight: normal;
-    font-size: 16px; }
+    font-size: 20px; }
     @media (min-width: 575px) and (max-width: 887px) {
       .perso h2 {
-        font-size: 18px; } }
+        font-size: 22px; } }
     @media (min-width: 888px) {
       .perso h2 {
-        font-size: 20px; } }
+        font-size: 24px; } }
+  .perso h3 {
+    color: #a39996;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 12px; }
+    @media (min-width: 888px) {
+      .perso h3 {
+        font-size: 14px; } }
 
 .resume {
   position: relative;

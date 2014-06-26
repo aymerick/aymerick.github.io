@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Sickbeard on Raspberry Pi</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/assets/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/assets/css/main.css">
+    </head>
+    <body>
+
+        <div class="site">
+          <div class="header">
+            <h1 class="title"><a href="/">Aymerick's stuff</a></h1>
+            <a class="extra" href="/">home</a>
+            <a class="extra" href="/tags/">tags</a>
+          </div>
+
+          <div class="post-header">
+  <h2 class='post-title'>Sickbeard on Raspberry Pi</h2>
+  
+    <ul class="post-tags">
+      
+        <li><a href="/tags/#raspberrypi-ref">#raspberrypi</a></li>
+      
+        <li><a href="/tags/#freebox-ref">#freebox</a></li>
+      
+    </ul>
+  
+  <p class="meta">22 Sep 2013</p>
+</div>
+
+<div class="post">
+<h1>Prerequisites</h1>
+
+<ul>
+<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+<li><a href="/2013/09/20/nfs_client_on_raspberrypi.html">NFS Client on Raspberry Pi</a></li>
+</ul>
+
+<h1>Install</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install python-cheetah
+<span class="nv">$ </span><span class="nb">cd</span>
+<span class="nv">$ </span>git clone git://github.com/midgetspy/Sick-Beard.git
+<span class="nv">$ </span><span class="nb">cd </span>Sick-Beard
+<span class="nv">$ </span>python SickBeard.py</code></pre></div>
+
+<h1>Configure</h1>
+
+<p>Browse to: <a href="http://pipi.local:8081">http://pipi.local:8081</a></p>
+
+<h2>Config &gt; General</h2>
+
+<ul>
+<li>Uncheck <code>Launch Browser</code></li>
+</ul>
+
+<h2>Config &gt; Search Settings</h2>
+
+<ul>
+<li>Uncheck <code>Search NZBs</code></li>
+<li>Check <code>Search Torrents</code></li>
+<li>Torrent Black Hole: <code>/mnt/freebox/Téléchargements/A Télécharger</code></li>
+</ul>
+
+<h2>Config &gt; Search Provides</h2>
+
+<ul>
+<li>Check EZRSS</li>
+</ul>
+
+<h2>Config &gt; Post Processing</h2>
+
+<ul>
+<li>TV download dir: <code>/mnt/freebox/Téléchargements</code></li>
+<li>Uncheck <code>Keep Original Files</code></li>
+<li>Check <code>Move Associated Files</code></li>
+<li>Uncheck <code>Rename episodes</code></li>
+<li>Check <code>Scan and Process</code></li>
+</ul>
+
+<h1>Setup daemon</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/init.d/sickbeard</code></pre></div>
+
+<p>Set content:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="c">#! /bin/sh</span>
+
+<span class="c"># Author: daemox</span>
+<span class="c"># Basis: Parts of the script based on and inspired by work from</span>
+<span class="c">#tret (sabnzbd.org), beckstown (xbmc.org),</span>
+<span class="c">#and midgetspy (sickbeard.com).</span>
+<span class="c"># Fixes: Alek (ainer.org), James (ainer.org), Tophicles (ainer.org),</span>
+<span class="c">#croontje (sickbeard.com)</span>
+<span class="c"># Contact: http://www.ainer.org</span>
+<span class="c"># Version: 3.1</span>
+
+<span class="c">### BEGIN INIT INFO</span>
+<span class="c"># Provides:          sickbeard</span>
+<span class="c"># Required-Start:    $local_fs $network $remote_fs</span>
+<span class="c"># Required-Stop:     $local_fs $network $remote_fs</span>
+<span class="c"># Should-Start:      $NetworkManager</span>
+<span class="c"># Should-Stop:       $NetworkManager</span>
+<span class="c"># Default-Start:     2 3 4 5</span>
+<span class="c"># Default-Stop:      0 1 6</span>
+<span class="c"># Short-Description: starts and stops sick beard</span>
+<span class="c"># Description:       Sick Beard is an Usenet PVR. For more information see:</span>
+<span class="c">#http://www.sickbeard.com</span>
+<span class="c">### END INIT INFO</span>
+
+<span class="c">#Required -- Must Be Changed!</span>
+<span class="nv">USER</span><span class="o">=</span><span class="s2">&quot;pi&quot;</span> <span class="c">#Set Linux Mint, Ubuntu, or Debian user name here.</span>
+
+<span class="c">#Required -- Defaults Provided (only change if you know you need to).</span>
+<span class="nv">HOST</span><span class="o">=</span><span class="s2">&quot;127.0.0.1&quot;</span> <span class="c">#Set Sick Beard address here.</span>
+<span class="nv">PORT</span><span class="o">=</span><span class="s2">&quot;8081&quot;</span> <span class="c">#Set Sick Beard port here.</span>
+
+<span class="c">#Optional -- Unneeded unless you have added a user name and password to Sick Beard.</span>
+<span class="nv">SBUSR</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="c">#Set Sick Beard user name (if you use one) here.</span>
+<span class="nv">SBPWD</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="c">#Set Sick Beard password (if you use one) here.</span>
+
+<span class="c">#Script -- No changes needed below.</span>
+<span class="k">case</span> <span class="s2">&quot;$1&quot;</span> in
+start<span class="o">)</span>
+<span class="c">#Start Sick Beard and send all messages to /dev/null.</span>
+<span class="nb">cd</span> /home/<span class="nv">$USER</span>/Sick-Beard
+<span class="nb">echo</span> <span class="s2">&quot;Starting Sick Beard&quot;</span>
+sudo -u <span class="nv">$USER</span> -EH nohup python /home/<span class="nv">$USER</span>/Sick-Beard/SickBeard.py -q &gt; /dev/null 2&gt;<span class="p">&amp;</span>1 <span class="p">&amp;</span>
+<span class="p">;;</span>
+stop<span class="o">)</span>
+<span class="c">#Shutdown Sick Beard and delete the index.html files that wget generates.</span>
+<span class="nb">echo</span> <span class="s2">&quot;Stopping Sick Beard&quot;</span>
+wget -q --user<span class="o">=</span><span class="nv">$SBUSR</span> --password<span class="o">=</span><span class="nv">$SBPWD</span> <span class="s2">&quot;http://$HOST:$PORT/home/shutdown/&quot;</span> --delete-after
+sleep 6s
+<span class="p">;;</span>
+*<span class="o">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;Usage: $0 {start|stop}&quot;</span>
+<span class="nb">exit </span>1
+<span class="k">esac</span>
+
+<span class="nb">exit </span>0</code></pre></div>
+
+<h1>Start daemon</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo chmod a+x /etc/init.d/sickbeard
+<span class="nv">$ </span>sudo update-rc.d sickbeard defaults
+<span class="nv">$ </span>sudo /etc/init.d/sickbeard start</code></pre></div>
+
+<h1>External References</h1>
+
+<ul>
+<li><a href="http://www.howtogeek.com/146410/how-to-automate-your-always-on-raspberry-pi-download-box/all/">http://www.howtogeek.com/146410/how-to-automate-your-always-on-raspberry-pi-download-box/all/</a></li>
+<li><a href="http://www.ainer.org/sick-beard-install-setup-configuration-guide-for-ubuntu-linux-mint">http://www.ainer.org/sick-beard-install-setup-configuration-guide-for-ubuntu-linux-mint</a></li>
+</ul>
+
+</div>
+
+
+          <div class="footer">
+            <div class="contact">
+              <p>
+                Aymerick JEHANNE<br />
+                Developer at <a href="http://www.fotopedia.com">Fotopedia</a><br />
+                <a href="http://www.aymerick.com">http://www.aymerick.com</a><br />
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <a href="https://github.com/aymerick">github</a><br />
+                <a href="https://twitter.com/aymerick">twitter</a><br />
+                <a href="http://www.linkedin.com/in/aymerick">linkedin</a><br />
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <a href="https://pinboard.in/u:aymerick">pinboard</a><br />
+                <a href="http://fudahu.tumblr.com/">tumblr</a><br />
+                <a href="http://www.flickr.com/photos/aymerick">flickr</a><br />
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <a href="http://fotopedia.com/users/aymerick">fotopedia</a><br />
+                <a href="http://www.youtube.com/ajehanne">youtube</a><br />
+                <a href="http://soundcloud.com/aymerick-jehanne">soundcloud</a><br />
+              </p>
+            </div>
+          </div>
+        </div>
+
+    </body>
+</html>

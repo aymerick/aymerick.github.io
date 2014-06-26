@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Audio on Raspberry Pi</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/assets/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/assets/css/main.css">
+    </head>
+    <body>
+
+        <div class="site">
+          <div class="header">
+            <h1 class="title"><a href="/">Aymerick's stuff</a></h1>
+            <a class="extra" href="/">home</a>
+            <a class="extra" href="/tags/">tags</a>
+          </div>
+
+          <div class="post-header">
+  <h2 class='post-title'>Audio on Raspberry Pi</h2>
+  
+    <ul class="post-tags">
+      
+        <li><a href="/tags/#raspberrypi-ref">#raspberrypi</a></li>
+      
+        <li><a href="/tags/#piwi.local-ref">#piwi.local</a></li>
+      
+    </ul>
+  
+  <p class="meta">19 Sep 2013</p>
+</div>
+
+<div class="post">
+<h1>Prerequisites</h1>
+
+<ul>
+<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+</ul>
+
+<h1>Sound tests</h1>
+
+<p>List sound devices:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>aplay -L</code></pre></div>
+
+<p>Play a sound on default RPI output:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>aplay /usr/share/scratch/Media/Sounds/Vocals/Singer2.wav</code></pre></div>
+
+<h1>Install a DAC</h1>
+
+<p>I bought <a href="http://www.ebay.fr/itm/New-PCM2704-USB-DAC-USB-to-S-PDIF-Sound-Card-Decoder-Board-with-Aluminum-Housing-/160945210698">this USB DAC</a> but it is cheaper <a href="http://www.ebay.fr/itm/New-PCM2704-USB-DAC-USB-to-S-PDIF-Sound-Card-Decoder-Board-3-5mm-Analog-Output-/160945208556">without the enclosure</a>.</p>
+
+<p>Play on USB DAC:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>aplay -D default:CARD<span class="o">=</span>DAC /usr/share/scratch/Media/Sounds/Vocals/Singer2.wav</code></pre></div>
+
+<p>Set USB DAC as default output:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/modprobe.d/alsa-base.conf</code></pre></div>
+
+<p>Comment that line:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">options snd-usb-audio index=-2
+</code></pre></div>
+<p>Add that line:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">options snd-usb-audio nrpacks=1
+</code></pre></div>
+<p>Restart daemon:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo /etc/init.d/alsasound restart</code></pre></div>
+
+<h1>Install squeezelite</h1>
+
+<p>I already have a <a href="http://en.wikipedia.org/wiki/Logitech_Media_Server">Logitec Media Server</a> installed on my <a href="http://www.synology.com/">NAS</a> for my [Squeezebox Radio](http://en.wikipedia.org/wiki/Squeezebox<em>(network</em>music_player). So let&#39;s install <a href="https://code.google.com/p/squeezelite/">SqueezeLite</a> client on the raspberry pi.</p>
+
+<p>Install dependencies:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install libflac-dev
+<span class="nv">$ </span>sudo apt-get install libfaad2
+<span class="nv">$ </span>sudo apt-get install libmad0</code></pre></div>
+
+<p>Install squeezelite:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mkdir squeezelite
+<span class="nv">$ </span><span class="nb">cd </span>squeezelite
+<span class="nv">$ </span>wget http://squeezelite.googlecode.com/files/squeezelite-armv6hf
+<span class="nv">$ </span>sudo mv squeezelite-armv6hf /usr/bin
+<span class="nv">$ </span>chmod u+x /usr/bin/squeezelite-armv6hf</code></pre></div>
+
+<p>Test with:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>squeezelite-armv6hf -l
+<span class="nv">$ </span>squeezelite-armv6hf -o default:CARD<span class="o">=</span>ALSA -a 200
+<span class="nv">$ </span>squeezelite-armv6hf -n <span class="s2">&quot;Piwi&quot;</span> -a 200</code></pre></div>
+
+<p>Install daemon:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo wget http://www.gerrelt.nl/RaspberryPi/squeezelitehf.sh
+<span class="nv">$ </span>sudo mv squeezelitehf.sh /etc/init.d/squeezelite
+<span class="nv">$ </span>sudo chmod a+x /etc/init.d/squeezelite</code></pre></div>
+
+<p>Fix daemon script:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/init.d/squeezelite</code></pre></div>
+
+<p>Remove &#39;SLMAC&#39; stuff and set:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">SLOPTIONS=&quot;-a 200 -n Piwi&quot;
+</code></pre></div>
+<p>Start daemon:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo update-rc.d squeezelite defaults
+<span class="nv">$ </span>sudo service squeezelite start</code></pre></div>
+
+<p>External References:</p>
+
+<ul>
+<li><a href="http://www.raspberrypi.org/phpBB3/viewtopic.php?f=38&amp;t=23108">http://www.raspberrypi.org/phpBB3/viewtopic.php?f=38&amp;t=23108</a></li>
+</ul>
+
+<h1>Install AirPlay</h1>
+
+<p>Now I want to stream the music stored on my <a href="http://www.synology.com/">NAS</a> to the raspberry pi through <a href="http://www.synology.com/dsm/home_home_applications_audio_station.php">Audio Station</a>, controlling it with <a href="http://www.synology.com/dsm/home_mobile_support_ds_audio.php">DS Audio</a>.</p>
+
+<p>Thanks to <a href="https://github.com/abrasive/shairport">ShairPort</a> that&#39;s easy.</p>
+
+<p>Install dependencies:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install git libao-dev libssl-dev libcrypt-openssl-rsa-perl libio-socket-inet6-perl libwww-perl avahi-utils
+<span class="nv">$ </span>sudo cpan install Net::SDP</code></pre></div>
+
+<p>Install ShairPort:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>git clone https://github.com/abrasive/shairport.git shairport
+<span class="nv">$ </span><span class="nb">cd </span>shairport
+<span class="nv">$ </span>./configure
+<span class="nv">$ </span>make
+<span class="nv">$ </span>sudo make install</code></pre></div>
+
+<p>Test:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>shairport.pl -a ShairPort</code></pre></div>
+
+<p>Install daemon:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo cp ./shairport.init.sample /etc/init.d/shairport
+<span class="nv">$ </span>sudo chmod a+x /etc/init.d/shairport</code></pre></div>
+
+<p>Fix daemon:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>emacs /etc/init.d/shairport</code></pre></div>
+
+<p>Change name: <code>NAME=ShairPort</code></p>
+
+<p>Start daemon:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo update-rc.d shairport defaults
+<span class="nv">$ </span>sudo service shairport start</code></pre></div>
+
+<p>External References:</p>
+
+<ul>
+<li><a href="http://pihomeserver.wordpress.com/2012/12/05/raspberry-pi-home-server-etape-6-installer-un-serveur-airplay-avec-shairport/">http://pihomeserver.wordpress.com/2012/12/05/raspberry-pi-home-server-etape-6-installer-un-serveur-airplay-avec-shairport/</a></li>
+<li><a href="http://blog.nicolargo.com/2013/03/utiliser-votre-raspberry-pi-comme-borne-airplay.html">http://blog.nicolargo.com/2013/03/utiliser-votre-raspberry-pi-comme-borne-airplay.html</a></li>
+</ul>
+
+</div>
+
+
+          <div class="footer">
+            <div class="contact">
+              <p>
+                Aymerick JEHANNE<br />
+                Developer at <a href="http://www.fotopedia.com">Fotopedia</a><br />
+                <a href="http://www.aymerick.com">http://www.aymerick.com</a><br />
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <a href="https://github.com/aymerick">github</a><br />
+                <a href="https://twitter.com/aymerick">twitter</a><br />
+                <a href="http://www.linkedin.com/in/aymerick">linkedin</a><br />
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <a href="https://pinboard.in/u:aymerick">pinboard</a><br />
+                <a href="http://fudahu.tumblr.com/">tumblr</a><br />
+                <a href="http://www.flickr.com/photos/aymerick">flickr</a><br />
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <a href="http://fotopedia.com/users/aymerick">fotopedia</a><br />
+                <a href="http://www.youtube.com/ajehanne">youtube</a><br />
+                <a href="http://soundcloud.com/aymerick-jehanne">soundcloud</a><br />
+              </p>
+            </div>
+          </div>
+        </div>
+
+    </body>
+</html>

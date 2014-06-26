@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Headless Raspberry Pi setup</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/assets/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/assets/css/main.css">
+    </head>
+    <body>
+
+        <div class="site">
+          <div class="header">
+            <h1 class="title"><a href="/">Aymerick's stuff</a></h1>
+            <a class="extra" href="/">home</a>
+            <a class="extra" href="/tags/">tags</a>
+          </div>
+
+          <div class="post-header">
+  <h2 class='post-title'>Headless Raspberry Pi setup</h2>
+  
+    <ul class="post-tags">
+      
+        <li><a href="/tags/#raspberrypi-ref">#raspberrypi</a></li>
+      
+    </ul>
+  
+  <p class="meta">17 Sep 2013</p>
+</div>
+
+<div class="post">
+<h1>SDCard setup on Mac OS X</h1>
+
+<p>Download raspbian <a href="http://www.raspberrypi.org/downloads">here</a>.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>df -h</code></pre></div>
+
+<p>Connect the SDCard.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>df -h</code></pre></div>
+
+<p>Look for the new device that wasn&#39;t listed last time (eg: <code>/dev/disk2s1</code>).</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo diskutil unmount /dev/disk2s1
+<span class="nv">$ </span>sudo dd <span class="nv">bs</span><span class="o">=</span>1m <span class="k">if</span><span class="o">=</span>~/Downloads/2013-05-25-wheezy-raspbian.img <span class="nv">of</span><span class="o">=</span>/dev/rdisk2
+<span class="nv">$ </span>sudo diskutil eject /dev/rdisk2</code></pre></div>
+
+<p>Insert SDCard in the raspberry pi then power it.</p>
+
+<p>Login is <code>pi</code> and password is <code>raspberry</code>.</p>
+
+<p>External References:</p>
+
+<ul>
+<li><a href="http://elinux.org/RPi_Easy_SD_Card_Setup#Using_command_line_tools_.282.29">http://elinux.org/RPi_Easy_SD_Card_Setup#Using_command_line_tools_.282.29</a></li>
+</ul>
+
+<h1>Raspi config</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo raspi-config</code></pre></div>
+
+<ul>
+<li>Advanced Options &gt; Update</li>
+<li>Expand Filesystem</li>
+<li>Change User Password</li>
+<li>Enable Boot to Desktop: No</li>
+<li>Internationalisation Options &gt; Change Timezone</li>
+<li>Overclock &gt; Medium</li>
+<li>Advanced Options &gt; Hostname</li>
+<li>Advanced Options &gt; Memory Split: 16</li>
+</ul>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install emacs23-nox
+<span class="nv">$ </span>sudo reboot</code></pre></div>
+
+<h1>Fix the &#39;Setting locale failed&#39; issue during ssh</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/ssh/sshd_config</code></pre></div>
+
+<p>Comment that line:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">AcceptEnv LANG LC_*
+</code></pre></div>
+<p>To test:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo /etc/init.d/ssh restart
+<span class="nv">$ </span><span class="nb">exit</span>
+<span class="nv">$ </span>ssh pi@&lt;PI IP&gt;
+<span class="nv">$ </span>perl -e <span class="nb">exit</span></code></pre></div>
+
+<p>External References:</p>
+
+<ul>
+<li><a href="http://stackoverflow.com/questions/2499794/how-can-i-fix-a-locale-warning-from-perl">http://stackoverflow.com/questions/2499794/how-can-i-fix-a-locale-warning-from-perl</a></li>
+</ul>
+
+<h1>Optimizations</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get purge consolekit desktop-base* desktop-file-utils* gnome-icon-theme* gnome-themes-standard* hicolor-icon-theme* leafpad* lxde* lxde-core* midori* xserver-common* xserver-xorg* xserver-xorg-core* xserver-xorg-input-all* xserver-xorg-input-evdev* xserver-xorg-input-synaptics* xserver-xorg-video-fbdev* gconf gconf2 gconf2-common gnome-accessibility-themes libmenu-cache1 lxappearance lxinput lxmenu-data lxpanel lxpolkit lxrandr lxsession lxsession-edit lxshortcut lxtask lxterminal scratch
+<span class="nv">$ </span>sudo apt-get -y remove cups* gnome* x11-common*
+<span class="nv">$ </span>sudo apt-get -y autoremove
+<span class="nv">$ </span>sudo apt-get -y autoclean</code></pre></div>
+
+<h1>Update</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get update
+<span class="nv">$ </span>sudo apt-get upgrade
+<span class="nv">$ </span>uname -a
+<span class="nv">$ </span>sudo apt-get -y dist-upgrade</code></pre></div>
+
+<h1>SSH setup</h1>
+
+<p>Regenerate unique host public/private keys:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo rm /etc/ssh/ssh_host_*
+<span class="nv">$ </span>sudo dpkg-reconfigure openssh-server</code></pre></div>
+
+<p>Add public key:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mkdir /home/pi/.ssh
+<span class="nv">$ </span>emacs /home/pi/.ssh/authorized_keys</code></pre></div>
+
+<p>Add content of <code>id_rsa.pub</code>.</p>
+
+<p>To permit login between pis, on mac:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>scp id_rsa.pub pi@&lt;IP&gt;:/home/pi/.ssh/</code></pre></div>
+
+<h1>avahi/netatalk setup</h1>
+
+<p>Install avahi:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install avahi-daemon
+<span class="nv">$ </span>sudo insserv avahi-daemon</code></pre></div>
+
+<p>Setup conf file:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/avahi/services/multiple.service</code></pre></div>
+
+<p>Insert:</p>
+
+<div class="highlight"><pre><code class="xml"><span class="cp">&lt;?xml version=&quot;1.0&quot; standalone=&#39;no&#39;?&gt;</span>
+<span class="cp">&lt;!DOCTYPE service-group SYSTEM &quot;avahi-service.dtd&quot;&gt;</span>
+<span class="nt">&lt;service-group&gt;</span>
+        <span class="nt">&lt;name</span> <span class="na">replace-wildcards=</span><span class="s">&quot;yes&quot;</span><span class="nt">&gt;</span>%h<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;service&gt;</span>
+                <span class="nt">&lt;type&gt;</span>_device-info._tcp<span class="nt">&lt;/type&gt;</span>
+                <span class="nt">&lt;port&gt;</span>0<span class="nt">&lt;/port&gt;</span>
+                <span class="nt">&lt;txt-record&gt;</span>model=RackMac<span class="nt">&lt;/txt-record&gt;</span>
+        <span class="nt">&lt;/service&gt;</span>
+        <span class="nt">&lt;service&gt;</span>
+                <span class="nt">&lt;type&gt;</span>_ssh._tcp<span class="nt">&lt;/type&gt;</span>
+                <span class="nt">&lt;port&gt;</span>22<span class="nt">&lt;/port&gt;</span>
+        <span class="nt">&lt;/service&gt;</span>
+<span class="nt">&lt;/service-group&gt;</span></code></pre></div>
+
+<p>Restart avahi daemon:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo /etc/init.d/avahi-daemon restart</code></pre></div>
+
+<p>Install netatalk:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install netatalk</code></pre></div>
+
+<p>Can be tested with:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install avahi-utils
+<span class="nv">$ </span>avahi-browse -arp</code></pre></div>
+
+<p>External References:</p>
+
+<ul>
+<li><a href="http://elinux.org/RPi_Advanced_Setup">http://elinux.org/RPi_Advanced_Setup</a></li>
+<li><a href="http://gettingstartedwithraspberrypi.tumblr.com/post/24398167109/file-sharing-with-afp-and-auto-discovery-with-bonjour">http://gettingstartedwithraspberrypi.tumblr.com/post/24398167109/file-sharing-with-afp-and-auto-discovery-with-bonjour</a></li>
+</ul>
+
+</div>
+
+
+          <div class="footer">
+            <div class="contact">
+              <p>
+                Aymerick JEHANNE<br />
+                Developer at <a href="http://www.fotopedia.com">Fotopedia</a><br />
+                <a href="http://www.aymerick.com">http://www.aymerick.com</a><br />
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <a href="https://github.com/aymerick">github</a><br />
+                <a href="https://twitter.com/aymerick">twitter</a><br />
+                <a href="http://www.linkedin.com/in/aymerick">linkedin</a><br />
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <a href="https://pinboard.in/u:aymerick">pinboard</a><br />
+                <a href="http://fudahu.tumblr.com/">tumblr</a><br />
+                <a href="http://www.flickr.com/photos/aymerick">flickr</a><br />
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <a href="http://fotopedia.com/users/aymerick">fotopedia</a><br />
+                <a href="http://www.youtube.com/ajehanne">youtube</a><br />
+                <a href="http://soundcloud.com/aymerick-jehanne">soundcloud</a><br />
+              </p>
+            </div>
+          </div>
+        </div>
+
+    </body>
+</html>

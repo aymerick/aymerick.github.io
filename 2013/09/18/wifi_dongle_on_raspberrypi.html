@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>TL-WN725N wifi dongle on Raspberry Pi</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/assets/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/assets/css/main.css">
+    </head>
+    <body>
+
+        <div class="site">
+          <div class="header">
+            <h1 class="title"><a href="/">Aymerick's stuff</a></h1>
+            <a class="extra" href="/">home</a>
+            <a class="extra" href="/tags/">tags</a>
+          </div>
+
+          <div class="post-header">
+  <h2 class='post-title'>TL-WN725N wifi dongle on Raspberry Pi</h2>
+  
+    <ul class="post-tags">
+      
+        <li><a href="/tags/#raspberrypi-ref">#raspberrypi</a></li>
+      
+        <li><a href="/tags/#piwi.local-ref">#piwi.local</a></li>
+      
+    </ul>
+  
+  <p class="meta">18 Sep 2013</p>
+</div>
+
+<div class="post">
+<h1>Prerequisites</h1>
+
+<ul>
+<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+</ul>
+
+<h1>Network setup</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo nano /etc/network/interfaces</code></pre></div>
+
+<p>Set:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">auto lo
+
+iface lo inet loopback
+iface eth0 inet dhcp
+
+allow-hotplug wlan0
+iface wlan0 inet dhcp
+wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+iface default inet dhcp
+</code></pre></div>
+<h1>WPA setup</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo nano /etc/wpa_supplicant/wpa_supplicant.conf</code></pre></div>
+
+<p>Set:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+ ssid=&quot;chezak_ng&quot;
+ proto=RSN
+ key_mgmt=WPA-PSK
+ pairwise=CCMP TKIP
+ group=CCMP TKIP
+ psk=&quot;&lt;PASSWORD&gt;&quot;
+}
+</code></pre></div>
+<h1>Fix TL-WN725N v2.0 issue</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>wget https://dl.dropboxusercontent.com/u/80256631/8188eu-20130209.tar.gz
+<span class="nv">$ </span>tar -zxvf 8188eu-20130209.tar.gz
+<span class="nv">$ </span>sudo install -p -m 644 8188eu.ko /lib/modules/3.6.11+/kernel/drivers/net/wireless
+<span class="nv">$ </span>sudo depmod -a
+<span class="nv">$ </span>sudo modprobe 8188eu
+<span class="nv">$ </span>ifconfig -a
+<span class="nv">$ </span>sudo reboot</code></pre></div>
+
+<p>If wifi becomes unavailable after an update, run:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo depmod -a
+<span class="nv">$ </span>sudo modprobe 8188eu</code></pre></div>
+
+<h1>External References</h1>
+
+<ul>
+<li><a href="http://www.raspberrypi.org/phpBB3/viewtopic.php?f=65&amp;t=43398">http://www.raspberrypi.org/phpBB3/viewtopic.php?f=65&amp;t=43398</a></li>
+<li><a href="http://burogu.makotoworkshop.org/index.php?post/2013/04/27/TL-WN725N-v2">http://burogu.makotoworkshop.org/index.php?post/2013/04/27/TL-WN725N-v2</a></li>
+<li><a href="http://blog.pi3g.com/2013/05/tp-link-tl-wn725n-nano-wifi-adapter-v2-0-raspberry-pi-driver/">http://blog.pi3g.com/2013/05/tp-link-tl-wn725n-nano-wifi-adapter-v2-0-raspberry-pi-driver/</a></li>
+</ul>
+
+</div>
+
+
+          <div class="footer">
+            <div class="contact">
+              <p>
+                Aymerick JEHANNE<br />
+                Developer at <a href="http://www.fotopedia.com">Fotopedia</a><br />
+                <a href="http://www.aymerick.com">http://www.aymerick.com</a><br />
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <a href="https://github.com/aymerick">github</a><br />
+                <a href="https://twitter.com/aymerick">twitter</a><br />
+                <a href="http://www.linkedin.com/in/aymerick">linkedin</a><br />
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <a href="https://pinboard.in/u:aymerick">pinboard</a><br />
+                <a href="http://fudahu.tumblr.com/">tumblr</a><br />
+                <a href="http://www.flickr.com/photos/aymerick">flickr</a><br />
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <a href="http://fotopedia.com/users/aymerick">fotopedia</a><br />
+                <a href="http://www.youtube.com/ajehanne">youtube</a><br />
+                <a href="http://soundcloud.com/aymerick-jehanne">soundcloud</a><br />
+              </p>
+            </div>
+          </div>
+        </div>
+
+    </body>
+</html>

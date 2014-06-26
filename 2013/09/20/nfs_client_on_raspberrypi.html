@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>NFS Client on Raspberry Pi</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/assets/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/assets/css/main.css">
+    </head>
+    <body>
+
+        <div class="site">
+          <div class="header">
+            <h1 class="title"><a href="/">Aymerick's stuff</a></h1>
+            <a class="extra" href="/">home</a>
+            <a class="extra" href="/tags/">tags</a>
+          </div>
+
+          <div class="post-header">
+  <h2 class='post-title'>NFS Client on Raspberry Pi</h2>
+  
+    <ul class="post-tags">
+      
+        <li><a href="/tags/#raspberrypi-ref">#raspberrypi</a></li>
+      
+        <li><a href="/tags/#pipi.local-ref">#pipi.local</a></li>
+      
+        <li><a href="/tags/#chezak.local-ref">#chezak.local</a></li>
+      
+        <li><a href="/tags/#freebox-ref">#freebox</a></li>
+      
+    </ul>
+  
+  <p class="meta">20 Sep 2013</p>
+</div>
+
+<div class="post">
+<h1>Prerequisites</h1>
+
+<ul>
+<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+</ul>
+
+<h1>Mount folders on NAS</h1>
+
+<p>My goal is to share folders that are on my <a href="http://www.synology.com/">NAS</a> which hostname is <code>chezak.local</code> and IP is <code>192.168.0.13</code>. So first:</p>
+
+<ul>
+<li>create a <code>pi</code> user/group on the NAS with the sames uids as on the pi: <code>1000/1000</code></li>
+<li>setup NFS permissions on shared directories on the NAS via the web interface</li>
+</ul>
+
+<p>It seems that <code>rpcbin</code> is a necessary dependency:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install rpcbind
+<span class="nv">$ </span>sudo update-rc.d rpcbind <span class="nb">enable</span>
+<span class="nv">$ </span>sudo /etc/init.d/rpcbind start</code></pre></div>
+
+<p>Create folders:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mkdir /mnt/incoming
+<span class="nv">$ </span>sudo mkdir /mnt/music
+<span class="nv">$ </span>sudo mkdir /mnt/video</code></pre></div>
+
+<p>Mount folders:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mount chezak.local:/volume1/incoming /mnt/incoming
+<span class="nv">$ </span>sudo mount chezak.local:/volume1/music /mnt/music
+<span class="nv">$ </span>sudo mount chezak.local:/volume1/video /mnt/video</code></pre></div>
+
+<p>Test:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>showmount -e chezak.local</code></pre></div>
+
+<p>Persist mounts:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/fstab</code></pre></div>
+
+<p>Add those lines:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">192.168.0.13:/volume1/incoming /mnt/incoming nfs rw,hard,intr 0 0
+192.168.0.13:/volume1/music /mnt/music nfs ro,hard,intr 0 0
+192.168.0.13:/volume1/video /mnt/video nfs ro,hard,intr 0 0
+</code></pre></div>
+<p>External References:</p>
+
+<ul>
+<li><a href="https://help.ubuntu.com/community/SettingUpNFSHowTo">https://help.ubuntu.com/community/SettingUpNFSHowTo</a></li>
+<li><a href="https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/3/html/System_Administration_Guide/s1-nfs-mount.html">https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/3/html/System_Administration_Guide/s1-nfs-mount.html</a></li>
+</ul>
+
+<h1>Mount folder on Freebox v6</h1>
+
+<p>First, enable windows share on <a href="http://en.wikipedia.org/wiki/Freebox">freebox</a> with user/pass and <code>CHEZAK</code> workgroup.</p>
+
+<p>Freebox&#39;s hostname is <code>mafreebox.freebox.fr</code>.</p>
+
+<p>Test:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>smbclient -L mafreebox.freebox.fr -N <span class="p">|</span> grep <span class="s2">&quot;Disk&quot;</span> <span class="p">|</span> cut -c -17</code></pre></div>
+
+<p>Create folder:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mkdir /mnt/freebox</code></pre></div>
+
+<p>Setup mount:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/fstab</code></pre></div>
+
+<p>Add that line:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">//mafreebox.freebox.fr/Disque\040dur /mnt/freebox cifs _netdev,rw,users,iocharset=utf8,user=freebox,password=PASSWORD, uid=1000,sec=none,file_mode=0777,dir_mode=0777 0 0
+</code></pre></div>
+<p>Mount folder:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mount /mnt/freebox</code></pre></div>
+
+<p>External References:</p>
+
+<ul>
+<li><a href="http://www.mumbly58.fr/monter-automatiquement-les-disques-de-la-freebox/">http://www.mumbly58.fr/monter-automatiquement-les-disques-de-la-freebox/</a></li>
+<li><a href="http://doc.ubuntu-fr.org/freeboxv6">http://doc.ubuntu-fr.org/freeboxv6</a></li>
+</ul>
+
+</div>
+
+
+          <div class="footer">
+            <div class="contact">
+              <p>
+                Aymerick JEHANNE<br />
+                Developer at <a href="http://www.fotopedia.com">Fotopedia</a><br />
+                <a href="http://www.aymerick.com">http://www.aymerick.com</a><br />
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <a href="https://github.com/aymerick">github</a><br />
+                <a href="https://twitter.com/aymerick">twitter</a><br />
+                <a href="http://www.linkedin.com/in/aymerick">linkedin</a><br />
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <a href="https://pinboard.in/u:aymerick">pinboard</a><br />
+                <a href="http://fudahu.tumblr.com/">tumblr</a><br />
+                <a href="http://www.flickr.com/photos/aymerick">flickr</a><br />
+              </p>
+            </div>
+            <div class="contact">
+              <p>
+                <a href="http://fotopedia.com/users/aymerick">fotopedia</a><br />
+                <a href="http://www.youtube.com/ajehanne">youtube</a><br />
+                <a href="http://soundcloud.com/aymerick-jehanne">soundcloud</a><br />
+              </p>
+            </div>
+          </div>
+        </div>
+
+    </body>
+</html>

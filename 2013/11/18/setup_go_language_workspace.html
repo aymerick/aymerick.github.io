@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Aymerick's stuff</title>
+        <title>Setup go language workspace</title>
         <meta name="viewport" content="width=device-width">
 
         <!-- syntax highlighting CSS -->
@@ -21,38 +21,57 @@
             <a class="extra" href="/tags/">tags</a>
           </div>
 
-          <div id="home">
-  <h1>Stuff</h1>
-  <ul class="posts">
-    
-      <li><span>29 Jan 2014</span> &raquo; <a href="/2014/01/29/logitech_media_server_on_raspberrypi.html">Logitec Media Server on a raspberry pi</a></li>
-    
-      <li><span>25 Dec 2013</span> &raquo; <a href="/2013/12/25/munin_client_on_raspberrypi.html">Munin Client on a raspberry pi</a></li>
-    
-      <li><span>24 Dec 2013</span> &raquo; <a href="/2013/12/24/munin_server_on_raspberrypi.html">Munin Server on a Raspberry Pi</a></li>
-    
-      <li><span>23 Dec 2013</span> &raquo; <a href="/2013/12/23/nginx_on_raspberrypi.html">Nginx on a Raspberry Pi</a></li>
-    
-      <li><span>18 Nov 2013</span> &raquo; <a href="/2013/11/18/setup_go_language_workspace.html">Setup go language workspace</a></li>
-    
-      <li><span>24 Sep 2013</span> &raquo; <a href="/2013/09/24/go_language_on_raspberrypi.html">Go language on Raspberry Pi</a></li>
-    
-      <li><span>23 Sep 2013</span> &raquo; <a href="/2013/09/23/raspberrypi_camera_setup.html">Raspberry Pi Camera setup</a></li>
-    
-      <li><span>22 Sep 2013</span> &raquo; <a href="/2013/09/22/sickbeard_on_raspberrypi.html">Sickbeard on Raspberry Pi</a></li>
-    
-      <li><span>21 Sep 2013</span> &raquo; <a href="/2013/09/21/mini_dlna_on_raspberrypi.html">minidlna on Raspberry Pi</a></li>
-    
-      <li><span>20 Sep 2013</span> &raquo; <a href="/2013/09/20/nfs_client_on_raspberrypi.html">NFS Client on Raspberry Pi</a></li>
-    
-      <li><span>19 Sep 2013</span> &raquo; <a href="/2013/09/19/audio_on_raspberrypi.html">Audio on Raspberry Pi</a></li>
-    
-      <li><span>18 Sep 2013</span> &raquo; <a href="/2013/09/18/wifi_dongle_on_raspberrypi.html">TL-WN725N wifi dongle on Raspberry Pi</a></li>
-    
-      <li><span>17 Sep 2013</span> &raquo; <a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
-    
-  </ul>
+          <div class="post-header">
+  <h2 class='post-title'>Setup go language workspace</h2>
+  
+    <ul class="post-tags">
+      
+        <li><a href="/tags/#dev-ref">#dev</a></li>
+      
+        <li><a href="/tags/#golang-ref">#golang</a></li>
+      
+    </ul>
+  
+  <p class="meta">18 Nov 2013</p>
 </div>
+
+<div class="post">
+<h1>Setup Workspace</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mkdir -p ~/Dev/go
+<span class="nv">$ </span>emacs ~/.bash_profile</code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">export GOPATH=$HOME/Dev/go
+export PATH=$PATH:$GOPATH/bin
+</code></pre></div>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span><span class="nb">source</span> ~/.bash_profile
+<span class="nv">$ </span><span class="nb">echo</span> <span class="nv">$GOPATH</span></code></pre></div>
+
+<h1>Fetch package</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>go get github.com/aymerick/jeego</code></pre></div>
+
+<p>To Fetch updated package:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>go get -u github.com/aymerick/jeego</code></pre></div>
+
+<h1>Dev on package</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span><span class="nb">cd</span> ~/Dev/go/src/github.com/aymerick/jeego/</code></pre></div>
+
+<p>Make some changes to source files.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>go build
+<span class="nv">$ </span>go install
+<span class="nv">$ </span>jeego</code></pre></div>
+
+<h1>External References</h1>
+
+<ul>
+<li><a href="http://tip.golang.org/doc/code.html">http://tip.golang.org/doc/code.html</a></li>
+</ul>
+
+</div>
+
 
           <div class="footer">
             <div class="contact">

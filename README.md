@@ -28,15 +28,19 @@ Repository setup
 ================
 
 Rename local master to source:
+
   $ git branch -m master source
 
 Push remote source:
+
   $ git push -u origin source
 
 Delete remote master:
+
   $ git push origin :master
 
 Create new local master (empty):
+
   $ git checkout --orphan master
   $ git rm --cached -r .
   $ echo 'soon' >> index.html
@@ -44,9 +48,11 @@ Create new local master (empty):
   $ git commit -m "init"
 
 Push remote master:
+
   $ git push -u origin master
 
 Checkout master in _deploy subdirectory:
+
   $ mkdir _deploy
   $ cd _deploy
   $ git init

@@ -1,3 +1,16 @@
 name: Aymerick's stuff
 markdown: redcarpet
 highlighter: pygments
+
+exclude:
+  - "bower_components"
+  - "node_modules"
+  - ".gitignore"
+  - "bower.json"
+  - "CNAME"
+  - "Gemfile"
+  - "Gemfile.lock"
+  - "Gruntfile.coffee"
+  - "LICENSE"
+  - "package.json"
+  - "README.md"

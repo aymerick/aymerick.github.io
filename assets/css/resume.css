@@ -180,13 +180,12 @@
     text-align: center;
     vertical-align: middle; }
   .resume .github-ribbon {
-    background-color: #a00;
-    overflow: hidden;
-    white-space: nowrap;
-    /* top left corner */
     position: absolute;
     left: -20px;
     top: -3px;
+    overflow: hidden;
+    background-color: #a00;
+    white-space: nowrap;
     -webkit-transform: rotate(-25deg);
     -moz-transform: rotate(-25deg);
     -ms-transform: rotate(-25deg);
@@ -196,15 +195,14 @@
     -moz-box-shadow: 0 0 10px 0 #888888;
     box-shadow: 0 0 10px 0 #888888; }
   .resume .github-ribbon a {
-    border: 1px solid #faa;
-    color: #fff;
     display: block;
-    font: bold 81.25% 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 1px 0;
     padding: 4px 6px;
+    border: 1px solid #faa;
+    color: #fff;
+    font: bold 81.25% 'Helvetica Neue', Helvetica, Arial, sans-serif;
     text-align: center;
     text-decoration: none;
-    /* shadow */
     text-shadow: 0 0 5px #444; }
   .resume .tags {
     position: absolute;

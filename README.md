@@ -1,7 +1,7 @@
 aymerick.github.io
 ==================
 
-Some stuff...
+My static website <http://www.aymerick.com> generated with Jekyll.
 
 Development
 ===========

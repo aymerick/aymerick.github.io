@@ -31,6 +31,9 @@
 
             <div class="collapse navbar-collapse" id="navbar-collapse-1">
               <ul class="nav navbar-nav">
+                <li class="{% if page.body-id == 'about' %}active{% endif %}">
+                  <a href="/about.html">About</a>
+                </li>
                 <li class="{% if page.body-id == 'stuff' %}active{% endif %}">
                   <a href="/stuff.html">Stuff</a>
                 </li>

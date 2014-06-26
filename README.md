@@ -43,7 +43,7 @@ Create new local `master` (empty):
 
     $ git checkout --orphan master
     $ git rm --cached -r .
-    $ echo 'soon' >> index.html
+    $ echo 'Coming soon' > index.html
     $ git add index.html
     $ git commit -m "init"
 
@@ -53,14 +53,7 @@ Push `master` to remote:
 
 Checkout `master` in _deploy subdirectory:
 
-    $ mkdir _deploy
-    $ cd _deploy
-    $ git init
-    $ echo 'Coming soon' > index.html
-    $ git add .
-    $ git commit -m "Init"
-    $ git remote add origin git@github.com:aymerick/aymerick.github.com.git
-    $ ...
+    $ git clone git@github.com:aymerick/aymerick.github.io.git -b master _deploy
 
 References
 ==========

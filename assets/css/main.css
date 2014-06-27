@@ -1,3 +1,9 @@
+/**
+ * Mixins
+ */
+/**
+ * Main
+ */
 html {
   position: relative;
   min-height: 100%; }
@@ -20,6 +26,9 @@ footer {
     text-align: center;
     margin-bottom: 0; }
 
+/**
+ * Navbar
+ */
 /* navar: bootstrap overwrites */
 .navbar-inverse {
   background-color: #2C4870;
@@ -32,16 +41,39 @@ footer {
   .navbar-inverse .navbar-nav > li > a, .navbar-inverse .navbar-brand {
     color: #D5DCE8; }
 
-/* about */
+/**
+ * About
+ */
+#about .bio, #about .work {
+  font-family: Georgia, "Times New Roman", Times, serif; }
+#about .bio {
+  margin-top: 3em;
+  margin-bottom: 2em;
+  font-size: 22px;
+  line-height: 1.7em; }
+#about .work {
+  margin-top: 10px;
+  font-size: 20px;
+  line-height: 1.5em; }
+  #about .work img {
+    margin: 10px auto; }
+  #about .work .features span {
+    font-weight: bold; }
+  #about .work h4 {
+    font-family: Arial;
+    color: #999; }
+#about section.work:nth-child(2n+1) {
+  background-color: #DDE6F3; }
 #about .avatar {
   display: block;
-  margin: 0 auto 1.5em; }
+  margin: 0 auto 2em;
+  -webkit-transform: rotate(-5deg);
+  -moz-transform: rotate(-5deg);
+  -ms-transform: rotate(-5deg);
+  -o-transform: rotate(-5deg);
+  transform: rotate(-5deg); }
   @media (min-width: 575px) {
     #about .avatar {
       float: left;
-      margin: 15px 30px 0px 15px; } }
-#about .bio {
-  margin-top: 2em;
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: 22px;
-  line-height: 1.7em; }
+      margin-right: 30px;
+      margin-bottom: 0; } }

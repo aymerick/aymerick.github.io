@@ -1,37 +1,6 @@
+@import 'mixins';
+
 /* CSS adapted from http://joshuasortino.com */
-
-@mixin rotate($value) {
-    -webkit-transform: rotate($value);
-       -moz-transform: rotate($value);
-        -ms-transform: rotate($value);
-         -o-transform: rotate($value);
-            transform: rotate($value);
-}
-
-@mixin background-size($value) {
-    -webkit-background-size: $value;
-       -moz-background-size: $value;
-         -o-background-size: $value;
-            background-size: $value;
-}
-
-@mixin border-radius($value) {
-    -webkit-border-radius: $value;
-       -moz-border-radius: $value;
-            border-radius: $value;
-}
-
-@mixin box-sizing($value) {
-    -webkit-box-sizing: $value;
-       -moz-box-sizing: $value;
-            box-sizing: $value;
-}
-
-@mixin box-shadow($shadows...) {
-    -webkit-box-shadow: $shadows;
-       -moz-box-shadow: $shadows;
-            box-shadow: $shadows;
-}
 
 .perso {
     font-family: Georgia, "Times New Roman", Times, serif;

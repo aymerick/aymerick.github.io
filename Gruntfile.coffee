@@ -56,7 +56,7 @@ module.exports = (grunt) ->
       install:
         cmd: "bundle install"
       jekyll:
-        cmd: "bundle exec jekyll build --trace --draft"
+        cmd: "bundle exec jekyll build --trace"
 
     bower:
       install: {}

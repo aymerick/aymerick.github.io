@@ -30,6 +30,7 @@ Push `source` to github:
 Create an orphan `gh-pages` branch:
 
     $ git checkout --orphan gh-pages
+    $ git reset .
     $ rm -r *
     $ rm .gitignore
     $ echo 'Coming soon' > index.html

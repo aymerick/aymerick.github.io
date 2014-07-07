@@ -28,3 +28,53 @@ Install bootstrap:
 
     $ bower init
     $ bower install bootstrap --save
+
+Add those lines in `Brocfile.js` file just before `module.exports = app.toTree();`:
+
+    app.import('vendor/bootstrap/dist/css/bootstrap.css');
+    app.import('vendor/bootstrap/dist/js/bootstrap.js');
+
+Push `master` to github:
+
+    $ git add .
+    $ git commit -m "Bla bla bla"
+    $ git push
+
+Create an orphan `gh-pages` branch:
+
+    $ git checkout --orphan gh-pages
+    $ git reset .
+    $ rm -r *
+    $ rm .bowerrc .gitignore .jshintrc
+    $ echo 'Coming soon' > index.html
+    $ git add index.html
+    $ git commit -m "init"
+
+Push `gh-pages` to github:
+
+    $ git push -u origin gh-pages
+
+Now you should see `Coming soon` message when you browse to: <http://aymerick.github.io/planet-williams/>
+
+Let's work in `master` branch:
+
+    $ git checkout master
+
+Checkout `gh-pages` into `_deploy` directory:
+
+    $ git clone git@github.com:aymerick/planet-williams.git -b gh-pages _deploy
+
+Reinstall all dependencies:
+
+    $ bower install
+    $ npm install
+
+TODO:
+
+  - `rake deploy` task
+  - Add a `CNAME` file
+  - DNS:
+     planet-williams.org. A 192.30.252.153
+     planet-williams.org. A 192.30.252.154
+     www.planet-williams.org. CNAME aymerick.github.io.
+  - ...

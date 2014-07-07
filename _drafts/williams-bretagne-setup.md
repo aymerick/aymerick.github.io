@@ -247,5 +247,6 @@ And add temporary directories to `.gitignore` file:
 
 TODO:
 
+  - Live reload
   - Add a `CNAME` file
   - ...

@@ -3,6 +3,8 @@ layout: post
 title: Your jekyll site hosted on github pages with bower support
 ---
 
+This blog post is a tutorial to setup a jekyll site with [bootstrap](http://getbootstrap.com) installed thanks to [bower](http://bower.io/), and fully hosted on github pages.
+
 [Jekyll](http://jekyllrb.com/) support on github pages is great, but there are some limitations that prevent me from using it:
 
 - I want to use [bower](http://bower.io/) to manage dependencies, and without pushing the bower components directory to git
@@ -10,14 +12,16 @@ title: Your jekyll site hosted on github pages with bower support
 
 So I prefer to directly push the generated site on github pages.
 
-Here is how I setup a jekyll site with [bootstrap](http://getbootstrap.com) installed thanks to [bower](http://bower.io/) and hosted on github pages.
+This tutorial code is available here: <https://github.com/aymerick/jekyll-example>
+
+Result website is here: <http://jekyll-example.aymerick.com>
 
 
 ### Setup the master branch
 
 The `master` branch is the source one, and the `gh-pages` branch holds the generated site.
 
-Let's create an empty `jekyll-example` repository on github via the web interface. In my example the repository is accessible at <https://github.com/aymerick/jekyll-example>.
+Let's create an empty `jekyll-example` repository on github via the web interface.
 
 Generate the website:
 
@@ -303,16 +307,16 @@ First let's exclude the grunt file from jekyll build, by editing the `_config.ym
 
 ### The grunt tasks
 
-The `copy` subtask copies the `jquery` and `bootstrap` files to a new `vendor` directory. That directory will be copied as is by jekyll to `_dist` so it acts as a temporary zone and must be ignored by git by adding that line to `.gitignore` file:
+The `copy` subtask copies the `jquery` and `bootstrap` files to a new `vendor` directory. That directory will be copied as is by jekyll to `_dist` so it acts as a temporary zone and must be ignored by git. Adds that line to `.gitignore` file:
 
       /vendor/
       ...
 
-The `exec:jekyll` subtask invokes the `jekyll` tool to build the site inside `_site`.
+The `exec:jekyll` subtask invokes the `jekyll` tool to build the site into `_site` directory.
 
 The `connect:server` subtask launches a server on port `4000`.
 
-The `watch` subtask rebuilds the site when a source file changes. The list of all watched source files must be provided in the `files` setting.
+The `watch` subtask rebuilds the site when a source file changes. The list of all watched source files must be provided in the `files` setting. Remember to update that setting when you add custom directories or files to your jekyll site.
 
 Note the use of `livereload: true` in both `watch` and `connect:server` subtasks. Thanks to that setting, your browser will reload automatically when one of the source files changes.
 
@@ -338,7 +342,7 @@ So now, you can replace the `jekyll serve` command with:
 
     $ grunt
 
-And if you want verbose logs:
+Or if you want verbose logs:
 
     $ grunt -v
 
@@ -347,24 +351,24 @@ But there is a problem:
  - If you browse to <http://127.0.0.1:4000/jekyll-example> you get a `Cannot GET /jekyll-example/` error
  - If you browse to <http://127.0.0.1:4000/> then the CSS is broken
 
-That's because jekyll is configured with `baseurl: "/jekyll-example` so that it is browsable at <http://aymerick.github.io/jekyll-example/> but there is no such setting with `grunt-contrib-connect`. The `grunt-contrib-connect` package expects you to browse <http://127.0.0.1:4000/>.
+That's because jekyll is configured with `baseurl: "/jekyll-example"` so that it is browsable at <http://aymerick.github.io/jekyll-example/> but there is no such setting with `grunt-contrib-connect`. The `grunt-contrib-connect` package expects you to browse <http://127.0.0.1:4000/>.
 
 
 ### Custom domain name
 
 I personnally always host my jekyll sites on custom domain names, so I will host that example on <http://jekyll-example.aymerick.com> instead of <http://aymerick.github.io/jekyll-example/>.
 
-That way this setup works the same for development and for production, but if you really needs to keep the `baseurl` setting then you should probably create a new 'production specific' grunt task that will build jekyll with the `--baseurl URL` option.
+That way I don't need a `baseurl` setting and this setup works the same for development and for production. If you really need to keep the `baseurl` setting then you should probably create a new 'production specific' grunt task that will build jekyll with the `--baseurl URL` option.
 
-So, first I need to comment the `baseurl` setting in the `_config.yml` file:
+So, first you need to comment the `baseurl` setting in the `_config.yml` file:
 
     # baseurl: "/jekyll-example"
 
-Then I create a `CNAME` file with the custom domain name:
+Then create a `CNAME` file with the custom domain name:
 
     jekyll-example.aymerick.com
 
-Finally I go to my DNS provider website and I setup a `CNAME` from `jekyll-example.aymerick.com` to `aymerick.github.io`.
+Finally go to your DNS provider website and setup a `CNAME` from `jekyll-example.aymerick.com` to `aymerick.github.io`.
 
 Let's push everything:
 
@@ -415,7 +419,7 @@ Exclude `Rakefile` from jekyll build, by editing the `_config.yml` file and addi
       - "Rakefile"
       - ...
 
-And now, deploying your site on github page is as simple as running
+And now, deploying your site on github page is as simple as running:
 
     $ rake deploy
 

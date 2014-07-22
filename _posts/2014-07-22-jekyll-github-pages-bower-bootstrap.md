@@ -121,30 +121,38 @@ Install bower:
 
 The `bower.json` file should have been created with something like that:
 
-    {
-      "name": "jekyll-example",
-      "version": "0.0.0",
-      "homepage": "https://github.com/aymerick/jekyll-example",
-      "authors": [
-        "Aymerick <aymerick@jehanne.org>"
-      ],
-      "description": "Jekyll setup example",
-      "license": "MIT",
-      "private": true,
-      "ignore": [
-        "**/.*",
-        "node_modules",
-        "bower_components",
-        "test",
-        "tests"
-      ]
-    }
+{% highlight json %}
+
+{
+  "name": "jekyll-example",
+  "version": "0.0.0",
+  "homepage": "https://github.com/aymerick/jekyll-example",
+  "authors": [
+    "Aymerick Jéhanne"
+  ],
+  "description": "Jekyll setup example",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
+
+{% endhighlight %}
 
 Now, we need to exclude bower files from jekyll build. Edit the `_config.yml` file and adds:
 
-    exclude:
-      - "bower_components"
-      - "bower.json"
+{% highlight yaml %}
+
+exclude:
+  - "bower_components"
+  - "bower.json"
+
+{% endhighlight %}
 
 Make git ignore bower components by adding that line to `.gitignore` file:
 
@@ -174,32 +182,40 @@ Init npm:
 
 The `package.json` file should have been created with something like that:
 
-    {
-      "name": "jekyll-example",
-      "version": "0.0.0",
-      "description": "Jekyll setup example",
-      "main": "_site/index.html",
-      "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-      },
-      "repository": {
-        "type": "git",
-        "url": "git://github.com/aymerick/jekyll-example.git"
-      },
-      "author": "Aymerick Jéhanne",
-      "license": "MIT",
-      "bugs": {
-        "url": "https://github.com/aymerick/jekyll-example/issues"
-      },
-      "homepage": "https://github.com/aymerick/jekyll-example"
-    }
+{% highlight json %}
+
+{
+  "name": "jekyll-example",
+  "version": "0.0.0",
+  "description": "Jekyll setup example",
+  "main": "_site/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/aymerick/jekyll-example.git"
+  },
+  "author": "Aymerick Jéhanne",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aymerick/jekyll-example/issues"
+  },
+  "homepage": "https://github.com/aymerick/jekyll-example"
+}
+
+{% endhighlight %}
 
 To exclude npm files from jekyll build, edit the `_config.yml` file and adds:
 
-    exclude:
-      - "node_modules"
-      - "package.json"
-      - ...
+{% highlight yaml %}
+
+exclude:
+  - "node_modules"
+  - "package.json"
+  - ...
+
+{% endhighlight %}
 
 Make git ignore npm packages by adding that line to `.gitignore` file:
 
@@ -214,95 +230,103 @@ First, install needed grunt packages:
     $ npm install -g grunt-cli
     $ npm install grunt grunt-bower-task grunt-contrib-connect grunt-contrib-copy grunt-contrib-watch grunt-exec --save-dev
 
-Now the fun part begins, let's create the grunt file. I'm not a big fan of [coffescript](http://coffeescript.org), but for the purpose of a 'makefile' I think its syntax is elegant and cleaner than raw javascript.
+Now the fun part begins, let's create the grunt file. I'm not a big fan of [coffescript](http://coffeescript.org), but for the purpose of a _makefile_ I think its syntax is elegant and cleaner than raw javascript.
 
 So here is the `Gruntfile.coffee` file:
 
-    #global module:false
+{% highlight js %}
 
-    "use strict"
+#global module:false
 
-    module.exports = (grunt) ->
-      grunt.loadNpmTasks "grunt-bower-task"
-      grunt.loadNpmTasks "grunt-contrib-connect"
-      grunt.loadNpmTasks "grunt-contrib-copy"
-      grunt.loadNpmTasks "grunt-contrib-watch"
-      grunt.loadNpmTasks "grunt-exec"
+"use strict"
 
-      grunt.initConfig
+module.exports = (grunt) ->
+  grunt.loadNpmTasks "grunt-bower-task"
+  grunt.loadNpmTasks "grunt-contrib-connect"
+  grunt.loadNpmTasks "grunt-contrib-copy"
+  grunt.loadNpmTasks "grunt-contrib-watch"
+  grunt.loadNpmTasks "grunt-exec"
 
-        copy:
-          jquery:
-            files: [{
-              expand: true
-              cwd: "bower_components/jquery/dist/"
-              src: "jquery.min.js"
-              dest: "vendor/js/"
-            }]
-          bootstrap:
-            files: [{
-              expand: true
-              cwd: "bower_components/bootstrap/dist/css/"
-              src: "bootstrap.min.css"
-              dest: "vendor/css/"
-            },
-            {
-              expand: true
-              cwd: "bower_components/bootstrap/dist/js/"
-              src: "bootstrap.min.js"
-              dest: "vendor/js/"
-            }]
+  grunt.initConfig
 
-        exec:
-          jekyll:
-            cmd: "jekyll build --trace"
+    copy:
+      jquery:
+        files: [{
+          expand: true
+          cwd: "bower_components/jquery/dist/"
+          src: "jquery.min.js"
+          dest: "vendor/js/"
+        }]
+      bootstrap:
+        files: [{
+          expand: true
+          cwd: "bower_components/bootstrap/dist/css/"
+          src: "bootstrap.min.css"
+          dest: "vendor/css/"
+        },
+        {
+          expand: true
+          cwd: "bower_components/bootstrap/dist/js/"
+          src: "bootstrap.min.js"
+          dest: "vendor/js/"
+        }]
 
-        watch:
-          options:
-            livereload: true
-          source:
-            files: [
-              "_drafts/**/*"
-              "_includes/**/*"
-              "_layouts/**/*"
-              "_posts/**/*"
-              "css/**/*"
-              "js/**/*"
-              "_config.yml"
-              "*.html"
-              "*.md"
-            ]
-            tasks: [
-              "exec:jekyll"
-            ]
+    exec:
+      jekyll:
+        cmd: "jekyll build --trace"
 
-        connect:
-          server:
-            options:
-              port: 4000
-              base: '_site'
-              livereload: true
+    watch:
+      options:
+        livereload: true
+      source:
+        files: [
+          "_drafts/**/*"
+          "_includes/**/*"
+          "_layouts/**/*"
+          "_posts/**/*"
+          "css/**/*"
+          "js/**/*"
+          "_config.yml"
+          "*.html"
+          "*.md"
+        ]
+        tasks: [
+          "exec:jekyll"
+        ]
 
-      grunt.registerTask "build", [
-        "copy"
-        "exec:jekyll"
-      ]
+    connect:
+      server:
+        options:
+          port: 4000
+          base: '_site'
+          livereload: true
 
-      grunt.registerTask "serve", [
-        "build"
-        "connect:server"
-        "watch"
-      ]
+  grunt.registerTask "build", [
+    "copy"
+    "exec:jekyll"
+  ]
 
-      grunt.registerTask "default", [
-        "serve"
-      ]
+  grunt.registerTask "serve", [
+    "build"
+    "connect:server"
+    "watch"
+  ]
+
+  grunt.registerTask "default", [
+    "serve"
+  ]
+
+{% endhighlight %}
 
 First let's exclude the grunt file from jekyll build, by editing the `_config.yml` file and adding:
 
-    exclude:
-      - "Gruntfile.coffee"
-      - ...
+{% highlight yaml %}
+
+exclude:
+  - "Gruntfile.coffee"
+  - ...
+
+{% endhighlight %}
 
 
 ### The grunt tasks
@@ -316,7 +340,7 @@ The `exec:jekyll` subtask invokes the `jekyll` tool to build the site into `_sit
 
 The `connect:server` subtask launches a server on port `4000`.
 
-The `watch` subtask rebuilds the site when a source file changes. The list of all watched source files must be provided in the `files` setting. Remember to update that setting when you add custom directories or files to your jekyll site.
+The `watch` subtask rebuilds the site when a source file changes. The list of all watched source files must be provided in the `files` setting. Remember to update that setting when you add custom directories or files.
 
 Note the use of `livereload: true` in both `watch` and `connect:server` subtasks. Thanks to that setting, your browser will reload automatically when one of the source files changes.
 
@@ -327,13 +351,21 @@ Let's include `vendor` files in our jekyll site:
 
 Edit the `_includes/head.html` file and add that line:
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ "/vendor/css/bootstrap.min.css" | prepend: site.baseurl }}">
+{% highlight html %}
 
-Edit the `_layouts/default.html` file and add those lines before `</body>` end tag:
+<!-- Custom CSS -->
+<link rel="stylesheet" href="{{ "/vendor/css/bootstrap.min.css" | prepend: site.baseurl }}">
 
-    <script src="{{ "/vendor/js/jquery.min.js" | prepend: site.baseurl }}"></script>
-    <script src="{{ "/vendor/js/bootstrap.min.js" | prepend: site.baseurl }}"></script>
+{% endhighlight %}
+
+Edit the `_layouts/default.html` file and add those lines before `</body>`:
+
+{% highlight html %}
+
+<script src="{{ "/vendor/js/jquery.min.js" | prepend: site.baseurl }}"></script>
+<script src="{{ "/vendor/js/bootstrap.min.js" | prepend: site.baseurl }}"></script>
+
+{% endhighlight %}
 
 
 ### The baseurl dilemma
@@ -381,7 +413,7 @@ Let's push everything:
 
 And now, browse to <http://jekyll-example.aymerick.com>.
 
-You should probably see a `404 There isn't a GitHub Page here.` error, that's because it take some time for github to handle correctly your new custom domain configuration. Just wait a few minutes then try again, you will eventually see your site.
+You should probably see a `404 There isn't a GitHub Page here.` error, that's because it takes some time for github to setup your new custom domain configuration. Just wait a few minutes then try again, you will eventually see your site.
 
 
 ### The deploy task
@@ -390,34 +422,44 @@ It is tedious to manually commit and push the `gh-pages` branch when you want to
 
 Create a `Rakefile` file:
 
-    require "rubygems"
+{% highlight ruby %}
 
-    desc "Deploy to Github Pages"
-    task :deploy do
-      puts "## Deploying to Github Pages"
+require "rubygems"
 
-      puts "## Generating site"
-      system "grunt build"
+desc "Deploy to Github Pages"
+task :deploy do
+  puts "## Deploying to Github Pages"
 
-      cd "_site" do
-        system "git add -A"
+  puts "## Generating site"
+  system "grunt build"
 
-        message = "Site updated at #{Time.now.utc}"
-        puts "## Commiting: #{message}"
-        system "git commit -m \"#{message}\""
+  cd "_site" do
+    system "git add -A"
 
-        puts "## Pushing generated site"
-        system "git push"
+    message = "Site updated at #{Time.now.utc}"
+    puts "## Commiting: #{message}"
+    system "git commit -m \"#{message}\""
 
-        puts "## Deploy Complete!"
-      end
-    end
+    puts "## Pushing generated site"
+    system "git push"
+
+    puts "## Deploy Complete!"
+  end
+end
+
+{% endhighlight %}
+
 
 Exclude `Rakefile` from jekyll build, by editing the `_config.yml` file and adding:
 
-    exclude:
-      - "Rakefile"
-      - ...
+{% highlight yaml %}
+
+exclude:
+  - "Rakefile"
+  - ...
+
+{% endhighlight %}
+
 
 And now, deploying your site on github page is as simple as running:
 

@@ -90,6 +90,7 @@ module.exports = (grunt) ->
         options:
           port: 4000
           base: '_site'
+          livereload: true
 
   grunt.registerTask "build", [
     "sass"

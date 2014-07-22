@@ -155,30 +155,32 @@ $ jekyll serve
 $ bower init
 </code></pre></div>
 <p>The <code>bower.json</code> file should have been created with something like that:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
-  &quot;name&quot;: &quot;jekyll-example&quot;,
-  &quot;version&quot;: &quot;0.0.0&quot;,
-  &quot;homepage&quot;: &quot;https://github.com/aymerick/jekyll-example&quot;,
-  &quot;authors&quot;: [
-    &quot;Aymerick &lt;aymerick@jehanne.org&gt;&quot;
-  ],
-  &quot;description&quot;: &quot;Jekyll setup example&quot;,
-  &quot;license&quot;: &quot;MIT&quot;,
-  &quot;private&quot;: true,
-  &quot;ignore&quot;: [
-    &quot;**/.*&quot;,
-    &quot;node_modules&quot;,
-    &quot;bower_components&quot;,
-    &quot;test&quot;,
-    &quot;tests&quot;
-  ]
-}
-</code></pre></div>
+
+<div class="highlight"><pre><code class="json"><span class="p">{</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;jekyll-example&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.0&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="s2">&quot;https://github.com/aymerick/jekyll-example&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;authors&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;Aymerick Jéhanne&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Jekyll setup example&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;license&quot;</span><span class="p">:</span> <span class="s2">&quot;MIT&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;private&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&quot;ignore&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;**/.*&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;node_modules&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bower_components&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tests&quot;</span>
+  <span class="p">]</span>
+<span class="p">}</span></code></pre></div>
+
 <p>Now, we need to exclude bower files from jekyll build. Edit the <code>_config.yml</code> file and adds:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">exclude:
-  - &quot;bower_components&quot;
-  - &quot;bower.json&quot;
-</code></pre></div>
+
+<div class="highlight"><pre><code class="yaml"><span class="l-Scalar-Plain">exclude</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="s">&quot;bower_components&quot;</span>
+  <span class="p-Indicator">-</span> <span class="s">&quot;bower.json&quot;</span></code></pre></div>
+
 <p>Make git ignore bower components by adding that line to <code>.gitignore</code> file:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">/bower_components/
 </code></pre></div>
@@ -200,32 +202,34 @@ $ bower init
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ npm init
 </code></pre></div>
 <p>The <code>package.json</code> file should have been created with something like that:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">{
-  &quot;name&quot;: &quot;jekyll-example&quot;,
-  &quot;version&quot;: &quot;0.0.0&quot;,
-  &quot;description&quot;: &quot;Jekyll setup example&quot;,
-  &quot;main&quot;: &quot;_site/index.html&quot;,
-  &quot;scripts&quot;: {
-    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;
-  },
-  &quot;repository&quot;: {
-    &quot;type&quot;: &quot;git&quot;,
-    &quot;url&quot;: &quot;git://github.com/aymerick/jekyll-example.git&quot;
-  },
-  &quot;author&quot;: &quot;Aymerick Jéhanne&quot;,
-  &quot;license&quot;: &quot;MIT&quot;,
-  &quot;bugs&quot;: {
-    &quot;url&quot;: &quot;https://github.com/aymerick/jekyll-example/issues&quot;
-  },
-  &quot;homepage&quot;: &quot;https://github.com/aymerick/jekyll-example&quot;
-}
-</code></pre></div>
+
+<div class="highlight"><pre><code class="json"><span class="p">{</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;jekyll-example&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.0&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Jekyll setup example&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;main&quot;</span><span class="p">:</span> <span class="s2">&quot;_site/index.html&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;scripts&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;test&quot;</span><span class="p">:</span> <span class="s2">&quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;repository&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;git&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;git://github.com/aymerick/jekyll-example.git&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Aymerick Jéhanne&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;license&quot;</span><span class="p">:</span> <span class="s2">&quot;MIT&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;bugs&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://github.com/aymerick/jekyll-example/issues&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="s2">&quot;https://github.com/aymerick/jekyll-example&quot;</span>
+<span class="p">}</span></code></pre></div>
+
 <p>To exclude npm files from jekyll build, edit the <code>_config.yml</code> file and adds:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">exclude:
-  - &quot;node_modules&quot;
-  - &quot;package.json&quot;
-  - ...
-</code></pre></div>
+
+<div class="highlight"><pre><code class="yaml"><span class="l-Scalar-Plain">exclude</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="s">&quot;node_modules&quot;</span>
+  <span class="p-Indicator">-</span> <span class="s">&quot;package.json&quot;</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">...</span></code></pre></div>
+
 <p>Make git ignore npm packages by adding that line to <code>.gitignore</code> file:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">/node_modules/
 ...
@@ -236,94 +240,96 @@ $ bower init
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ npm install -g grunt-cli
 $ npm install grunt grunt-bower-task grunt-contrib-connect grunt-contrib-copy grunt-contrib-watch grunt-exec --save-dev
 </code></pre></div>
-<p>Now the fun part begins, let&#39;s create the grunt file. I&#39;m not a big fan of <a href="http://coffeescript.org">coffescript</a>, but for the purpose of a &#39;makefile&#39; I think its syntax is elegant and cleaner than raw javascript.</p>
+<p>Now the fun part begins, let&#39;s create the grunt file. I&#39;m not a big fan of <a href="http://coffeescript.org">coffescript</a>, but for the purpose of a <em>makefile</em> I think its syntax is elegant and cleaner than raw javascript.</p>
 
 <p>So here is the <code>Gruntfile.coffee</code> file:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">#global module:false
 
-&quot;use strict&quot;
+<div class="highlight"><pre><code class="js"><span class="err">#</span><span class="nx">global</span> <span class="nx">module</span><span class="o">:</span><span class="kc">false</span>
 
-module.exports = (grunt) -&gt;
-  grunt.loadNpmTasks &quot;grunt-bower-task&quot;
-  grunt.loadNpmTasks &quot;grunt-contrib-connect&quot;
-  grunt.loadNpmTasks &quot;grunt-contrib-copy&quot;
-  grunt.loadNpmTasks &quot;grunt-contrib-watch&quot;
-  grunt.loadNpmTasks &quot;grunt-exec&quot;
+<span class="s2">&quot;use strict&quot;</span>
 
-  grunt.initConfig
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="o">-&gt;</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span> <span class="s2">&quot;grunt-bower-task&quot;</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span> <span class="s2">&quot;grunt-contrib-connect&quot;</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span> <span class="s2">&quot;grunt-contrib-copy&quot;</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span> <span class="s2">&quot;grunt-contrib-watch&quot;</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span> <span class="s2">&quot;grunt-exec&quot;</span>
 
-    copy:
-      jquery:
-        files: [{
-          expand: true
-          cwd: &quot;bower_components/jquery/dist/&quot;
-          src: &quot;jquery.min.js&quot;
-          dest: &quot;vendor/js/&quot;
-        }]
-      bootstrap:
-        files: [{
-          expand: true
-          cwd: &quot;bower_components/bootstrap/dist/css/&quot;
-          src: &quot;bootstrap.min.css&quot;
-          dest: &quot;vendor/css/&quot;
-        },
-        {
-          expand: true
-          cwd: &quot;bower_components/bootstrap/dist/js/&quot;
-          src: &quot;bootstrap.min.js&quot;
-          dest: &quot;vendor/js/&quot;
-        }]
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span>
 
-    exec:
-      jekyll:
-        cmd: &quot;jekyll build --trace&quot;
+    <span class="nx">copy</span><span class="o">:</span>
+      <span class="nx">jquery</span><span class="o">:</span>
+        <span class="nx">files</span><span class="o">:</span> <span class="p">[{</span>
+          <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span>
+          <span class="nx">cwd</span><span class="o">:</span> <span class="s2">&quot;bower_components/jquery/dist/&quot;</span>
+          <span class="nx">src</span><span class="o">:</span> <span class="s2">&quot;jquery.min.js&quot;</span>
+          <span class="nx">dest</span><span class="o">:</span> <span class="s2">&quot;vendor/js/&quot;</span>
+        <span class="p">}]</span>
+      <span class="nx">bootstrap</span><span class="o">:</span>
+        <span class="nx">files</span><span class="o">:</span> <span class="p">[{</span>
+          <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span>
+          <span class="nx">cwd</span><span class="o">:</span> <span class="s2">&quot;bower_components/bootstrap/dist/css/&quot;</span>
+          <span class="nx">src</span><span class="o">:</span> <span class="s2">&quot;bootstrap.min.css&quot;</span>
+          <span class="nx">dest</span><span class="o">:</span> <span class="s2">&quot;vendor/css/&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span>
+          <span class="nx">cwd</span><span class="o">:</span> <span class="s2">&quot;bower_components/bootstrap/dist/js/&quot;</span>
+          <span class="nx">src</span><span class="o">:</span> <span class="s2">&quot;bootstrap.min.js&quot;</span>
+          <span class="nx">dest</span><span class="o">:</span> <span class="s2">&quot;vendor/js/&quot;</span>
+        <span class="p">}]</span>
 
-    watch:
-      options:
-        livereload: true
-      source:
-        files: [
-          &quot;_drafts/**/*&quot;
-          &quot;_includes/**/*&quot;
-          &quot;_layouts/**/*&quot;
-          &quot;_posts/**/*&quot;
-          &quot;css/**/*&quot;
-          &quot;js/**/*&quot;
-          &quot;_config.yml&quot;
-          &quot;*.html&quot;
-          &quot;*.md&quot;
-        ]
-        tasks: [
-          &quot;exec:jekyll&quot;
-        ]
+    <span class="nx">exec</span><span class="o">:</span>
+      <span class="nx">jekyll</span><span class="o">:</span>
+        <span class="nx">cmd</span><span class="o">:</span> <span class="s2">&quot;jekyll build --trace&quot;</span>
 
-    connect:
-      server:
-        options:
-          port: 4000
-          base: &#39;_site&#39;
-          livereload: true
+    <span class="nx">watch</span><span class="o">:</span>
+      <span class="nx">options</span><span class="o">:</span>
+        <span class="nx">livereload</span><span class="o">:</span> <span class="kc">true</span>
+      <span class="nx">source</span><span class="o">:</span>
+        <span class="nx">files</span><span class="o">:</span> <span class="p">[</span>
+          <span class="s2">&quot;_drafts/**/*&quot;</span>
+          <span class="s2">&quot;_includes/**/*&quot;</span>
+          <span class="s2">&quot;_layouts/**/*&quot;</span>
+          <span class="s2">&quot;_posts/**/*&quot;</span>
+          <span class="s2">&quot;css/**/*&quot;</span>
+          <span class="s2">&quot;js/**/*&quot;</span>
+          <span class="s2">&quot;_config.yml&quot;</span>
+          <span class="s2">&quot;*.html&quot;</span>
+          <span class="s2">&quot;*.md&quot;</span>
+        <span class="p">]</span>
+        <span class="nx">tasks</span><span class="o">:</span> <span class="p">[</span>
+          <span class="s2">&quot;exec:jekyll&quot;</span>
+        <span class="p">]</span>
 
-  grunt.registerTask &quot;build&quot;, [
-    &quot;copy&quot;
-    &quot;exec:jekyll&quot;
-  ]
+    <span class="nx">connect</span><span class="o">:</span>
+      <span class="nx">server</span><span class="o">:</span>
+        <span class="nx">options</span><span class="o">:</span>
+          <span class="nx">port</span><span class="o">:</span> <span class="mi">4000</span>
+          <span class="nx">base</span><span class="o">:</span> <span class="s1">&#39;_site&#39;</span>
+          <span class="nx">livereload</span><span class="o">:</span> <span class="kc">true</span>
 
-  grunt.registerTask &quot;serve&quot;, [
-    &quot;build&quot;
-    &quot;connect:server&quot;
-    &quot;watch&quot;
-  ]
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span> <span class="s2">&quot;build&quot;</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s2">&quot;copy&quot;</span>
+    <span class="s2">&quot;exec:jekyll&quot;</span>
+  <span class="p">]</span>
 
-  grunt.registerTask &quot;default&quot;, [
-    &quot;serve&quot;
-  ]
-</code></pre></div>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span> <span class="s2">&quot;serve&quot;</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s2">&quot;build&quot;</span>
+    <span class="s2">&quot;connect:server&quot;</span>
+    <span class="s2">&quot;watch&quot;</span>
+  <span class="p">]</span>
+
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s2">&quot;serve&quot;</span>
+  <span class="p">]</span></code></pre></div>
+
 <p>First let&#39;s exclude the grunt file from jekyll build, by editing the <code>_config.yml</code> file and adding:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">exclude:
-  - &quot;Gruntfile.coffee&quot;
-  - ...
-</code></pre></div>
+
+<div class="highlight"><pre><code class="yaml"><span class="l-Scalar-Plain">exclude</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="s">&quot;Gruntfile.coffee&quot;</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">...</span></code></pre></div>
+
 <h3>The grunt tasks</h3>
 
 <p>The <code>copy</code> subtask copies the <code>jquery</code> and <code>bootstrap</code> files to a new <code>vendor</code> directory. That directory will be copied as is by jekyll to <code>_dist</code> so it acts as a temporary zone and must be ignored by git. Adds that line to <code>.gitignore</code> file:</p>
@@ -334,7 +340,7 @@ module.exports = (grunt) -&gt;
 
 <p>The <code>connect:server</code> subtask launches a server on port <code>4000</code>.</p>
 
-<p>The <code>watch</code> subtask rebuilds the site when a source file changes. The list of all watched source files must be provided in the <code>files</code> setting. Remember to update that setting when you add custom directories or files to your jekyll site.</p>
+<p>The <code>watch</code> subtask rebuilds the site when a source file changes. The list of all watched source files must be provided in the <code>files</code> setting. Remember to update that setting when you add custom directories or files.</p>
 
 <p>Note the use of <code>livereload: true</code> in both <code>watch</code> and <code>connect:server</code> subtasks. Thanks to that setting, your browser will reload automatically when one of the source files changes.</p>
 
@@ -343,13 +349,15 @@ module.exports = (grunt) -&gt;
 <p>Let&#39;s include <code>vendor</code> files in our jekyll site:</p>
 
 <p>Edit the <code>_includes/head.html</code> file and add that line:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;!-- Custom CSS --&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;/vendor/css/bootstrap.min.css&quot;&gt;
-</code></pre></div>
-<p>Edit the <code>_layouts/default.html</code> file and add those lines before <code>&lt;/body&gt;</code> end tag:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">&lt;script src=&quot;/vendor/js/jquery.min.js&quot;&gt;&lt;/script&gt;
-&lt;script src=&quot;/vendor/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
-</code></pre></div>
+
+<div class="highlight"><pre><code class="html"><span class="c">&lt;!-- Custom CSS --&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;/vendor/css/bootstrap.min.css&quot;</span><span class="nt">&gt;</span></code></pre></div>
+
+<p>Edit the <code>_layouts/default.html</code> file and add those lines before <code>&lt;/body&gt;</code>:</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;/vendor/js/jquery.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;/vendor/js/bootstrap.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span></code></pre></div>
+
 <h3>The baseurl dilemma</h3>
 
 <p>So now, you can replace the <code>jekyll serve</code> command with:</p>
@@ -391,41 +399,43 @@ $ cd ..
 </code></pre></div>
 <p>And now, browse to <a href="http://jekyll-example.aymerick.com">http://jekyll-example.aymerick.com</a>.</p>
 
-<p>You should probably see a <code>404 There isn&#39;t a GitHub Page here.</code> error, that&#39;s because it take some time for github to handle correctly your new custom domain configuration. Just wait a few minutes then try again, you will eventually see your site.</p>
+<p>You should probably see a <code>404 There isn&#39;t a GitHub Page here.</code> error, that&#39;s because it takes some time for github to setup your new custom domain configuration. Just wait a few minutes then try again, you will eventually see your site.</p>
 
 <h3>The deploy task</h3>
 
 <p>It is tedious to manually commit and push the <code>gh-pages</code> branch when you want to deploy to github pages. Let&#39;s create a rake task that will help us with that.</p>
 
 <p>Create a <code>Rakefile</code> file:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">require &quot;rubygems&quot;
 
-desc &quot;Deploy to Github Pages&quot;
-task :deploy do
-  puts &quot;## Deploying to Github Pages&quot;
+<div class="highlight"><pre><code class="ruby"><span class="nb">require</span> <span class="s2">&quot;rubygems&quot;</span>
 
-  puts &quot;## Generating site&quot;
-  system &quot;grunt build&quot;
+<span class="n">desc</span> <span class="s2">&quot;Deploy to Github Pages&quot;</span>
+<span class="n">task</span> <span class="ss">:deploy</span> <span class="k">do</span>
+  <span class="nb">puts</span> <span class="s2">&quot;## Deploying to Github Pages&quot;</span>
 
-  cd &quot;_site&quot; do
-    system &quot;git add -A&quot;
+  <span class="nb">puts</span> <span class="s2">&quot;## Generating site&quot;</span>
+  <span class="nb">system</span> <span class="s2">&quot;grunt build&quot;</span>
 
-    message = &quot;Site updated at #{Time.now.utc}&quot;
-    puts &quot;## Commiting: #{message}&quot;
-    system &quot;git commit -m \&quot;#{message}\&quot;&quot;
+  <span class="n">cd</span> <span class="s2">&quot;_site&quot;</span> <span class="k">do</span>
+    <span class="nb">system</span> <span class="s2">&quot;git add -A&quot;</span>
 
-    puts &quot;## Pushing generated site&quot;
-    system &quot;git push&quot;
+    <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Site updated at </span><span class="si">#{</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">utc</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nb">puts</span> <span class="s2">&quot;## Commiting: </span><span class="si">#{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nb">system</span> <span class="s2">&quot;git commit -m </span><span class="se">\&quot;</span><span class="si">#{</span><span class="n">message</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
 
-    puts &quot;## Deploy Complete!&quot;
-  end
-end
-</code></pre></div>
+    <span class="nb">puts</span> <span class="s2">&quot;## Pushing generated site&quot;</span>
+    <span class="nb">system</span> <span class="s2">&quot;git push&quot;</span>
+
+    <span class="nb">puts</span> <span class="s2">&quot;## Deploy Complete!&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
 <p>Exclude <code>Rakefile</code> from jekyll build, by editing the <code>_config.yml</code> file and adding:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">exclude:
-  - &quot;Rakefile&quot;
-  - ...
-</code></pre></div>
+
+<div class="highlight"><pre><code class="yaml"><span class="l-Scalar-Plain">exclude</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="s">&quot;Rakefile&quot;</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">...</span></code></pre></div>
+
 <p>And now, deploying your site on github page is as simple as running:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ rake deploy
 </code></pre></div>

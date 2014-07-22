@@ -12,7 +12,7 @@ This blog post is a tutorial to setup a jekyll site with [bootstrap](http://getb
 
 So I prefer to directly push the generated site on github pages.
 
-This tutorial code is available here: <https://github.com/aymerick/jekyll-example>
+Code for this tutorial is available here: <https://github.com/aymerick/jekyll-example>
 
 Result website is here: <http://jekyll-example.aymerick.com>
 
@@ -21,9 +21,9 @@ Result website is here: <http://jekyll-example.aymerick.com>
 
 The `master` branch is the source one, and the `gh-pages` branch holds the generated site.
 
-Let's create an empty `jekyll-example` repository on github via the web interface.
+First, create an empty `jekyll-example` repository on github via the web interface.
 
-Generate the website:
+Then generate the website:
 
     $ jekyll new jekyll-example
 

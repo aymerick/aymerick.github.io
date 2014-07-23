@@ -484,3 +484,5 @@ With that setup, you only have two commands to run:
 - `rake deploy` to deploy the site in production
 
 You can now add more bower packages, use custom jekyll plugins, and have fun :)
+
+_(You can contact me [@aymerick](https://twitter.com/aymerick) and I want to thanks [@octplane](https://twitter.com/octplane) for reviewing this tutorial.)_

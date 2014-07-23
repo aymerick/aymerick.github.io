@@ -112,6 +112,16 @@ Let's go back locally:
 Note that the local site is now accessible at <http://127.0.0.1:4000/jekyll-example/>
 
 
+### Disable jekyll build on github
+
+To be sure that jekyll generation is not triggered on github, you must add an empty `.nojekyll` file.
+
+Then edit the `_config.yml` file and set:
+
+    include:
+      - .nojekyll
+
+
 ### Setup bower
 
 Install bower:
@@ -470,7 +480,7 @@ And now, deploying your site on github page is as simple as running:
 
 With that setup, you only have two commands to run:
 
-- `grunt -v` while developing, with live reload support
+- `grunt` while developing, with live reload support
 - `rake deploy` to deploy the site in production
 
 You can now add more bower packages, use custom jekyll plugins, and have fun :)

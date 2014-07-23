@@ -148,6 +148,14 @@ $ jekyll serve
 </code></pre></div>
 <p>Note that the local site is now accessible at <a href="http://127.0.0.1:4000/jekyll-example/">http://127.0.0.1:4000/jekyll-example/</a></p>
 
+<h3>Disable jekyll build on github</h3>
+
+<p>To be sure that jekyll generation is not triggered on github, you must add an empty <code>.nojekyll</code> file.</p>
+
+<p>Then edit the <code>_config.yml</code> file and set:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">include:
+  - .nojekyll
+</code></pre></div>
 <h3>Setup bower</h3>
 
 <p>Install bower:</p>
@@ -444,7 +452,7 @@ $ cd ..
 <p>With that setup, you only have two commands to run:</p>
 
 <ul>
-<li><code>grunt -v</code> while developing, with live reload support</li>
+<li><code>grunt</code> while developing, with live reload support</li>
 <li><code>rake deploy</code> to deploy the site in production</li>
 </ul>
 

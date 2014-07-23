@@ -19,7 +19,7 @@ Result website is here: <http://jekyll-example.aymerick.com>
 
 ### Setup the master branch
 
-The `master` branch is the source one, and the `gh-pages` branch holds the generated site.
+**WARNING:** This tutorial covers the setup of a **Project Page**, and as so the `master` branch is used as the source one, and the `gh-pages` branch holds the generated site. However, if you setup a **User Page** then the `master` branch holds the generated site, and so  you have to create a new branch (eg: `source`) to hold your site source.
 
 First, create an empty `jekyll-example` repository on github via the web interface.
 

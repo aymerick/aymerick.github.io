@@ -14,3 +14,6 @@ exclude:
   - "package.json"
   - "Rakefile"
   - "README.md"
+
+include:
+  - .nojekyll

@@ -16,6 +16,11 @@ Code for this tutorial is available here: <https://github.com/aymerick/jekyll-ex
 
 Result website is here: <http://jekyll-example.aymerick.com>
 
+Websites I built with that setup:
+
+- <http://www.aymerick.com> _(source: <https://github.com/aymerick/aymerick.github.io>)_
+- <http://www.williams-bretagne.org> _(source: <https://github.com/aymerick/williams-bretagne>)_
+
 
 ### Setup the master branch
 

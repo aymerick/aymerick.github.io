@@ -84,6 +84,12 @@ $ raspivid -o - -t 0 -w 640 -h 360 -fps 25 | cvlc stream:///dev/stdin --sout '#s
 In VLC: Open Network URL => <http://piwi.local:8090>
 
 
+MJPG Steamer
+============
+
+TODO: <http://blog.miguelgrinberg.com/post/how-to-build-and-run-mjpg-streamer-on-the-raspberry-pi>
+
+
 Disable red led
 ===============
 

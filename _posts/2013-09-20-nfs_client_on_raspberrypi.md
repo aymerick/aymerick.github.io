@@ -3,7 +3,7 @@ layout: post
 title: NFS Client on Raspberry Pi
 tags:
 - raspberrypi
-- pipi.local
+- pikan.local
 - chezak.local
 - freebox
 ---

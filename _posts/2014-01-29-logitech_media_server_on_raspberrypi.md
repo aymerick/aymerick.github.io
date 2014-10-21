@@ -3,7 +3,7 @@ layout: post
 title: Logitec Media Server on a raspberry pi
 tags:
 - raspberrypi
-- pipi.local
+- pikan.local
 ---
 
 Prerequisites
@@ -47,7 +47,7 @@ $ sudo chown -R squeezeboxserver:nogroup /usr/share/squeezeboxserver/
 $ sudo service logitechmediaserver start
 {% endhighlight %}
 
-Browse to: <http://pipi.local:9000>
+Browse to: <http://pikan.local:9000>
 
 
 External references

@@ -68,19 +68,19 @@ $navbar-background-active: #142E54;
 #about {
   .bio, .work {
     font-family: Georgia, "Times New Roman", Times, serif;
+
+    .row {
+      margin-top: 2em;
+      margin-bottom: 2em;
+    }
   }
 
   .bio {
-    margin-top: 3em;
-    margin-bottom: 2em;
-
     font-size: 22px;
     line-height: 1.7em;
   }
 
   .work {
-    margin-top: 10px;
-
     font-size: 20px;
     line-height: 1.5em;
 

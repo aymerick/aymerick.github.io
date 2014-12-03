@@ -57,7 +57,7 @@ Push `master` to remote:
 
 Checkout `master` in `_site` subdirectory:
 
-    $ git clone git@github.com:aymerick/aymerick.github.io.git -b master `_site`
+    $ git clone git@github.com:aymerick/aymerick.github.io.git -b master _site
 
 References
 ==========

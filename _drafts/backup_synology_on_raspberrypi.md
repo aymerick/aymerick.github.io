@@ -17,6 +17,11 @@ Setup raspberry
 ===============
 
 {% highlight bash %}
+$ sudo useradd synology -m -G users
+$ sudo passwd synology
+{% endhighlight %}
+
+{% highlight bash %}
 $ sudo mkdir /mnt/usbdrive
 
 $ sudo emacs /etc/fstab
@@ -30,11 +35,6 @@ $ sudo emacs /etc/fstab
 $ sudo mount -a
 $ sudo mkdir /mnt/usbdrive/chezak_backup
 $ sudo chown synology:users /mnt/usbdrive/chezak_backup
-{% endhighlight %}
-
-{% highlight bash %}
-$ useradd synology -m -G users
-$ passwd synology
 {% endhighlight %}
 
 

@@ -41,7 +41,7 @@
 .resume {
   position: relative;
   width: 100%;
-  margin: 1em 0 5em;
+  margin: 1em 0 2em;
   padding: 0;
   text-align: center;
   font-family: Helvetica, Arial, sans-serif; }
@@ -311,3 +311,10 @@
       left: 74%; }
       .resume .jeego:before {
         left: 65%; } }
+
+.about-button {
+  margin-top: 2em;
+  margin-bottom: 3em; }
+  @media (min-width: 575px) and (max-width: 887px) {
+    .about-button {
+      margin-top: 5em; } }

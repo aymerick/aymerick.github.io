@@ -1,6 +1,6 @@
 ---
 layout: post
-title: RSync server on a raspberry pi
+title: Backup a Synology NAS to a raspberry pi
 tags:
 - raspberrypi
 - pickup.local

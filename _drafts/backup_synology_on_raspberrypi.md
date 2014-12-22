@@ -24,11 +24,12 @@ $ sudo passwd synology
 {% highlight bash %}
 $ sudo mkdir /mnt/usbdrive
 
+$ sudo fdisk -l
 $ sudo emacs /etc/fstab
 {% endhighlight %}
 
 ```
-/dev/sda1       /mnt/usbdrive   ext4    defaults,user     0       0
+/dev/sdb1       /mnt/usbdrive   ext4    defaults,user     0       0
 ```
 
 {% highlight bash %}

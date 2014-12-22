@@ -94,7 +94,7 @@ user root
 <p>On Munin Server (pikan.local):</p>
 
 <div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/munin/munin.conf</code></pre></div>
-<div class="highlight"><pre><code class="language-text" data-lang="text">[pipi.local]
+<div class="highlight"><pre><code class="language-text" data-lang="text">[NODE-NAME.local]
     address 192.168.0.42
     use_node_name yes
 </code></pre></div>
@@ -102,11 +102,11 @@ user root
 
 <p>Test:</p>
 
-<div class="highlight"><pre><code class="bash">pi@pikan:~<span class="nv">$ </span>telnet pipi.local 4949
+<div class="highlight"><pre><code class="bash">pi@pikan:~<span class="nv">$ </span>telnet NODE-NAME.local 4949
 Trying 192.168.0.42...
 Connected to 192.168.0.42.
 Escape character is <span class="s1">&#39;^]&#39;</span>.
-<span class="c"># munin node at pipi</span>
+<span class="c"># munin node at NODE-NAME</span>
 list
 cpu df df_inode entropy forks fw_packets if_err_eth0 if_eth0 interrupts irqstats load memory nfs4_client nfs_client nfsd nfsd4 ntp_kernel_err ntp_kernel_pll_freq ntp_kernel_pll_off ntp_offset open_files open_inodes pisense_clock pisense_temp proc_pri processes swap threads uptime users vmstat
 quit
@@ -115,9 +115,9 @@ pi@pikan:~<span class="nv">$ </span>telnet 192.168.0.42 4949
 Trying 192.168.0.42...
 Connected to 192.168.0.42.
 Escape character is <span class="s1">&#39;^]&#39;</span>.
-<span class="c"># munin node at pipi</span>
+<span class="c"># munin node at NODE-NAME</span>
 nodes
-pipi
+NODE-NAME
 .
 list
 cpu df df_inode entropy forks fw_packets if_err_eth0 if_eth0 interrupts irqstats load memory nfs4_client nfs_client nfsd nfsd4 ntp_kernel_err ntp_kernel_pll_freq ntp_kernel_pll_off ntp_offset open_files open_inodes pisense_clock pisense_temp proc_pri processes swap threads uptime users vmstat

@@ -53,8 +53,6 @@
                   
                     <li><a href="/tags/#raspberrypi-ref">#raspberrypi</a></li>
                   
-                    <li><a href="/tags/#piwi.local-ref">#piwi.local</a></li>
-                  
                 </ul>
               
               <p class="meta">19 Sep 2013</p>
@@ -121,7 +119,7 @@
 
 <div class="highlight"><pre><code class="bash"><span class="nv">$ </span>squeezelite-armv6hf -l
 <span class="nv">$ </span>squeezelite-armv6hf -o default:CARD<span class="o">=</span>ALSA -a 200
-<span class="nv">$ </span>squeezelite-armv6hf -n <span class="s2">&quot;Piwi&quot;</span> -a 200</code></pre></div>
+<span class="nv">$ </span>squeezelite-armv6hf -n <span class="s2">&quot;PI-NAME&quot;</span> -a 200</code></pre></div>
 
 <p>Install daemon:</p>
 
@@ -134,7 +132,7 @@
 <div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/init.d/squeezelite</code></pre></div>
 
 <p>Remove &#39;SLMAC&#39; stuff and set:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">SLOPTIONS=&quot;-a 200 -n Piwi&quot;
+<div class="highlight"><pre><code class="language-text" data-lang="text">SLOPTIONS=&quot;-a 200 -n PI-NAME&quot;
 </code></pre></div>
 <p>Start daemon:</p>
 

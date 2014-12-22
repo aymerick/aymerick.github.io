@@ -53,8 +53,6 @@
                   
                     <li><a href="/tags/#raspberrypi-ref">#raspberrypi</a></li>
                   
-                    <li><a href="/tags/#piwi.local-ref">#piwi.local</a></li>
-                  
                 </ul>
               
               <p class="meta">23 Sep 2013</p>
@@ -113,7 +111,7 @@
 <div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install vlc
 <span class="nv">$ </span>raspivid -o - -t 0 -w 640 -h 360 -fps 25 <span class="p">|</span> cvlc stream:///dev/stdin --sout <span class="s1">&#39;#standard{access=http,mux=ts,dst=:8090}&#39;</span> :demux<span class="o">=</span>h264</code></pre></div>
 
-<p>In VLC: Open Network URL =&gt; <a href="http://piwi.local:8090">http://piwi.local:8090</a></p>
+<p>In VLC: Open Network URL =&gt; <a href="http://IP:8090">http://IP:8090</a></p>
 
 <h1>MJPG Steamer</h1>
 

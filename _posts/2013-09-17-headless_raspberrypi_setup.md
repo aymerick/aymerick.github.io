@@ -77,7 +77,7 @@ $ sudo fdisk -l
 Expand partition on USB Stick:
 
 {% highlight bash %}
-  $ sudo fdisk /dev/sda
+$ sudo fdisk /dev/sda
 {% endhighlight %}
 
 Press `p`:
@@ -90,7 +90,7 @@ Press `p`:
 
 Note the start of `/dev/sda2`: `122880`.
 
-Press `d` and then type `2` and then hit `return` to delete the `sda2` partition.
+Press `d`, type `2` and then hit `return` to delete the `sda2` partition.
 
 Then create a new partition (but leave 10Mb free):
 
@@ -117,22 +117,22 @@ Press `w` to commit changes and exit fdisk.
 Reboot the raspberry:
 
 {% highlight bash %}
-  $ sudo reboot
+$ sudo reboot
 {% endhighlight %}
 
 Resize the FS:
 
 {% highlight bash %}
-  $ e2fsck -f /dev/sda2
-  $ sudo resize2fs /dev/sda2
+$ e2fsck -f /dev/sda2
+$ sudo resize2fs /dev/sda2
 {% endhighlight %}
 
 Convert the partition table from DOS to GPT:
 
 {% highlight bash %}
-  $ sudo apt-get update
-  $ sudo apt-get install gdisk
-  $ sudo gdisk /dev/sda
+$ sudo apt-get update
+$ sudo apt-get install gdisk
+$ sudo gdisk /dev/sda
 {% endhighlight %}
 
 ```
@@ -166,10 +166,10 @@ Convert the partition table from DOS to GPT:
   The operation has completed successfully.
 ```
 
-Now remove USB stick, than re-plug it.
+Now remove USB stick, then re-plug it.
 
 {% highlight bash %}
-  $ sudo gdisk /dev/sda
+$ sudo gdisk /dev/sda
 {% endhighlight %}
 
 ```
@@ -197,7 +197,7 @@ Now remove USB stick, than re-plug it.
 Note the `Partition unique GUID`: D7BBB26D-DD33-4333-8CF3-0AA7F3517B48
 
 {% highlight bash %}
-  $ sudo emacs /boot/cmdline.txt
+$ sudo emacs /boot/cmdline.txt
 {% endhighlight %}
 
 ```
@@ -205,7 +205,7 @@ Note the `Partition unique GUID`: D7BBB26D-DD33-4333-8CF3-0AA7F3517B48
 ```
 
 {% highlight bash %}
-  $ sudo reboot
+$ sudo reboot
 {% endhighlight %}
 
 External References:

@@ -120,7 +120,7 @@
 </code></pre></div>
 <p>Note the start of <code>/dev/sda2</code>: <code>122880</code>.</p>
 
-<p>Press <code>d</code> and then type <code>2</code> and then hit <code>return</code> to delete the <code>sda2</code> partition.</p>
+<p>Press <code>d</code>, type <code>2</code> and then hit <code>return</code> to delete the <code>sda2</code> partition.</p>
 
 <p>Then create a new partition (but leave 10Mb free):</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">  Command (m for help): n
@@ -145,13 +145,13 @@
 <p>Resize the FS:</p>
 
 <div class="highlight"><pre><code class="bash"><span class="nv">$ </span>e2fsck -f /dev/sda2
-  <span class="nv">$ </span>sudo resize2fs /dev/sda2</code></pre></div>
+<span class="nv">$ </span>sudo resize2fs /dev/sda2</code></pre></div>
 
 <p>Convert the partition table from DOS to GPT:</p>
 
 <div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get update
-  <span class="nv">$ </span>sudo apt-get install gdisk
-  <span class="nv">$ </span>sudo gdisk /dev/sda</code></pre></div>
+<span class="nv">$ </span>sudo apt-get install gdisk
+<span class="nv">$ </span>sudo gdisk /dev/sda</code></pre></div>
 <div class="highlight"><pre><code class="language-text" data-lang="text">  GPT fdisk (gdisk) version 0.8.5
 
   Partition table scan:
@@ -181,7 +181,7 @@
   OK; writing new GUID partition table (GPT) to /dev/sda.
   The operation has completed successfully.
 </code></pre></div>
-<p>Now remove USB stick, than re-plug it.</p>
+<p>Now remove USB stick, then re-plug it.</p>
 
 <div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo gdisk /dev/sda</code></pre></div>
 <div class="highlight"><pre><code class="language-text" data-lang="text">  GPT fdisk (gdisk) version 0.8.5

@@ -95,7 +95,7 @@
 
 <p>Connect the USB stick.</p>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>ddiskutil list</code></pre></div>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>diskutil list</code></pre></div>
 
 <p>Look for the new device that wasn&#39;t listed last time (eg: <code>/dev/disk1</code>).</p>
 
@@ -107,101 +107,94 @@
 <p>Insert the USB stick in the raspberry pi.</p>
 
 <div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo fdisk -l</code></pre></div>
-
-<p>Disk /dev/sda: 32.0 GB, 32015679488 bytes</p>
-
+<div class="highlight"><pre><code class="language-text" data-lang="text">  Disk /dev/sda: 32.0 GB, 32015679488 bytes
+</code></pre></div>
 <p>Expand partition on USB Stick:</p>
 
-<p>$ sudo fdisk /dev/sda</p>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo fdisk /dev/sda</code></pre></div>
 
 <p>Press <code>p</code>:</p>
-
-<p>Device Boot      Start         End      Blocks   Id  System
+<div class="highlight"><pre><code class="language-text" data-lang="text">  Device Boot      Start         End      Blocks   Id  System
   /dev/sda1         8192      122879       57344    c  W95 FAT32 (LBA)
-  /dev/sda2       122880     6399999     3138560   83  Linux</p>
-
+  /dev/sda2       122880     6399999     3138560   83  Linux
+</code></pre></div>
 <p>Note the start of <code>/dev/sda2</code>: <code>122880</code>.</p>
 
 <p>Press <code>d</code> and then type <code>2</code> and then hit <code>return</code> to delete the <code>sda2</code> partition.</p>
 
 <p>Then create a new partition (but leave 10Mb free):</p>
-
-<p>Command (m for help): n
+<div class="highlight"><pre><code class="language-text" data-lang="text">  Command (m for help): n
   Partition type:
      p   primary (1 primary, 0 extended, 3 free)
      e   extended
   Select (default p): p
   Partition number (1-4, default 2): 2
   First sector (2048-62530623, default 2048): 122880
-  Last sector, +sectors or +size{K,M,G} (122880-62530623, default 62530623): 62528623</p>
-
+  Last sector, +sectors or +size{K,M,G} (122880-62530623, default 62530623): 62528623
+</code></pre></div>
 <p>The math:</p>
-
-<p>10240000 / 512 = 2000 sectors
-  62530623 - 2000 = 62528623</p>
-
+<div class="highlight"><pre><code class="language-text" data-lang="text">  10240000 / 512 = 2000 sectors
+  62530623 - 2000 = 62528623
+</code></pre></div>
 <p>Press <code>w</code> to commit changes and exit fdisk.</p>
 
 <p>Reboot the raspberry:</p>
 
-<p>$ sudo reboot</p>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo reboot</code></pre></div>
 
 <p>Resize the FS:</p>
 
-<p>$ e2fsck -f /dev/sda2
-  $ sudo resize2fs /dev/sda2</p>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>e2fsck -f /dev/sda2
+  <span class="nv">$ </span>sudo resize2fs /dev/sda2</code></pre></div>
 
 <p>Convert the partition table from DOS to GPT:</p>
 
-<p>$ sudo apt-get update
-  $ sudo apt-get install gdisk
-  $ sudo gdisk /dev/sda</p>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get update
+  <span class="nv">$ </span>sudo apt-get install gdisk
+  <span class="nv">$ </span>sudo gdisk /dev/sda</code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  GPT fdisk (gdisk) version 0.8.5
 
-<p>GPT fdisk (gdisk) version 0.8.5</p>
-
-<p>Partition table scan:
+  Partition table scan:
     MBR: MBR only
     BSD: not present
     APM: not present
-    GPT: not present</p>
+    GPT: not present
 
-<hr>
 
-<p>Found invalid GPT and valid MBR; converting MBR to GPT format.
+  ***************************************************************
+  Found invalid GPT and valid MBR; converting MBR to GPT format.
   THIS OPERATION IS POTENTIALLY DESTRUCTIVE! Exit by typing &#39;q&#39; if
-  you don&#39;t want to convert your MBR partitions to GPT format!</p>
+  you don&#39;t want to convert your MBR partitions to GPT format!
+  ***************************************************************
 
-<hr>
+  Command (? for help): r
 
-<p>Command (? for help): r</p>
+  Recovery/transformation command (? for help): f
+  Warning! This will destroy the currently defined partitions! Proceed? (Y/N): Y
 
-<p>Recovery/transformation command (? for help): f
-  Warning! This will destroy the currently defined partitions! Proceed? (Y/N): Y</p>
+  Recovery/transformation command (? for help): w
 
-<p>Recovery/transformation command (? for help): w</p>
+  Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
+  PARTITIONS!!
 
-<p>Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
-  PARTITIONS!!</p>
-
-<p>Do you want to proceed? (Y/N): Y
+  Do you want to proceed? (Y/N): Y
   OK; writing new GUID partition table (GPT) to /dev/sda.
-  The operation has completed successfully.</p>
-
+  The operation has completed successfully.
+</code></pre></div>
 <p>Now remove USB stick, than re-plug it.</p>
 
-<p>$ sudo gdisk /dev/sda</p>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo gdisk /dev/sda</code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  GPT fdisk (gdisk) version 0.8.5
 
-<p>GPT fdisk (gdisk) version 0.8.5</p>
-
-<p>Partition table scan:
+  Partition table scan:
     MBR: protective
     BSD: not present
     APM: not present
-    GPT: present</p>
+    GPT: present
 
-<p>Found valid GPT with protective MBR; using GPT.</p>
+  Found valid GPT with protective MBR; using GPT.
 
-<p>Command (? for help): i
+  Command (? for help): i
   Partition number (1-2): 2
   Partition GUID code: 0FC63DAF-8483-4772-8E79-3D69D8477DE4 (Linux filesystem)
   Partition unique GUID: D7BBB26D-DD33-4333-8CF3-0AA7F3517B48
@@ -209,15 +202,14 @@
   Last sector: 62528623 (at 29.8 GiB)
   Partition size: 62405744 sectors (29.8 GiB)
   Attribute flags: 0000000000000000
-  Partition name: &#39;Linux filesystem&#39;</p>
-
+  Partition name: &#39;Linux filesystem&#39;
+</code></pre></div>
 <p>Note the <code>Partition unique GUID</code>: D7BBB26D-DD33-4333-8CF3-0AA7F3517B48</p>
 
-<p>$ sudo emacs /boot/cmdline.txt</p>
-
-<p>dwc<em>otg.lpm</em>enable=0 console=ttyAMA0,115200 console=tty1 root=PARTUUID=D7BBB26D-DD33-4333-8CF3-0AA7F3517B48 rootfstype=ext4 elevator=deadline rootwait</p>
-
-<p>$ sudo reboot</p>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /boot/cmdline.txt</code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  dwc_otg.lpm_enable=0 console=ttyAMA0,115200 console=tty1 root=PARTUUID=D7BBB26D-DD33-4333-8CF3-0AA7F3517B48 rootfstype=ext4 elevator=deadline rootwait
+</code></pre></div>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo reboot</code></pre></div>
 
 <p>External References:</p>
 

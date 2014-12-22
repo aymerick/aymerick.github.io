@@ -38,8 +38,8 @@ External References:
 - <http://elinux.org/RPi_Easy_SD_Card_Setup#Using_command_line_tools_.282.29>
 
 
-Optional: USB Stick setup on Mac OS X
-======================================
+Optional: USB Stick setup
+=========================
 
 This is an optional step if you want to run the system on an USB stick (the SD card will only by used to boot).
 

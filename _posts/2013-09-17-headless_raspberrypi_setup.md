@@ -52,7 +52,7 @@ $ diskutil list
 Connect the USB stick.
 
 {% highlight bash %}
-$ ddiskutil list
+$ diskutil list
 {% endhighlight %}
 
 Look for the new device that wasn't listed last time (eg: `/dev/disk1`).
@@ -70,17 +70,23 @@ Insert the USB stick in the raspberry pi.
 $ sudo fdisk -l
 {% endhighlight %}
 
+```
   Disk /dev/sda: 32.0 GB, 32015679488 bytes
+```
 
 Expand partition on USB Stick:
 
+{% highlight bash %}
   $ sudo fdisk /dev/sda
+{% endhighlight %}
 
 Press `p`:
 
+```
   Device Boot      Start         End      Blocks   Id  System
   /dev/sda1         8192      122879       57344    c  W95 FAT32 (LBA)
   /dev/sda2       122880     6399999     3138560   83  Linux
+```
 
 Note the start of `/dev/sda2`: `122880`.
 
@@ -88,6 +94,7 @@ Press `d` and then type `2` and then hit `return` to delete the `sda2` partition
 
 Then create a new partition (but leave 10Mb free):
 
+```
   Command (m for help): n
   Partition type:
      p   primary (1 primary, 0 extended, 3 free)
@@ -96,29 +103,39 @@ Then create a new partition (but leave 10Mb free):
   Partition number (1-4, default 2): 2
   First sector (2048-62530623, default 2048): 122880
   Last sector, +sectors or +size{K,M,G} (122880-62530623, default 62530623): 62528623
+```
 
 The math:
 
+```
   10240000 / 512 = 2000 sectors
   62530623 - 2000 = 62528623
+```
 
 Press `w` to commit changes and exit fdisk.
 
 Reboot the raspberry:
 
+{% highlight bash %}
   $ sudo reboot
+{% endhighlight %}
 
 Resize the FS:
 
+{% highlight bash %}
   $ e2fsck -f /dev/sda2
   $ sudo resize2fs /dev/sda2
+{% endhighlight %}
 
 Convert the partition table from DOS to GPT:
 
+{% highlight bash %}
   $ sudo apt-get update
   $ sudo apt-get install gdisk
   $ sudo gdisk /dev/sda
+{% endhighlight %}
 
+```
   GPT fdisk (gdisk) version 0.8.5
 
   Partition table scan:
@@ -147,12 +164,15 @@ Convert the partition table from DOS to GPT:
   Do you want to proceed? (Y/N): Y
   OK; writing new GUID partition table (GPT) to /dev/sda.
   The operation has completed successfully.
+```
 
 Now remove USB stick, than re-plug it.
 
+{% highlight bash %}
   $ sudo gdisk /dev/sda
+{% endhighlight %}
 
-
+```
   GPT fdisk (gdisk) version 0.8.5
 
   Partition table scan:
@@ -172,14 +192,21 @@ Now remove USB stick, than re-plug it.
   Partition size: 62405744 sectors (29.8 GiB)
   Attribute flags: 0000000000000000
   Partition name: 'Linux filesystem'
+```
 
 Note the `Partition unique GUID`: D7BBB26D-DD33-4333-8CF3-0AA7F3517B48
 
+{% highlight bash %}
   $ sudo emacs /boot/cmdline.txt
+{% endhighlight %}
 
+```
   dwc_otg.lpm_enable=0 console=ttyAMA0,115200 console=tty1 root=PARTUUID=D7BBB26D-DD33-4333-8CF3-0AA7F3517B48 rootfstype=ext4 elevator=deadline rootwait
+```
 
+{% highlight bash %}
   $ sudo reboot
+{% endhighlight %}
 
 External References:
 

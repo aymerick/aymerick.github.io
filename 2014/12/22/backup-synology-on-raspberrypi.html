@@ -71,8 +71,12 @@
 
 <h1>Setup raspberry</h1>
 
+<p>Add a user for <code>synology</code>:</p>
+
 <div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo useradd synology -m -G users
 <span class="nv">$ </span>sudo passwd synology</code></pre></div>
+
+<p>Mount USB drive on <code>/mnt/usbdrive</code>:</p>
 
 <div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mkdir /mnt/usbdrive
 
@@ -80,8 +84,11 @@
 <span class="nv">$ </span>sudo emacs /etc/fstab</code></pre></div>
 <div class="highlight"><pre><code class="language-text" data-lang="text">/dev/sdb1       /mnt/usbdrive   ext4    defaults,user     0       0
 </code></pre></div>
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mount -a
-<span class="nv">$ </span>sudo mkdir /mnt/usbdrive/chezak_backup
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mount -a</code></pre></div>
+
+<p>Create bakckup directory:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mkdir /mnt/usbdrive/chezak_backup
 <span class="nv">$ </span>sudo chown synology:users /mnt/usbdrive/chezak_backup</code></pre></div>
 
 <h1>Configure synology</h1>

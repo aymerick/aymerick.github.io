@@ -3,7 +3,6 @@ layout: post
 title: BerryCam on Raspberry Pi
 tags:
 - raspberrypi
-- piwi.local
 ---
 
 No video, only photo :/

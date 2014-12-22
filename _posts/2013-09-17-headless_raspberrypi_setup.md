@@ -24,7 +24,7 @@ Look for the new device that wasn't listed last time (eg: `/dev/disk2s1`).
 
 {% highlight bash %}
 $ sudo diskutil unmount /dev/disk2s1
-$ sudo dd bs=1m if=~/Downloads/2013-05-25-wheezy-raspbian.img of=/dev/rdisk2
+$ sudo dd bs=1m if=~/Downloads/2014-09-09-wheezy-raspbian.img of=/dev/rdisk2
 $ sudo diskutil eject /dev/rdisk2
 {% endhighlight %}
 
@@ -36,6 +36,156 @@ Login is `pi` and password is `raspberry`.
 External References:
 
 - <http://elinux.org/RPi_Easy_SD_Card_Setup#Using_command_line_tools_.282.29>
+
+
+Optional: USB Stick setup on Mac OS X
+======================================
+
+This is an optional step if you want to run the system on an USB stick (the SD card will only by used to boot).
+
+So let's install raspbian on the USB stick.
+
+{% highlight bash %}
+$ diskutil list
+{% endhighlight %}
+
+Connect the USB stick.
+
+{% highlight bash %}
+$ ddiskutil list
+{% endhighlight %}
+
+Look for the new device that wasn't listed last time (eg: `/dev/disk1`).
+
+{% highlight bash %}
+$ diskutil unmountDisk /dev/disk1
+$ sudo dd bs=1m if=~/Downloads/2014-09-09-wheezy-raspbian.img of=/dev/disk1
+{% endhighlight %}
+
+Eject the USB stick.
+
+Insert the USB stick in the raspberry pi.
+
+{% highlight bash %}
+$ sudo fdisk -l
+{% endhighlight %}
+
+  Disk /dev/sda: 32.0 GB, 32015679488 bytes
+
+Expand partition on USB Stick:
+
+  $ sudo fdisk /dev/sda
+
+Press `p`:
+
+  Device Boot      Start         End      Blocks   Id  System
+  /dev/sda1         8192      122879       57344    c  W95 FAT32 (LBA)
+  /dev/sda2       122880     6399999     3138560   83  Linux
+
+Note the start of `/dev/sda2`: `122880`.
+
+Press `d` and then type `2` and then hit `return` to delete the `sda2` partition.
+
+Then create a new partition (but leave 10Mb free):
+
+  Command (m for help): n
+  Partition type:
+     p   primary (1 primary, 0 extended, 3 free)
+     e   extended
+  Select (default p): p
+  Partition number (1-4, default 2): 2
+  First sector (2048-62530623, default 2048): 122880
+  Last sector, +sectors or +size{K,M,G} (122880-62530623, default 62530623): 62528623
+
+The math:
+
+  10240000 / 512 = 2000 sectors
+  62530623 - 2000 = 62528623
+
+Press `w` to commit changes and exit fdisk.
+
+Reboot the raspberry:
+
+  $ sudo reboot
+
+Resize the FS:
+
+  $ e2fsck -f /dev/sda2
+  $ sudo resize2fs /dev/sda2
+
+Convert the partition table from DOS to GPT:
+
+  $ sudo apt-get update
+  $ sudo apt-get install gdisk
+  $ sudo gdisk /dev/sda
+
+  GPT fdisk (gdisk) version 0.8.5
+
+  Partition table scan:
+    MBR: MBR only
+    BSD: not present
+    APM: not present
+    GPT: not present
+
+
+  ***************************************************************
+  Found invalid GPT and valid MBR; converting MBR to GPT format.
+  THIS OPERATION IS POTENTIALLY DESTRUCTIVE! Exit by typing 'q' if
+  you don't want to convert your MBR partitions to GPT format!
+  ***************************************************************
+
+  Command (? for help): r
+
+  Recovery/transformation command (? for help): f
+  Warning! This will destroy the currently defined partitions! Proceed? (Y/N): Y
+
+  Recovery/transformation command (? for help): w
+
+  Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
+  PARTITIONS!!
+
+  Do you want to proceed? (Y/N): Y
+  OK; writing new GUID partition table (GPT) to /dev/sda.
+  The operation has completed successfully.
+
+Now remove USB stick, than re-plug it.
+
+  $ sudo gdisk /dev/sda
+
+
+  GPT fdisk (gdisk) version 0.8.5
+
+  Partition table scan:
+    MBR: protective
+    BSD: not present
+    APM: not present
+    GPT: present
+
+  Found valid GPT with protective MBR; using GPT.
+
+  Command (? for help): i
+  Partition number (1-2): 2
+  Partition GUID code: 0FC63DAF-8483-4772-8E79-3D69D8477DE4 (Linux filesystem)
+  Partition unique GUID: D7BBB26D-DD33-4333-8CF3-0AA7F3517B48
+  First sector: 122880 (at 60.0 MiB)
+  Last sector: 62528623 (at 29.8 GiB)
+  Partition size: 62405744 sectors (29.8 GiB)
+  Attribute flags: 0000000000000000
+  Partition name: 'Linux filesystem'
+
+Note the `Partition unique GUID`: D7BBB26D-DD33-4333-8CF3-0AA7F3517B48
+
+  $ sudo emacs /boot/cmdline.txt
+
+  dwc_otg.lpm_enable=0 console=ttyAMA0,115200 console=tty1 root=PARTUUID=D7BBB26D-DD33-4333-8CF3-0AA7F3517B48 rootfstype=ext4 elevator=deadline rootwait
+
+  $ sudo reboot
+
+External References:
+
+- <http://www.raspipress.com/2013/05/install-and-run-raspbian-from-a-usb-flash-drive/>
+- <https://samhobbs.co.uk/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive>
+- <http://blog.krastanov.org/2014/01/30/booting-pi-reliably-from-usb/>
 
 
 Raspi config

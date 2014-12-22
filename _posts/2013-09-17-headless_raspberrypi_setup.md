@@ -303,11 +303,6 @@ $ emacs /home/pi/.ssh/authorized_keys
 
 Add content of `id_rsa.pub`.
 
-To permit login between pis, on mac:
-{% highlight bash %}
-$ scp id_rsa.pub pi@<IP>:/home/pi/.ssh/
-{% endhighlight %}
-
 
 avahi/netatalk setup
 ====================

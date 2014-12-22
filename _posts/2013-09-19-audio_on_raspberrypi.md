@@ -3,7 +3,6 @@ layout: post
 title: Audio on Raspberry Pi
 tags:
 - raspberrypi
-- piwi.local
 ---
 
 Prerequisites
@@ -91,7 +90,7 @@ Test with:
 {% highlight bash %}
 $ squeezelite-armv6hf -l
 $ squeezelite-armv6hf -o default:CARD=ALSA -a 200
-$ squeezelite-armv6hf -n "Piwi" -a 200
+$ squeezelite-armv6hf -n "PI-NAME" -a 200
 {% endhighlight %}
 
 Install daemon:
@@ -111,7 +110,7 @@ $ sudo emacs /etc/init.d/squeezelite
 Remove 'SLMAC' stuff and set:
 
 ```
-SLOPTIONS="-a 200 -n Piwi"
+SLOPTIONS="-a 200 -n PI-NAME"
 ```
 
 Start daemon:

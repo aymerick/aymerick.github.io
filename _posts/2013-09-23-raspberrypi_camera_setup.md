@@ -3,7 +3,6 @@ layout: post
 title: Raspberry Pi Camera setup
 tags:
 - raspberrypi
-- piwi.local
 ---
 
 Prerequisites
@@ -81,7 +80,7 @@ $ sudo apt-get install vlc
 $ raspivid -o - -t 0 -w 640 -h 360 -fps 25 | cvlc stream:///dev/stdin --sout '#standard{access=http,mux=ts,dst=:8090}' :demux=h264
 {% endhighlight %}
 
-In VLC: Open Network URL => <http://piwi.local:8090>
+In VLC: Open Network URL => <http://IP:8090>
 
 
 MJPG Steamer

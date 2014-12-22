@@ -3,7 +3,6 @@ layout: post
 title: minidlna on Raspberry Pi
 tags:
 - raspberrypi
-- pipi.local
 - freebox
 ---
 

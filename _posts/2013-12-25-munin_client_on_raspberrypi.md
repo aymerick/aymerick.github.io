@@ -62,7 +62,7 @@ $ sudo emacs /etc/munin/munin.conf
 {% endhighlight %}
 
 ```
-[pipi.local]
+[NODE-NAME.local]
     address 192.168.0.42
     use_node_name yes
 ```
@@ -74,11 +74,11 @@ $ sudo service munin restart
 Test:
 
 {% highlight bash %}
-pi@pikan:~$ telnet pipi.local 4949
+pi@pikan:~$ telnet NODE-NAME.local 4949
 Trying 192.168.0.42...
 Connected to 192.168.0.42.
 Escape character is '^]'.
-# munin node at pipi
+# munin node at NODE-NAME
 list
 cpu df df_inode entropy forks fw_packets if_err_eth0 if_eth0 interrupts irqstats load memory nfs4_client nfs_client nfsd nfsd4 ntp_kernel_err ntp_kernel_pll_freq ntp_kernel_pll_off ntp_offset open_files open_inodes pisense_clock pisense_temp proc_pri processes swap threads uptime users vmstat
 quit
@@ -87,9 +87,9 @@ pi@pikan:~$ telnet 192.168.0.42 4949
 Trying 192.168.0.42...
 Connected to 192.168.0.42.
 Escape character is '^]'.
-# munin node at pipi
+# munin node at NODE-NAME
 nodes
-pipi
+NODE-NAME
 .
 list
 cpu df df_inode entropy forks fw_packets if_err_eth0 if_eth0 interrupts irqstats load memory nfs4_client nfs_client nfsd nfsd4 ntp_kernel_err ntp_kernel_pll_freq ntp_kernel_pll_off ntp_offset open_files open_inodes pisense_clock pisense_temp proc_pri processes swap threads uptime users vmstat

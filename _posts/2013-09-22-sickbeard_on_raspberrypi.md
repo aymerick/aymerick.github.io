@@ -26,7 +26,7 @@ $ python SickBeard.py
 Configure
 =========
 
-Browse to: <http://pipi.local:8081>
+Browse to: <http://IP:8081>
 
 Config > General
 ----------------

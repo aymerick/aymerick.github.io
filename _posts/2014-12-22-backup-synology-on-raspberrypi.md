@@ -16,10 +16,14 @@ Prerequisites
 Setup raspberry
 ===============
 
+Add a user for `synology`:
+
 {% highlight bash %}
 $ sudo useradd synology -m -G users
 $ sudo passwd synology
 {% endhighlight %}
+
+Mount USB drive on `/mnt/usbdrive`:
 
 {% highlight bash %}
 $ sudo mkdir /mnt/usbdrive
@@ -34,6 +38,11 @@ $ sudo emacs /etc/fstab
 
 {% highlight bash %}
 $ sudo mount -a
+{% endhighlight %}
+
+Create bakckup directory:
+
+{% highlight bash %}
 $ sudo mkdir /mnt/usbdrive/chezak_backup
 $ sudo chown synology:users /mnt/usbdrive/chezak_backup
 {% endhighlight %}

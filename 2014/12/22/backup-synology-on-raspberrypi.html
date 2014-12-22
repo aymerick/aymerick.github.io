@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>aymerick - Stuff</title>
+        <title>aymerick - Backup a Synology NAS to a raspberry pi</title>
         <meta name="description" content="The personal website of a generalist developer, based in France.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -16,7 +16,7 @@
         
     </head>
 
-    <body id="stuff">
+    <body id="">
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
           <div class="container-fluid">
             <div class="navbar-header">
@@ -35,7 +35,7 @@
                 <li class="">
                   <a href="/about.html">About</a>
                 </li>
-                <li class="active">
+                <li class="">
                   <a href="/stuff.html">Stuff</a>
                 </li>
               </ul>
@@ -46,44 +46,85 @@
         <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1>Stuff</h1>
-            <h4 class="text-muted">Sometimes I try to write a blog post, or a wiki page, or... I don't know, just... stuff</h4>
-            <p>
-                Feel free to <a href="https://github.com/aymerick/aymerick.github.io">enter an Issue or submit a Pull Request</a>. Don't hesitate to correct my poor english :)
-            </p>
-            <ul class="posts">
+            <div class="post-header">
+              <h2 class='post-title'>Backup a Synology NAS to a raspberry pi</h2>
               
-                <li><span>22 Dec 2014</span> &raquo; <a href="/2014/12/22/backup-synology-on-raspberrypi.html">Backup a Synology NAS to a raspberry pi</a></li>
+                <ul class="post-tags">
+                  
+                    <li><a href="/tags/#raspberrypi-ref">#raspberrypi</a></li>
+                  
+                    <li><a href="/tags/#pickup.local-ref">#pickup.local</a></li>
+                  
+                    <li><a href="/tags/#chezak.local-ref">#chezak.local</a></li>
+                  
+                </ul>
               
-                <li><span>22 Jul 2014</span> &raquo; <a href="/2014/07/22/jekyll-github-pages-bower-bootstrap.html">Your jekyll site hosted on github pages with bower support</a></li>
-              
-                <li><span>29 Jan 2014</span> &raquo; <a href="/2014/01/29/logitech_media_server_on_raspberrypi.html">Logitec Media Server on a raspberry pi</a></li>
-              
-                <li><span>25 Dec 2013</span> &raquo; <a href="/2013/12/25/munin_client_on_raspberrypi.html">Munin Client on a raspberry pi</a></li>
-              
-                <li><span>24 Dec 2013</span> &raquo; <a href="/2013/12/24/munin_server_on_raspberrypi.html">Munin Server on a Raspberry Pi</a></li>
-              
-                <li><span>23 Dec 2013</span> &raquo; <a href="/2013/12/23/nginx_on_raspberrypi.html">Nginx on a Raspberry Pi</a></li>
-              
-                <li><span>18 Nov 2013</span> &raquo; <a href="/2013/11/18/setup_go_language_workspace.html">Setup go language workspace</a></li>
-              
-                <li><span>24 Sep 2013</span> &raquo; <a href="/2013/09/24/go_language_on_raspberrypi.html">Go language on Raspberry Pi</a></li>
-              
-                <li><span>23 Sep 2013</span> &raquo; <a href="/2013/09/23/raspberrypi_camera_setup.html">Raspberry Pi Camera setup</a></li>
-              
-                <li><span>22 Sep 2013</span> &raquo; <a href="/2013/09/22/sickbeard_on_raspberrypi.html">Sickbeard on Raspberry Pi</a></li>
-              
-                <li><span>21 Sep 2013</span> &raquo; <a href="/2013/09/21/mini_dlna_on_raspberrypi.html">minidlna on Raspberry Pi</a></li>
-              
-                <li><span>20 Sep 2013</span> &raquo; <a href="/2013/09/20/nfs_client_on_raspberrypi.html">NFS Client on Raspberry Pi</a></li>
-              
-                <li><span>19 Sep 2013</span> &raquo; <a href="/2013/09/19/audio_on_raspberrypi.html">Audio on Raspberry Pi</a></li>
-              
-                <li><span>18 Sep 2013</span> &raquo; <a href="/2013/09/18/wifi_dongle_on_raspberrypi.html">TL-WN725N wifi dongle on Raspberry Pi</a></li>
-              
-                <li><span>17 Sep 2013</span> &raquo; <a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
-              
-            </ul>
+              <p class="meta">22 Dec 2014</p>
+            </div>
+
+            <div class="post">
+            <h1>Prerequisites</h1>
+
+<ul>
+<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+</ul>
+
+<h1>Setup raspberry</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo useradd synology -m -G users
+<span class="nv">$ </span>sudo passwd synology</code></pre></div>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mkdir /mnt/usbdrive
+
+<span class="nv">$ </span>sudo fdisk -l
+<span class="nv">$ </span>sudo emacs /etc/fstab</code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">/dev/sdb1       /mnt/usbdrive   ext4    defaults,user     0       0
+</code></pre></div>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mount -a
+<span class="nv">$ </span>sudo mkdir /mnt/usbdrive/chezak_backup
+<span class="nv">$ </span>sudo chown synology:users /mnt/usbdrive/chezak_backup</code></pre></div>
+
+<h1>Configure synology</h1>
+
+<blockquote>
+<p>Backup and Restore
+Create: Databackup task</p>
+</blockquote>
+
+<p>Task: Pickup Full Backup</p>
+
+<p>Network Backup (rsync-compatible server)</p>
+
+<ul>
+<li>Server name of IP address: 192.168.0.41</li>
+<li>Username: synology</li>
+<li>Password: *********</li>
+<li>Backup module: /mnt/usbdrive/</li>
+<li>Directory: chezak_backup</li>
+</ul>
+
+<p>Check:
+- Enable transfer encryption
+- Enable metadata backup</p>
+
+<p>Select to backup:
+- Configuration
+- Shared folder (all)</p>
+
+<p>Enable backup schedule
+- Day: Daily
+- Hour(s): 03
+- Minute: 30</p>
+
+<h1>External references</h1>
+
+<ul>
+<li><a href="http://www.vdsar.net/rsync-backup-synology-remote-raspberry-pi/">http://www.vdsar.net/rsync-backup-synology-remote-raspberry-pi/</a></li>
+<li><a href="http://www.synology.com/en-us/support/tutorials/461">http://www.synology.com/en-us/support/tutorials/461</a></li>
+<li><a href="http://www.prodeta.nl/synology-network-backups-to-rsync-compatible-servers/">http://www.prodeta.nl/synology-network-backups-to-rsync-compatible-servers/</a></li>
+</ul>
+
+            </div>
         </div>
     </div>
 </div>

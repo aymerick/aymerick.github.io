@@ -42,31 +42,34 @@ $ sudo chown synology:users /mnt/usbdrive/chezak_backup
 Configure synology
 ==================
 
-> Backup and Restore
-> Create: Databackup task
+Go to `Backup and Restore` then
 
-Task: Pickup Full Backup
+  - Create: Databackup task
+  - Task: Pickup Full Backup
 
 Network Backup (rsync-compatible server)
 
-- Server name of IP address: 192.168.0.41
-- Username: synology
-- Password: *********
-- Backup module: /mnt/usbdrive/
-- Directory: chezak_backup
+  - Server name of IP address: 192.168.0.41
+  - Username: synology
+  - Password: *********
+  - Backup module: /mnt/usbdrive/
+  - Directory: chezak_backup
 
 Check:
-- Enable transfer encryption
-- Enable metadata backup
+
+  - Enable transfer encryption
+  - Enable metadata backup
 
 Select to backup:
-- Configuration
-- Shared folder (all)
+
+  - Configuration
+  - Shared folder (all)
 
 Enable backup schedule
-- Day: Daily
-- Hour(s): 03
-- Minute: 30
+
+  - Day: Daily
+  - Hour(s): 03
+  - Minute: 30
 
 
 External references

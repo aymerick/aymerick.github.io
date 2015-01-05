@@ -1,5 +1,6 @@
 ---
 layout: post
+kind: post
 title: Setup go language workspace
 tags:
 - dev

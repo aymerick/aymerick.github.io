@@ -1,5 +1,6 @@
 ---
 layout: post
+kind: post
 title: Nginx on a Raspberry Pi
 tags:
 - raspberrypi

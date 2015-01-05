@@ -1,5 +1,6 @@
 ---
 layout: post
+kind: post
 title: Backup a Synology NAS to a raspberry pi
 tags:
 - raspberrypi

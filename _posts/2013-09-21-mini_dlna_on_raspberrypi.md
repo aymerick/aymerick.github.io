@@ -1,5 +1,6 @@
 ---
 layout: post
+kind: post
 title: minidlna on Raspberry Pi
 tags:
 - raspberrypi

@@ -1,5 +1,6 @@
 ---
 layout: post
+kind: post
 title: Raspberry Pi Camera setup
 tags:
 - raspberrypi

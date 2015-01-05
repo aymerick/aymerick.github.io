@@ -1,5 +1,6 @@
 ---
 layout: post
+kind: post
 title: NFS Client on Raspberry Pi
 tags:
 - raspberrypi

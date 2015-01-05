@@ -1,6 +1,8 @@
 ---
 layout: post
+kind: post
 title: La plateforme jeenode
+description: En ce début d'année 2015, installons des JeeNode partout dans la maison.
 tags:
 - jeenode
 ---

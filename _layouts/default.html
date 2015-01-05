@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>aymerick - {{ page.title }}</title>
+        <title>{{ page.title }}</title>
         <meta name="description" content="The personal website of a generalist developer, based in France.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -16,6 +16,28 @@
         {% for css_name in page.extra_css %}
             <link rel="stylesheet" href="/assets/css/{{ css_name }}">
         {% endfor %}
+
+        <!-- OG meta -->
+        <meta property="og:title" content="{{ page.title }}" />
+        {% if page.description %}
+          <meta property="og:description" content="{{ page.description }}" />
+        {% endif %}
+
+        {% if page.kind == 'post' %}
+          <meta property="og:type" content="article" />
+          {% if page.categories %}
+            {% for category in page.categories limit:1 %}
+              <meta property="article:section" content="{{ category }}" />
+            {% endfor %}
+          {% endif %}
+          {% if page.tags %}
+            {% for tag in page.tags %}
+              <meta property="article:tag" content="{{ tag }}" />
+            {% endfor %}
+          {% endif %}
+        {% else %}
+          <meta property="og:type" content="website" />
+        {% endif %}
     </head>
 
     <body id="{{ page.body-id }}">

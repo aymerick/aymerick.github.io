@@ -1,5 +1,6 @@
 ---
 layout: post
+kind: post
 title: Logitec Media Server on a raspberry pi
 tags:
 - raspberrypi

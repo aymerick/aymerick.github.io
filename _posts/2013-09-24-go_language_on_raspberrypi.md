@@ -1,5 +1,6 @@
 ---
 layout: post
+kind: post
 title: Go language on Raspberry Pi
 tags:
 - raspberrypi

@@ -1,5 +1,6 @@
 ---
 layout: post
+kind: post
 title: Sickbeard on Raspberry Pi
 tags:
 - raspberrypi

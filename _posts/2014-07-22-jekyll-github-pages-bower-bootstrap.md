@@ -1,5 +1,6 @@
 ---
 layout: post
+kind: post
 title: Your jekyll site hosted on github pages with bower support
 ---
 

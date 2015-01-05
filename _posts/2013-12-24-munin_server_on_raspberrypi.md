@@ -1,5 +1,6 @@
 ---
 layout: post
+kind: post
 title: Munin Server on a Raspberry Pi
 tags:
 - raspberrypi

@@ -1,5 +1,6 @@
 ---
 layout: post
+kind: post
 title: Munin Client on a raspberry pi
 tags:
 - raspberrypi

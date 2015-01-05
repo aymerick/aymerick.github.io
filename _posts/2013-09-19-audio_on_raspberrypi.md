@@ -1,5 +1,6 @@
 ---
 layout: post
+kind: post
 title: Audio on Raspberry Pi
 tags:
 - raspberrypi

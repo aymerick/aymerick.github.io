@@ -1,5 +1,6 @@
 ---
 layout: post
+kind: post
 title: Headless Raspberry Pi setup
 tags:
 - raspberrypi

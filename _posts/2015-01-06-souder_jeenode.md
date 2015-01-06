@@ -20,7 +20,7 @@ Alors attention, que çà soit bien clair, on dit bien **souder** et pas **soudr
 Si jamais tu veux la version originale, tu peux aller sur [le blog de Jean-Claude](http://jeelabs.org/2010/09/26/assembling-the-jeenode-v5/).
 
 
-### Ces Slaves savent souder sans soucis, si-si
+### C'est sûr ces Slaves savent souder sans soucis
 
 Allez, on y va, on se lance, on y croit, on n'a pas peur.
 
@@ -40,11 +40,11 @@ Non mais à la base, la soudure c'est pas mon truc, alors forcément si en plus 
 
 Bref, gardons çà pour plus tard, et continuons.
 
-Commençons donc par éliminer la résistance. Met la résistance dans son emplacement **R1**, retourne le tout, et soude les pates:
+Commençons donc par la résistance. Met la résistance dans son emplacement **R1**, retourne le tout, et soude les pates:
 
 ![Jeenode Kit][4]
 
-Ensuite tu peux couper les pates (admire au passage la mise en scène avec la pince juste à côté):
+Ensuite tu peux couper les pates (admire au passage la mise en scène avec la pince sur cette photo):
 
 ![Jeenode Kit][5]
 
@@ -80,7 +80,9 @@ Et sinon, tu connais l'histoire de *Hop! le régulateur* ? Bon va c'est un régu
 
 ![Jeenode Kit][10]
 
-Ensuite, si sur la photo suivante il y a un **cercle rouge**, ce n'est pas parce qu'il faut dessiner un rond au feutre rouge sur le JeeNode. Non pas du tout, c'est juste pour t'indiquer l'endroit où il faut mettre un peu de soudure. Alors oui, avant il y avait une diode, mais Jean-Claude s'est dit que finalement çà sert à rien. Du coup il faut relier les deux machins. Voilà. Et oui, *machin* c'est le terme technique qui convient:
+Ensuite, si sur la photo suivante il y a un **cercle rouge**, ce n'est pas parce qu'il faut dessiner un rond au feutre rouge sur le JeeNode. Non pas du tout, c'est juste pour t'indiquer l'endroit où il faut mettre un peu de soudure.
+
+Alors oui, avant il y avait une diode à cet endroit, mais Jean-Claude s'est dit que finalement çà ne servait à rien. Du coup il faut relier les deux machins. Voilà. Et oui, *machin* c'est le terme technique qui convient:
 
 ![Jeenode Kit][11]
 
@@ -132,7 +134,7 @@ Ca mérite même une deuxième photo tiens:
 
 ![Jeenode Kit][21]
 
-Donc voilà, c'est fini. Tu peux maintenant exposer ton JeeNode dans ton salon pour bien montrer à tout le monde que tu es un pro en électronique, un vrai. Un de ceux qui savent ce qui se cache derrière des termes techniques tels que **pate** et **machin**.
+Donc voilà, c'est fini. Tu peux maintenant exposer ton JeeNode dans ton salon pour bien montrer à tout le monde que tu es un pro en électronique, un vrai. Un de ceux qui savent ce qui se cache derrière des termes techniques tels que **machin** et **Y'a un sens et faut faire gaffe**.
 
 Sinon, dans un futur plus ou moins proche, je t'expliquerai comment le programmer, lui ajouter des capteurs...
 

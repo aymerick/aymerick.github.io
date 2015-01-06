@@ -510,6 +510,8 @@ Type:
 Install push notification module
 ================================
 
+NOTE: I disable that module, because it sends weirds *ghost* notifications to my iPhone.
+
 ## Option 1: If you installed ZNC from sources
 
     $ curl -LO http://github.com/wired/colloquypush/raw/master/znc/colloquy.cpp
@@ -535,3 +537,11 @@ Enable "Push Notifications" on mobile Colloquy, then reconnect it to ZNC.
     $ znc-buildmod colloquy.cpp
 
 @todo Configure push notification.
+
+
+Log stuff
+=========
+
+Go to `https://<SERVER>:<PORT>/mods/global/webadmin/edituser` and check the **log** module (and only there).
+
+Logs are now saved into `/home/pi/.znc/users/<USERNAME>/moddata/log`.

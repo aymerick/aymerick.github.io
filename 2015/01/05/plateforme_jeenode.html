@@ -90,13 +90,13 @@
 
 <h3>Le Ginaude</h3>
 
-<p>Un <a href="http://jeelabs.net/projects/hardware/wiki/JeeNode">JeeNode</a> est un circuit électonique créé par <a href="http://jeelabs.org/about/">Jean-Claude Wippler</a>, qui avait comme objectif de créer un réseau local de capteurs communiquant sans-fil. Il est compatible avec la plateforme <a href="http://www.arduino.cc">arduino</a>, on peut donc utiliser les mêmes outils qu&#39;avec un <a href="http://www.arduino.cc">arduino</a> standard.</p>
+<p>Un <a href="http://jeelabs.net/projects/hardware/wiki/JeeNode">JeeNode</a> est un circuit électonique créé par <a href="http://jeelabs.org/about/">Jean-Claude Wippler</a>, qui avait comme objectif de créer un réseau local de capteurs communiquant sans-fil. Il est compatible avec la plateforme <a href="http://www.arduino.cc">arduino</a>, on peut donc utiliser les mêmes outils de développement que pour un <a href="http://www.arduino.cc">arduino</a> standard.</p>
 
 <p>Mais arrêtons-nous un instant sur la vie de <a href="http://jeelabs.org/about/">Jean-Claude Wippler</a>.</p>
 
 <h3>Jean-Claude, sa vie, son oeuvre</h3>
 
-<p>Mais qui est vraiment Jean-Claude ? C&#39;est la question que tout le monde se pose. Vivant actuellement aux Pays-Bas, il se dit être à la fois Français, Allemand et Néerlandais tant il est vrai que déjà tout petit il aimait picorer des morceaux de Goudat entre deux bières allemandes lors de ses vacances avec ses parents dans un camping de la cote d&#39;azur.</p>
+<p>Mais qui est vraiment Jean-Claude ? C&#39;est la question que tout le monde se pose. Vivant actuellement aux Pays-Bas, il se dit être à la fois Français, Allemand et Néerlandais tant il est vrai que déjà tout petit il aimait picorer des morceaux de goudat entre deux bières allemandes lors de ses vacances dans un camping de la cote d&#39;azur.</p>
 
 <p>Informaticien indépendant depuis plus de 20 ans, il se lance dans l&#39;électronique pour le fun, et commence à partager ses aventures sur son blog <a href="http://jeelabs.org/2008/10/">jeelabs.org</a> en 2008. Etant moi-même une quiche en électronique, j&#39;ai parcouru ses <strong>nombreux</strong> billets et j&#39;ai trouvé ses expérimentations fascinantes. Toujours est-il que quelques mois plus tard, Jean-Claude nous sort déjà son <a href="http://jeelabs.org/2009/02/13/its-called-a-jeenode/">premier JeeNode</a>, qu&#39;il déclinera jusqu&#39;à l&#39;actuelle v6 de l&#39;engin.</p>
 
@@ -116,7 +116,7 @@
 
 <p>Comme tu peux le voir ami lecteur, Jean-Claude est productif. Mais ce n&#39;est pas fini.</p>
 
-<p>Un JeeNode possède <a href="http://jeelabs.net/projects/hardware/wiki/JeeNode#Ports-1-4">4 ports</a>. C&#39;est comme çà, c&#39;est le standard défini par Jean-Claude pour les entrées-sorties. Et du coup, toujours sur la boutique de jeelabs, on trouve tout un tas de <em>plugs</em> à brancher sur nos JeeNode:</p>
+<p>Un JeeNode possède <a href="http://jeelabs.net/projects/hardware/wiki/JeeNode#Ports-1-4">4 ports</a>. C&#39;est comme çà, c&#39;est le standard défini par Jean-Claude pour les entrées-sorties et l&#39;alimentation. Et du coup, toujours sur <a href="http://www.digitalsmarties.net/collections/all">la boutique de jeelabs</a>, on trouve tout un tas de <em>plugs</em> à brancher sur nos JeeNode:</p>
 
 <ul>
 <li>Le <a href="http://www.digitalsmarties.net/products/room-board">Room Board</a>: tout ce qu&#39;il faut pour mesurer la température, l&#39;humidité, la luminosité et détecter des mouvements. Bon, le capteur HYT131 pour l&#39;humidité coûte un bras, mais il y a moyen de le remplacer par un DHT22 beaucoup plus abordable.</li>
@@ -126,11 +126,11 @@
 <li>...</li>
 </ul>
 
-<p>Y&#39;a de quoi faire plein de trucs sympatoches.</p>
+<p>Il y a de quoi faire plein de trucs sympatoches.</p>
 
 <p><img src="/img/jeenode/jeenode_roomboard.jpg" alt="Jeenode with Room Board"></p>
 
-<p>Dans sa grande bonté, Jean-Claude a mis toute sa plateforme en open source, et çà c&#39;est essentiel. Imaginons un instant que Jean-Claude se fasse renverser par une meule de Gouda géante alors qu&#39;il écoutait du Eddy Mitchell lors de la fête de la bière. PAF ! Sa boutique en ligne ferme, et maintenant comment je fais moi si je veux ajouter des JeeNode chez moi ? Hey ba je prend les schémas électronique fournis par feu Jean-Claude, et je les fabrique moi-même, via <a href="http://www.seeedstudio.com/service/index.php?r=pcb">Seeed Studio</a> par exemple.</p>
+<p>Dans sa grande bonté, Jean-Claude a mis toute sa plateforme en open source, et çà c&#39;est essentiel. Imaginons un instant que Jean-Claude se fasse renverser par une meule de gouda géante alors qu&#39;il écoutait du Eddy Mitchell lors de la fête de la bière. PAF ! Sa boutique en ligne ferme, et maintenant comment je fais moi si je veux ajouter d&#39;autres JeeNode chez moi ? Eh bien je prend les schémas électronique fournis par feu Jean-Claude, et je les fabrique moi-même, via <a href="http://www.seeedstudio.com/service/index.php?r=pcb">Seeed Studio</a> par exemple.</p>
 
 <h3>Oui ? Et donc ?</h3>
 
@@ -152,7 +152,7 @@
 <p>Coté serveur, un raspberry pi fait l&#39;affaire:</p>
 
 <ul>
-<li>un <a href="http://www.raspberrypi.org">Raspberry Pi</a> acheté chez <a href="http://www.rs-particuliers.com/WebCatalog/Raspberry_Pi_B_-8111284.aspx">RadioSpare Particuliers</a> (le week-end avec frais de ports offerts): 31,26€</li>
+<li>un <a href="http://www.raspberrypi.org">Raspberry Pi B+</a> acheté chez <a href="http://www.rs-particuliers.com/WebCatalog/Raspberry_Pi_B_-8111284.aspx">RadioSpare Particuliers</a> (le week-end avec frais de ports offerts): 31,26€</li>
 <li>une <a href="http://www.amazon.fr/gp/product/B00IMU7TF4">alim micro USB</a>: 8,49€</li>
 <li>une <a href="http://www.amazon.fr/gp/product/B00MWXUKDK">carte micro SD</a>: 8,90€</li>
 </ul>

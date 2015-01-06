@@ -2,6 +2,7 @@
 layout: post
 kind: post
 title: Souder un JeeNode
+description: Ginette, va me chercher mon vieux fer à souder je vais monter mon ginaude
 tags:
 - jeenode
 ---

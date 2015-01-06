@@ -1,5 +1,6 @@
 ---
 layout: post
+kind: post
 title: Souder un JeeNode
 tags:
 - jeenode

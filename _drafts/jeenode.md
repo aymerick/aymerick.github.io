@@ -101,7 +101,9 @@ $ sudo shutdown -r now
 
 # Test with:
 $ screen /dev/ttyAMA0 57600
-# To quit: CTRL+A followed by “\”
+# To quit: CTRL+A followed by “k”
+# To detach: CTRL+A followed by “d”
+# To reattach: screen -x
 
 # OR test with:
 $ sudo apt-get install minicom

@@ -180,7 +180,7 @@
 
 <p>Dans mon cas de figure, qui est je te le rappelle la mise en place de capteurs un peu partout chez moi, un node maitre (le node <strong>31</strong>) est branché en permanence sur un raspberry pi pour faire tourner le célèbre sketch RF12demo.</p>
 
-<p>Les autres nodes, numérotés <strong>de 1 à 30</strong>, font tourner un sketch spécifique aux capteurs qu&#39;ils possèdent et envoient leurs données à intervalle régulier. Je configure toujours ces nodes pour qu&#39;ils demandent un acquittement; le node maitre doit est le seul à envoyer ces acquittements. C&#39;est pour celà que mon JeeLink de test est configuré en mode <strong>collect</strong>, pour ne pas interférer avec le node maitre.</p>
+<p>Les autres nodes, numérotés <strong>de 1 à 30</strong>, font tourner un sketch spécifique aux capteurs qu&#39;ils possèdent et envoient leurs données à intervalle régulier. Je configure toujours ces nodes pour qu&#39;ils demandent un acquittement; le node maitre doit est le seul à envoyer ces acquittements. C&#39;est pour cela que mon JeeLink de test est configuré en mode <strong>collect</strong>, pour ne pas interférer avec le node maitre.</p>
 
 <p>Dans l&#39;exemple ci-dessous, on voit le node maitre <code>JeeNode 31</code> qui reçoit des données des deux JeeNode <code>JeeNode 1</code> et <code>JeeNode 2</code> possédant chacun un capteur de température, et il leur répond en envoyant un acquittement.</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">      +----+      +----+
@@ -241,7 +241,7 @@
 
 <p>Si rien ne s&#39;affiche, c&#39;est peut etre un soucis de connexion, essaie de bouger un peu le JeeNode au niveau du connecteur FTDI. Si vraiment cela ne fonctionne pas, vérifie toutes les soudures de ton JeeNode.</p>
 
-<p>Normalement tu dois voir le JeeNode causer avec toi comme le faisait le JeeLink. C&#39;est normal, c&#39;est parce qu&#39;il a été flashé avec le même sketch <code>RFM12demo</code>. Calà va nous permettre de le configurer correctement, cette fois-ci en lui donnant le numéro <strong>16</strong>:</p>
+<p>Normalement tu dois voir le JeeNode causer avec toi comme le faisait le JeeLink. C&#39;est normal, c&#39;est parce qu&#39;il a été flashé avec le même sketch <code>RFM12demo</code>. Cela va nous permettre de le configurer correctement, cette fois-ci en lui donnant le numéro <strong>16</strong>:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">16i
 8b
 212g

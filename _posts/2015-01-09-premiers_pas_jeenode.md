@@ -16,7 +16,7 @@ Oui je sais, c'est mal, et depuis j'ai un peu de mal à dormir.
 
 ### L'aveux
 
-Je t'expliquais donc qu'[il suffisait de deux JeeNode pour commencer]({% post_url 2015-01-07-premiers_pas_jeenode %}), et que tu n'avais pas besoin de [JeeLink](http://www.digitalsmarties.net/products/jeelink). Disons que dans l'absolu c'est pas faux, mais pour tester c'est quand même bien pratique de pouvoir connecter un JeeMachin sur son ordinateur de développement.
+Je t'expliquais donc qu'[il suffisait de deux JeeNode pour commencer]({% post_url 2015-01-05-plateforme_jeenode %}), et que tu n'avais pas besoin de [JeeLink](http://www.digitalsmarties.net/products/jeelink). Disons que dans l'absolu c'est pas faux, mais pour tester c'est quand même bien pratique de pouvoir connecter un JeeMachin sur son ordinateur de développement.
 
 Personnellement j'utilise donc un [JeeLink](http://www.digitalsmarties.net/products/jeelink), branché sur mon Mac:
 
@@ -93,15 +93,13 @@ Ca c'est pour dire "tu seras le node numéro 15 mon fils"...
 
 ... "ah au fait ton nom de famille c'est 212. Bienvenue dans notre famille mon fils!"
 
-
-@todo !!!
+Une chose qu'il faut que tu saches, c'est que plus tard, quand ton réseau de JeeNode sera en place, il faudra faire en sorte que seul ton master node connecté au raspberry réponde aux autres nodes. Et il y aura donc une configuration supplémentaire à effectuer sur ton JeeLink de test:
 
     1c
 
-... "tu sais, tu es un peu spécial, tu seras un JeeLink de test, et pour ne pas interférer avec les autres membres de la famille, je te met en mode **collect**, ce qui veut dire que tu  entendras bien ce que disent les autres mais tu ne leur parleras jamais, je sais c'est dûr mais c'est tombé sur toi, c'est comme çà, fait avec"...
+La traduction étant: "tu sais, tu es un peu spécial, tu seras un JeeLink de test, et pour ne pas interférer avec les autres membres de la famille, je te met en mode **collect**, ce qui veut dire que tu entendras bien ce que disent les autres mais tu ne leur répondra jamais, je sais c'est dûr mais c'est tombé sur toi, c'est comme çà, fait avec".
 
-@todo !!!
-
+Pour l'instant ce n'est pas nécessaire.
 
 Voilà, le JeeLink est configuré et gardera ses paramètres bien au chaud dans son EEPROM.
 
@@ -182,7 +180,7 @@ Les leds **TX** et **RX** du USB BUB vont clignoter un peu.
 
 Ensuite, dans l'IDE Arduino, va dans `Outils > Port série` et sélectionne quelque chose comme `/dev/tty.usbserial-AH019ZSM`:
 
-![RF12demo](/img/jeelink/arduino_04.png)
+![Jeenode avec USB HUB connecte](/img/jeelink/arduino_04.png)
 
 Et enfin sélectionne `Outils > Moniteur série`.
 
@@ -196,13 +194,23 @@ Normalement tu dois voir le JeeNode causer avec toi comme le faisait le JeeLink.
 
 Et voilà. Si tu as bien laissé le JeeLink connecté également, on va pouvoir lui dire bonjour en tappant:
 
+    15a
 
-...
+Ce qui veut dire "Envoi un message de test au node 15 et demande un acquittement".
 
+Ensuite on voit çà:
 
+    -> 0 b
 
-@todo
+Ce qui veut dire "Ok, je viens d'envoyer un message tout vide".
 
-@todo Alors attention, le **protocole** ce n'est pas un proctologue qui a mangé de la confiture, non, c'est simplement la façon dont deux nodes doivent communiquer pour se comprendre.
+Et surtout, on recoit ce message:
 
+    OK 143
+
+Eh bien ca mon jeune ami, c'est le JeeLink qui envoie un acquittement, ce qui signifie qu'il a bien reçu ton message. Et là, normalement, tu pleures de joie tellement c'est beau. Comment çà non ? Ah ok... hey ba moi non plus hein.
+
+![I shall not cry](/img/meme/meme_crying.png)
+
+Si jamais tu ne reçois pas la réponse du JeeLink, vérifie que celui-ci n'est pas en mode **collect**.
 

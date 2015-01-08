@@ -3,6 +3,9 @@ layout: post
 title: Jeenode
 ---
 
+@todo Alors attention, le **protocole** ce n'est pas un proctologue qui a mangé de la confiture, non, c'est simplement la façon dont deux nodes doivent communiquer pour se comprendre.
+
+
 Jeelink
 =======
 

@@ -1,0 +1,2231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+  xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+  <channel>
+    <title>Aymerick's stuff</title>
+    <link>http://www.aymerick.com</link>
+    <description>The personal website of a generalist developer living in France.</description>
+    <pubDate>Thu, 08 Jan 2015 00:00:00 +0100</pubDate>
+    <item>
+      <title>Premiers pas avec les JeeNode</title>
+      <link>http://www.aymerick.com/2015/01/08/premiers_pas_jeenode.html</link>
+      <description><![CDATA[Ami lecteur, te voilà en possession d&#39;un JeeNode que tu as soudé tout seul comme un grand, et même si tu es content de toi, tu te dis que quand même ça serait pas mal d&#39;en faire quelque chose d&#39;utile.
+]]></description>
+      <pubDate>Thu, 08 Jan 2015 00:00:00 +0100</pubDate>
+      <guid>http://www.aymerick.com/2015/01/08/premiers_pas_jeenode.html</guid>
+      <content:encoded><![CDATA[<p>Ami lecteur, te voilà en possession d&#39;un JeeNode que <a href="/2015/01/06/souder_jeenode.html">tu as soudé tout seul comme un grand</a>, et même si tu es content de toi, tu te dis que quand même ça serait pas mal d&#39;en faire quelque chose d&#39;utile.</p>
+
+<p>Alors aujourd&#39;hui, ensemble, faisons communiquer deux JeeNode.</p>
+
+<p>Mais avant tout j&#39;ai un aveux à te faire: je t&#39;ai menti. Oui je sais, c&#39;est mal, et depuis j&#39;ai un peu de mal à dormir.</p>
+
+<h3>L&#39;aveux</h3>
+
+<p>Je t&#39;expliquais donc qu&#39;<a href="/2015/01/05/plateforme_jeenode.html">il suffisait de deux JeeNode pour commencer</a>, et que tu n&#39;avais pas besoin de <a href="http://www.digitalsmarties.net/products/jeelink">JeeLink</a>. Disons que dans l&#39;absolu c&#39;est pas faux, mais pour tester c&#39;est quand même bien pratique de pouvoir connecter un JeeMachin sur son ordinateur de développement.</p>
+
+<p>Personnellement j&#39;utilise donc un <a href="http://www.digitalsmarties.net/products/jeelink">JeeLink</a>, branché sur mon Mac:</p>
+
+<p><img src="/img/jeenode/jeelink.jpg" alt="JeeLink"></p>
+
+<h3>Giles Inc.</h3>
+
+<p>Allez, je suis pas chien, je vais t&#39;expliquer comment ça marche.</p>
+
+<p>Pour commencer, il faut installer <a href="http://arduino.cc/en/Main/Software">le dernier SDK Arduino</a>; en ce qui me concerne ça sera <em>Arduino 1.0.6</em> pour <em>MacOS X</em>.</p>
+
+<p>Puis lance l&#39;IDE Arduino, et connecte le JeeLink sur un port USB de ton ordi.</p>
+
+<p>Ensuite va dans <code>Outils &gt; Port série</code> et sélectionne <code>/dev/tty.usbserial-A1014IM4</code>:</p>
+
+<p><img src="/img/jeelink/arduino_01.png" alt="Port série"></p>
+
+<p>(si le JeeLink n&#39;est pas détecté, installe <a href="http://www.silabs.com/products/mcu/pages/usbtouartbridgevcpdrivers.aspx">ces drivers</a>)</p>
+
+<p>Sélectionne <code>Outils &gt; Moniteur série</code>:</p>
+
+<p><img src="/img/jeelink/arduino_02.png" alt="Moniteur série"></p>
+
+<p>Une fenêtre s&#39;affiche: choisis <code>57600 baud</code> dans le menu déroulant en bas à droite de celle-ci.</p>
+
+<p>Et là, normalement, le JeeLink essaie d&#39;entrer en communication avec toi:</p>
+
+<p><img src="/img/jeelink/arduino_03.png" alt="RF12demo"></p>
+
+<p>Si ce n&#39;est pas le cas, tappe <code>?</code> puis clique sur <code>Envoyer</code>. Si cela ne marche toujours pas débranche le JeeLink, rebranche le et relance le Moniteur série. Si cela ne marche toujours pas, envoie <strong>MOUISE</strong> au <strong>7 12 12</strong>.</p>
+
+<p><code>¯\_(ツ)_/¯</code></p>
+
+<p>Alors, par défaut tous les JeeNode et JeeLink sont flashés avec un programme (on parle de <strong>sketch</strong> pour un Arduino) qui s&#39;appelle, attention tiens-toi bien, le <a href="http://jeelabs.net/projects/jeelib/wiki/RF12demo">RF12demo</a>. Encore un bel exemple que:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">There are only two hard things in Computer Science: cache invalidation and naming things. -- Phil Karlton
+</code></pre></div>
+<p>Non mais <strong>demo</strong> ? Sérieux ? Alors en ce qui concerne les nodes &quot;capteurs&quot; on va en effet rapidement les flasher avec un autre sketch, mais on en a quand même besoin pour les configurer. Et puis on va par contre bel et bien garder ce sketch tel quel au niveau du node maitre. Du coup, <strong>demo</strong> je trouve que c&#39;est assez mal choisis pour du code qui est essentiel pour notre petit réseau domestique.</p>
+
+<p>Bon, bref, j&#39;imagine que tout cela est historique, et sinon tu peux jeter un oeil au code source <a href="https://github.com/jcw/jeelib/blob/master/examples/RF12/RF12demo/RF12demo.ino">qui se trouve ici</a>.</p>
+
+<p>Revenons à notre JeeLink qui vient de nous dire plein de choses super intéressantes. Il a commencé par un truc dans ce genre là:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[RF12demo.7] A i1 g100 @ 915 Mhz
+</code></pre></div>
+<p>Ce qu&#39;on peut traduire par:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Wesh cousin, je suis le sketch RF12demo version 7 mon pote. Eh ouais ! Je suis le number 1 du crew 100 et je sent la vibe à 915Mhz.
+</code></pre></div>
+<p>Ce qu&#39;on peut traduire également par:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Je suis le node numéro 1 dans le groupe numéro 100 et je communique sur du 915Mhz.
+</code></pre></div>
+<p>Ensuite on a:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">DF I 795 9
+</code></pre></div>
+<p>Et ça autant te dire qu&#39;on s&#39;en fout complètement.</p>
+
+<p>Après on a la liste des commandes que l&#39;on peut envoyer au JeeLink pour le configurer ou pour envoyer des packets de test.</p>
+
+<p>On va donc commencer par le configurer correctement, en tappant des commandes dans la zone de saisie en haut de la fenêtre:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">15i
+</code></pre></div>
+<p>Cà c&#39;est pour dire &quot;tu seras le node numéro 15 mon fils&quot;...</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">8b
+</code></pre></div>
+<p>... &quot;et je t&#39;assure, tu communiques sur du 868Mhz, c&#39;est ce qui était marqué sur l&#39;emballage quand tu es né&quot;...</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">212g
+</code></pre></div>
+<p>... &quot;ah au fait ton nom de famille c&#39;est 212. Bienvenue dans notre famille fiston!&quot;</p>
+
+<p>Une chose qu&#39;il faut que tu saches, c&#39;est que plus tard, quand ton réseau de JeeNode sera en place, il faudra faire en sorte que seul ton node maitre connecté au raspberry réponde aux autres nodes. Et il y aura donc une configuration supplémentaire à effectuer sur ton JeeLink de test:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">1c
+</code></pre></div>
+<p>La traduction étant: &quot;tu sais, tu es un peu spécial, tu est un JeeLink de test, et pour ne pas interférer avec les autres membres de la famille, je te met en mode <strong>collect</strong>, ce qui veut dire qu&#39;a partir de maintenant tu entendras bien ce que disent les autres nodes mais tu ne leur répondras jamais, je sais c&#39;est dûr mais c&#39;est tombé sur toi, c&#39;est comme ça, fait avec&quot;.</p>
+
+<p>Pour l&#39;instant ce n&#39;est pas nécessaire.</p>
+
+<p>Voilà, le JeeLink est configuré et gardera ses paramètres bien au chaud dans son EEPROM.</p>
+
+<p>A chaque fois que ce JeeLink reçoit un message, il l&#39;affiche à l&#39;écran sur une seule ligne, genre comme ça:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">? 41 247 84 70 252 129 16 100 211 6 129 241 18 230 72 64 65 219 157 180 182
+</code></pre></div>
+<p>Tu remarqueras le <strong>?</strong> en début de ligne. Cela signifie que notre pote JeeLink n&#39;a rien compris. En gros il y a un appareil pas loin qui cause aussi sur le 868Mhz mais ce n&#39;est pas un JeeNode.</p>
+
+<p>Si tu vois ce genre de choses apparaitre:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">OK 4 1 129 166 0
+</code></pre></div>
+<p>Le <strong>OK</strong> veut dire que le JeeLink a bien reçu un packet d&#39;un autre JeeNode.</p>
+
+<h3>Live on RFM12B</h3>
+
+<p>Alors, arrêtons nous un instant sur la façon dont ce réseau de JeeNode fonctionne.</p>
+
+<p>Tu l&#39;as compris, il y a une histoire de groupes. On peut avoir 212 groupes de 31 nodes chacun.</p>
+
+<p>Dans mon cas de figure, qui est je te le rappelle la mise en place de capteurs un peu partout chez moi, un node maitre (le node <strong>31</strong>) est branché en permanence sur un raspberry pi pour faire tourner le célèbre sketch RF12demo.</p>
+
+<p>Les autres nodes, numérotés <strong>de 1 à 30</strong>, font tourner un sketch spécifique aux capteurs qu&#39;ils possèdent et envoient leurs données à intervalle régulier. Je configure toujours ces nodes pour qu&#39;ils demandent un acquittement; le node maitre doit est le seul à envoyer ces acquittements. C&#39;est pour cela que mon JeeLink de test est configuré en mode <strong>collect</strong>, pour ne pas interférer avec le node maitre.</p>
+
+<p>Dans l&#39;exemple ci-dessous, on voit le node maitre <code>JeeNode 31</code> qui reçoit des données des deux JeeNode <code>JeeNode 1</code> et <code>JeeNode 2</code> possédant chacun un capteur de température, et il leur répond en envoyant un acquittement.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">      +----+      +----+
+      |Temp|      |Temp|
+      +----+      +----+
+    +-+----+--+ +-+----+--+
+    |JeeNode 1| |JeeNode 2|
+    +----+----+ +-+-------+
+         |        |
+     temp| ^  temp| ^
+         | |      | |
+         | |      | |
+         v |ack   v |ack
+           |        |
+       +---+--------+-+
+       |  JeeNode 31  |
+       | +----------+ |
+       | |RFM12demo | |
+       | +----------+ |
+       +--------------+
+              |
+              |
+              v
+      +-----------------+
+      |  Raspberry Pi   |
+      |  +-----------+  |
+      |  |RFM12demo  |  |
+      |  |decoder    |  |
+      |  +-----------+  |
+      +-----------------+
+                                                                
+</code></pre></div>
+<p>Si les nodes ne recoivent pas d&#39;acquittement, il réémettrons plusieurs fois avant d&#39;abandonner.</p>
+
+<p>Soyons clair, le node maitre ne fait que transmettre les données brutes au raspberry. Il faut donc un programme qui décode les paquets reçus; c&#39;est le role du <code>RFM12demo decoder</code> sur le schéma. Notre ami <a href="/2015/01/05/plateforme_jeenode.html">Jean-Claude</a> a développé un outil pour jouer ce role: <a href="http://jeelabs.net/projects/housemon/wiki">HouseMon</a>. Alors autant te dire tout de suite, j&#39;ai installé une vieille version il y a bien longtemps qui ne m&#39;a pas vraiment emballé. Depuis ça a pas mal bougé, mais ça m&#39;a l&#39;air bien compliqué avec des histoires de <a href="https://github.com/jcw/jeebus">jeebus</a> et de <a href="https://github.com/jcw/flow">flow</a>... mMmm ok bon, ba <em>&quot;ça ne me plait pas donc je vais coder un truc à ma façon&quot; (tm)</em>.</p>
+
+<p>Mais je vois qu&#39;une question te taraude. Que ce passe-t-il si on veut installer plus de 31 nodes chez soit ? Eh bien mon jeune ami, il faut mettre en place un deuxième groupe, et donc un deuxième node maitre pour ce groupe. On se retrouvera alors avec deux nodes maitres sur le raspberry pi, et le <code>RFM12demo decoder</code> devra prendre ça en compte.</p>
+
+<h3>Bééééé !</h3>
+
+<p>Revenons maintenant à nos moutons, ou plutôt à notre JeeLink de test. Essayons donc de le faire communiquer avec le JeeNode que <a href="/2015/01/06/souder_jeenode.html">tu as soudé</a>.</p>
+
+<p>Allez, branche ton JeeNode sur ton ordinateur. Vas-y essaie. Tu n&#39;y arrives pas ? Ahah je suis taquin: il te faut un un <a href="http://www.digitalsmarties.net/products/usb-bub">USB BUB</a> pour relier le port FTDI du JeeNode au port USB de ton ordinateur:</p>
+
+<p><img src="/img/jeenode/usb_bub.jpg" alt="USB HUB"></p>
+
+<p>Donc maintenant tu peux y aller, branche ton JeeNode:</p>
+
+<p><img src="/img/jeenode/usb_bub_con.jpg" alt="Jeenode avec USB HUB"></p>
+
+<p>Les leds <strong>TX</strong> et <strong>RX</strong> du USB BUB vont clignoter un peu.</p>
+
+<p>Ensuite, dans l&#39;IDE Arduino, va dans <code>Outils &gt; Port série</code> et sélectionne quelque chose comme <code>/dev/tty.usbserial-AH019ZSM</code>:</p>
+
+<p><img src="/img/jeelink/arduino_04.png" alt="Jeenode avec USB HUB connecte"></p>
+
+<p>Et enfin sélectionne <code>Outils &gt; Moniteur série</code>.</p>
+
+<p>Si rien ne s&#39;affiche, c&#39;est peut etre un soucis de connexion, essaie de bouger un peu le JeeNode au niveau du connecteur FTDI. Si vraiment cela ne fonctionne pas, vérifie toutes les soudures de ton JeeNode.</p>
+
+<p>Normalement tu dois voir le JeeNode causer avec toi comme le faisait le JeeLink. C&#39;est normal, c&#39;est parce qu&#39;il a été flashé avec le même sketch <code>RFM12demo</code>. Cela va nous permettre de le configurer correctement, cette fois-ci en lui donnant le numéro <strong>16</strong>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">16i
+8b
+212g
+</code></pre></div>
+<p>Et voilà. Si tu as bien laissé le JeeLink connecté, on va pouvoir lui dire bonjour en tappant:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">15a
+</code></pre></div>
+<p>Ce qui veut dire &quot;Envoi un message de test au node 15 et demande un acquittement&quot;.</p>
+
+<p>Ensuite on voit ça:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">-&gt; 0 b
+</code></pre></div>
+<p>Ce qui veut dire &quot;Ok, je viens d&#39;envoyer un message tout vide&quot;.</p>
+
+<p>Et surtout, on recoit ce message:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">OK 143
+</code></pre></div>
+<p>Eh bien ça mon jeune ami, c&#39;est le JeeLink qui envoie un acquittement, ce qui signifie qu&#39;il a bien reçu ton message. Et là, normalement, tu pleures de joie tellement c&#39;est beau. Comment ça non ? Ah ok... eh ba moi non plus hein.</p>
+
+<p><img src="/img/meme/meme_crying.png" alt="I shall not cry"></p>
+
+<p>Si jamais tu ne reçois pas la réponse du JeeLink, vérifie que celui-ci n&#39;est pas en mode <strong>collect</strong>.</p>
+
+<p>Ainsi s&#39;achève cet article.</p>
+
+<p>Lors d&#39;un prochain épisode nous ajouterons un capteur au JeeNode.</p>
+
+<p>A la prochain Etienne !</p>
+
+<p>(Un pneu mon neveu hahahahaha.... haha... ha....)</p>
+]]></content:encoded>
+      <dc:date>2015-01-08T00:00:00+01:00</dc:date>
+    </item>
+    <item>
+      <title>Souder un JeeNode</title>
+      <link>http://www.aymerick.com/2015/01/06/souder_jeenode.html</link>
+      <description><![CDATA[Ah ba tiens! Te revoilà ami lecteur.
+]]></description>
+      <pubDate>Tue, 06 Jan 2015 00:00:00 +0100</pubDate>
+      <guid>http://www.aymerick.com/2015/01/06/souder_jeenode.html</guid>
+      <content:encoded><![CDATA[<p>Ah ba tiens! Te revoilà ami lecteur.</p>
+
+<p>J&#39;imagine que suite à mon dernier billet sur <a href="/2015/01/05/plateforme_jeenode.html">la vie de Jean-Claude</a>, tu t&#39;es empressé d&#39;acheter un JeeNode, fougeux que tu es.</p>
+
+<p>Et du coup tu te retrouves devant çà:</p>
+
+<p><img src="/img/jeenode_solder/jeenode_01.jpg" alt="Jeenode Kit"></p>
+
+<p>Je vois bien ton désarroi. Personne ne t&#39;avais prévenu. Hey ba ouais, il va falloir faire resurgir tes vieux cours d&#39;EMT du passé et souder tout çà.</p>
+
+<p>Alors attention, que çà soit bien clair, on dit bien <strong>souder</strong> et pas <strong>soudre</strong>, parce que si tu dis soudre, tu disparais... hoho... hum passons.</p>
+
+<p>Si jamais tu veux la version originale, tu peux aller sur <a href="http://jeelabs.org/2010/09/26/assembling-the-jeenode-v5/">le blog de Jean-Claude</a>.</p>
+
+<h3>C&#39;est sûr ces Slaves savent souder sans soucis</h3>
+
+<p>Allez, on y va, on se lance, on y croit, on n&#39;a pas peur.</p>
+
+<p>On est donc devant çà:</p>
+
+<p><img src="/img/jeenode_solder/jeenode_02.jpg" alt="Jeenode Kit"></p>
+
+<p>Alors, ma petite astuce, mon petit plus à moi, c&#39;est de remplacer cette <strong>saloperie de header tout pourrit vendu avec le kit</strong> par des headers à angle droit <a href="http://www.digitalsmarties.net/products/right-angle-plug-headers">vendus dans la boutique de Jean-Claude</a>.</p>
+
+<p>Regarde bien; à gauche, le tout pourrit, et à droite, le moins pourrit:</p>
+
+<p><img src="/img/jeenode_solder/jeenode_03.jpg" alt="Jeenode Kit"></p>
+
+<p>Je crois que la photo parle d&#39;elle même, c&#39;est flagrant.</p>
+
+<p>Non mais à la base, la soudure c&#39;est pas mon truc, alors forcément si en plus y&#39;a des pièges, çà peut énerver.</p>
+
+<p>Bref, gardons çà pour plus tard, et continuons.</p>
+
+<p>Commençons donc par la résistance. Met la résistance dans son emplacement <strong>R1</strong>, retourne le tout, et soude les pates:</p>
+
+<p><img src="/img/jeenode_solder/jeenode_04.jpg" alt="Jeenode Kit"></p>
+
+<p>Ensuite tu peux couper les pates (admire au passage la mise en scène avec la pince sur cette photo):</p>
+
+<p><img src="/img/jeenode_solder/jeenode_05.jpg" alt="Jeenode Kit"></p>
+
+<p>Et hop! Une résistance soudée! BRAVO! Tu voies qu&#39;ils servent enfin à quelque chose tes cours d&#39;EMT du collège:</p>
+
+<p><img src="/img/jeenode_solder/jeenode_06.jpg" alt="Jeenode Kit"></p>
+
+<p>Ensuite tu fais la même chose avec les 4 petits condensateurs:</p>
+
+<p><img src="/img/jeenode_solder/jeenode_07.jpg" alt="Jeenode Kit"></p>
+
+<p>Alors là attention, accroche-toi bien, il y a une difficulté. Nous attaquons l&#39;étape dites du <strong>GROS CONDENSATEUR</strong>. Oui je sais çà fait peur, mais c&#39;est fait exprès. Car le gros condensateur est <strong>polarisé</strong>.</p>
+
+<p>Alors, d&#39;après toi, est-ce que çà veut dire que:</p>
+
+<ol>
+<li>Il est le héro du dernier San Antonio</li>
+<li>Il s&#39;est fait prendre au Polaroïd</li>
+<li>Il cherche constamment un mec qui s&#39;appellerait Risé mais qui ne serait jamais là</li>
+<li>Contrairement à d&#39;autres gros condensateurs, il n&#39;est pas la risé des petits condensateurs</li>
+<li>Y&#39;a un sens et faut faire gaffe (en gros)</li>
+</ol>
+
+<p>Oui ok, donc oui y&#39;a un sens et faut faire gaffe: la pate la plus longue est le <strong>+</strong>, et se trouve donc à droite. Voilà c&#39;est tout:</p>
+
+<p><img src="/img/jeenode_solder/jeenode_08.jpg" alt="Jeenode Kit"></p>
+
+<p>Passons maintenant au régulateur de tension. La aussi y&#39;a un sens, mais maintenant que tu es bien chaud, je te vois mal te gourer sur celui-là.</p>
+
+<p>Commence donc par tordre la pate du milieu:</p>
+
+<p><img src="/img/jeenode_solder/jeenode_09.jpg" alt="Jeenode Kit"></p>
+
+<p>Et sinon, tu connais l&#39;histoire de <em>Hop! le régulateur</em> ? Bon va c&#39;est un régulateur qui passe et puis Hop! le régulateur:</p>
+
+<p><img src="/img/jeenode_solder/jeenode_10.jpg" alt="Jeenode Kit"></p>
+
+<p>Ensuite, si sur la photo suivante il y a un <strong>cercle rouge</strong>, ce n&#39;est pas parce qu&#39;il faut dessiner un rond au feutre rouge sur le JeeNode. Non pas du tout, c&#39;est juste pour t&#39;indiquer l&#39;endroit où il faut mettre un peu de soudure.</p>
+
+<p>Alors oui, avant il y avait une diode à cet endroit, mais Jean-Claude s&#39;est dit que finalement çà ne servait à rien. Du coup il faut relier les deux machins. Voilà. Et oui, <em>machin</em> c&#39;est le terme technique qui convient:</p>
+
+<p><img src="/img/jeenode_solder/jeenode_11.jpg" alt="Jeenode Kit"></p>
+
+<p>Attention accroche toi bien, tu vas maintenant enchainer <strong>54 soudures</strong> d&#39;affilée!</p>
+
+<p>D&#39;abord le support du chip:</p>
+
+<p><img src="/img/jeenode_solder/jeenode_12.jpg" alt="Jeenode Kit"></p>
+
+<p>Ensuite les 4 headers de port:</p>
+
+<p><img src="/img/jeenode_solder/jeenode_13.jpg" alt="Jeenode Kit"></p>
+
+<p>Voilà, tu l&#39;as fait. Tu dois te sentir super fort maintenant.</p>
+
+<p>Je te vois même esquisser un sourire <em>&quot;LOL trop facile&quot;</em> quand vient le tour du résonnateur:</p>
+
+<p><img src="/img/jeenode_solder/jeenode_14.jpg" alt="Jeenode Kit"></p>
+
+<p>Je te conseille quand même de moins faire le malin, car c&#39;est avec la prochaine étape que tu vas commencer à bien transpirer des doigts.</p>
+
+<p>Non, tu ne rêves pas, tu vas effectivement souder le composant RFM12B comme tu penses que tu dois le faire. Et fait bien gaffe parce qu&#39;il y a un sens, donc regarde bien la photo.</p>
+
+<p>On va commencer par mettre un peu de soudure sur un emplacement du composant, genre en haut à gauche:</p>
+
+<p><img src="/img/jeenode_solder/jeenode_15.jpg" alt="Jeenode Kit"></p>
+
+<p>Le but maintenant est de positionner le RFM12B correctement, puis de chauffer la soudure préalablement posée pour la liquéfier. Et quand ca refroidit, le RFM12B doit être bien en place, comme ceci:</p>
+
+<p><img src="/img/jeenode_solder/jeenode_16.jpg" alt="Jeenode Kit"></p>
+
+<p>A partir de là tu peux finir de le souder tout partout sauf au niveau du trou qui a un <strong>A</strong> à côté. Celui-là c&#39;est pour l&#39;antenne.</p>
+
+<p>Dénude donc un peu l&#39;antenne, fait la passer dans ce trou, et soude la:</p>
+
+<p><img src="/img/jeenode_solder/jeenode_18.jpg" alt="Jeenode Kit"></p>
+
+<p>Enfin, c&#39;est au tout du port FTDI. Et c&#39;est là que tu me remercies pour l&#39;astuce du header à angle droit. Tu vas voir comme c&#39;est facile avec ce header. Si tu es joueur, essaye donc de souder le header fourni avec le kit à la place, puis ouvre la fenêtre et jete le tout dehors en gueulant.</p>
+
+<p>Bon bref, voilà le bon header bien soudé:</p>
+
+<p><img src="/img/jeenode_solder/jeenode_19.jpg" alt="Jeenode Kit"></p>
+
+<p>ET TADA ! Tu as soudé ton premier JeeNode, bravo je suis fier de toi:</p>
+
+<p><img src="/img/jeenode_solder/jeenode_20.jpg" alt="Jeenode Kit"></p>
+
+<p>Ca mérite même une deuxième photo tiens:</p>
+
+<p><img src="/img/jeenode_solder/jeenode_21.jpg" alt="Jeenode Kit"></p>
+
+<p>Donc voilà, c&#39;est fini. Tu peux maintenant exposer ton JeeNode dans ton salon pour bien montrer à tout le monde que tu es un pro en électronique, un vrai. Un de ceux qui savent ce qui se cache derrière des termes techniques tels que <strong>machin</strong> et <strong>Y&#39;a un sens et faut faire gaffe</strong>.</p>
+
+<p>Sinon, dans un futur plus ou moins proche, je t&#39;expliquerai comment le programmer, lui ajouter des capteurs...</p>
+
+<p>Mais pour l&#39;instant, je te dis à la prochaine, et n&#39;oublie pas d&#39;éteindre ton fer à souder avant de partir.</p>
+
+<h3>Références</h3>
+
+<ul>
+<li><a href="http://jeelabs.org/2010/09/26/assembling-the-jeenode-v5/">http://jeelabs.org/2010/09/26/assembling-the-jeenode-v5/</a></li>
+</ul>
+]]></content:encoded>
+      <dc:date>2015-01-06T00:00:00+01:00</dc:date>
+    </item>
+    <item>
+      <title>La plateforme jeenode</title>
+      <link>http://www.aymerick.com/2015/01/05/plateforme_jeenode.html</link>
+      <description><![CDATA[Bien le bonjour.
+]]></description>
+      <pubDate>Mon, 05 Jan 2015 00:00:00 +0100</pubDate>
+      <guid>http://www.aymerick.com/2015/01/05/plateforme_jeenode.html</guid>
+      <content:encoded><![CDATA[<p>Bien le bonjour.</p>
+
+<p>En ce début d&#39;année 2015, installons des <a href="http://jeelabs.net/projects/hardware/wiki/JeeNode">JeeNode</a> partout dans la maison.</p>
+
+<p><img src="/img/jeenode_solder/jeenode_01.jpg" alt="Jeenode"></p>
+
+<p>Et là je vous vois venir gros comme une maison:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Ok Aymerick, nous on veut bien hein, on n&#39;est pas contre, mais qu&#39;est ce que c&#39;est qu&#39;un Ginaude ? Et pourquoi qu&#39;on ferait çà, crévindiou de nom de diou de bon diou ?
+</code></pre></div>
+<p>Héhé, amical habitant de la campagne. Ne t&#39;inquiète pas, je vais tout t&#39;expliquer.</p>
+
+<h3>Le Ginaude</h3>
+
+<p>Un <a href="http://jeelabs.net/projects/hardware/wiki/JeeNode">JeeNode</a> est un circuit électonique créé par <a href="http://jeelabs.org/about/">Jean-Claude Wippler</a>, qui avait comme objectif de créer un réseau local de capteurs communiquant sans-fil. Il est compatible avec la plateforme <a href="http://www.arduino.cc">arduino</a>, on peut donc utiliser les mêmes outils de développement que pour un <a href="http://www.arduino.cc">arduino</a> standard.</p>
+
+<p>Mais arrêtons-nous un instant sur la vie de <a href="http://jeelabs.org/about/">Jean-Claude Wippler</a>.</p>
+
+<h3>Jean-Claude, sa vie, son oeuvre</h3>
+
+<p>Mais qui est vraiment Jean-Claude ? C&#39;est la question que tout le monde se pose. Vivant actuellement aux Pays-Bas, il se dit être à la fois Français, Allemand et Néerlandais tant il est vrai que déjà tout petit il aimait picorer des morceaux de goudat entre deux bières allemandes lors de ses vacances dans un camping de la cote d&#39;azur.</p>
+
+<p>Informaticien indépendant depuis plus de 20 ans, il se lance dans l&#39;électronique pour le fun, et commence à partager ses aventures sur son blog <a href="http://jeelabs.org/2008/10/">jeelabs.org</a> en 2008. Etant moi-même une quiche en électronique, j&#39;ai parcouru ses <strong>nombreux</strong> billets et j&#39;ai trouvé ses expérimentations fascinantes. Toujours est-il que quelques mois plus tard, Jean-Claude nous sort déjà son <a href="http://jeelabs.org/2009/02/13/its-called-a-jeenode/">premier JeeNode</a>, qu&#39;il déclinera jusqu&#39;à l&#39;actuelle v6 de l&#39;engin.</p>
+
+<p>Un <a href="http://jeelabs.net/projects/hardware/wiki/JeeNode">JeeNode</a> est doté d&#39;une puce RFM12B pour communiquer en RF. C&#39;est sûr que comparé au wifi, le RFM12B c&#39;est plutôt low-tech. Mais c&#39;est moins cher, çà consomme très peu, et c&#39;est grandement suffisant croyez moi.</p>
+
+<p>Vous trouverez plus d&#39;informations techniques <a href="http://jeelabs.net/projects/hardware/wiki/JeeNode">sur cette page</a>.</p>
+
+<p>JC fini par créer une <a href="http://www.digitalsmarties.net/collections/all">boutique en ligne</a> (qui est maintenant sous-traitée en Angleterre) et décline sa plateforme avec d&#39;autres types de nodes:</p>
+
+<ul>
+<li>Le <a href="http://www.digitalsmarties.net/products/jeenode-smd">JeeNode SMD</a>: une version pré-assemblée du JeeNode</li>
+<li>Le <a href="http://www.digitalsmarties.net/products/jeenode-usb">JeeNode USB</a>: un JeeNode pré-assemblé avec un port USB à la place du port FTDI</li>
+<li>Le <a href="http://www.digitalsmarties.net/products/jeelink">JeeLink</a>: un JeeNode au format <em>clef USB</em>. On le branche sur un ordi et il joue le role de chef d&#39;orchestre: c&#39;est lui qui recoit les données des autres JeeNodes. Il n&#39;a pas de ports, il est enfermé dans sa boite en plastique.</li>
+<li>Le <a href="http://www.digitalsmarties.net/products/jeenode-micro">JeeNode Micro</a>: bon ba... un p&#39;tit JeeNode quoi</li>
+<li>Le <a href="http://www.digitalsmarties.net/products/led-node-v2">LED Node</a>: un JeeNode assez particulier, pour piloter un bandeau de LEDs</li>
+</ul>
+
+<p>Comme tu peux le voir ami lecteur, Jean-Claude est productif. Mais ce n&#39;est pas fini.</p>
+
+<p>Un JeeNode possède <a href="http://jeelabs.net/projects/hardware/wiki/JeeNode#Ports-1-4">4 ports</a>. C&#39;est comme çà, c&#39;est le standard défini par Jean-Claude pour les entrées-sorties et l&#39;alimentation. Et du coup, toujours sur <a href="http://www.digitalsmarties.net/collections/all">la boutique de jeelabs</a>, on trouve tout un tas de <em>plugs</em> à brancher sur nos JeeNode:</p>
+
+<ul>
+<li>Le <a href="http://www.digitalsmarties.net/products/room-board">Room Board</a>: tout ce qu&#39;il faut pour mesurer la température, l&#39;humidité, la luminosité et détecter des mouvements. Bon, le capteur HYT131 pour l&#39;humidité coûte un bras, mais il y a moyen de le remplacer par un DHT22 beaucoup plus abordable.</li>
+<li>Le <a href="http://www.digitalsmarties.net/products/dimmer-plug">Dimmer Plug</a>: bon ba... pour dimmer</li>
+<li>Le <a href="http://www.digitalsmarties.net/products/gravity-plug">Gravity Plug</a>: rien à voir avec le film... c&#39;est juste un accéléromètre</li>
+<li>Le <a href="http://www.digitalsmarties.net/products/infrared-plug">Infrared Plug</a>: devinez</li>
+<li>...</li>
+</ul>
+
+<p>Il y a de quoi faire plein de trucs sympatoches.</p>
+
+<p><img src="/img/jeenode/jeenode_roomboard.jpg" alt="Jeenode with Room Board"></p>
+
+<p>Dans sa grande bonté, Jean-Claude a mis toute sa plateforme en open source, et çà c&#39;est essentiel. Imaginons un instant que Jean-Claude se fasse renverser par une meule de gouda géante alors qu&#39;il écoutait du Eddy Mitchell lors de la fête de la bière. PAF ! Sa boutique en ligne ferme, et maintenant comment je fais moi si je veux ajouter d&#39;autres JeeNode chez moi ? Eh bien je prend les schémas électronique fournis par feu Jean-Claude, et je les fabrique moi-même, via <a href="http://www.seeedstudio.com/service/index.php?r=pcb">Seeed Studio</a> par exemple.</p>
+
+<h3>Oui ? Et donc ?</h3>
+
+<p>La plateforme <a href="http://jeelabs.net/projects/hardware/wiki/JeeNode">JeeNode</a> correspond parfaitement à mon besoin car:</p>
+
+<ul>
+<li>je veux mettre des capteurs de température/humidité/... partout dans ma maison, à pas trop cher</li>
+<li>je n&#39;ai pas envie de changer les piles tous les 2 mois (tous les 2 ans c&#39;est mieux)</li>
+<li>je ne veux pas être dépendant d&#39;un matériel propriétaire fermé</li>
+<li>je n&#39;y connais rien en électronique, mais çà ne me gêne pas de souder des trucs, voir çà m&#39;amuse</li>
+</ul>
+
+<p>Alors c&#39;est parti mon kiki.</p>
+
+<p><img src="/img/jeenode/jeenode_ribba.jpg" alt="Jeenode hidden in an Ikea Ribba"></p>
+
+<h3>Achète moi un Ginaude Ginette !</h3>
+
+<p>Coté serveur, un raspberry pi fait l&#39;affaire:</p>
+
+<ul>
+<li>un <a href="http://www.raspberrypi.org">Raspberry Pi B+</a> acheté chez <a href="http://www.rs-particuliers.com/WebCatalog/Raspberry_Pi_B_-8111284.aspx">RadioSpare Particuliers</a> (le week-end avec frais de ports offerts): 31,26€</li>
+<li>une <a href="http://www.amazon.fr/gp/product/B00IMU7TF4">alim micro USB</a>: 8,49€</li>
+<li>une <a href="http://www.amazon.fr/gp/product/B00MWXUKDK">carte micro SD</a>: 8,90€</li>
+</ul>
+
+<p>Et avec deux nodes pour débuter:</p>
+
+<ul>
+<li>deux <a href="http://www.digitalsmarties.net/products/jeenode">JeeNode</a>: 18,50€ * 2</li>
+<li>un <a href="http://www.digitalsmarties.net/products/usb-bub">USB BUB</a>: 13,50€</li>
+<li>un <a href="http://www.dx.com/p/4-5v-3-x-aa-battery-holder-case-box-with-leads-103858#.VKqhd2SG_50">boitier pour 3 piles AA</a>: 1,50€</li>
+</ul>
+
+<p>Un seul <a href="http://www.digitalsmarties.net/products/usb-bub">USB BUB</a> suffit: il permet de raccorder un JeeNode à un ordi pour mettre à jour le JeeNode. Dans les faits, il ne servira qu&#39;une fois par JeeNode (en dehors de la phase de conception et de test des programmes).</p>
+
+<p>On n&#39;est pas obligé d&#39;acheter un JeeLink: un simple JeeNode peut servir de node principal en le branchant directement sur le GPIO du raspberry pi <a href="http://jeelabs.org/2012/09/20/serial-hookup-jeenode-to-raspberry-pi/">comme expliqué ici</a>.</p>
+
+<p><img src="/img/jeenode/jeenode_rpi.jpg" alt="Jeenode"></p>
+
+<h3>Et après j&#39;fais quoi ?</h3>
+
+<p>Houla comme tu es pressé. Ca va venir ne t&#39;inquiète pas, tu auras la suite bientôt. En attendant si tu t&#39;ennuies tu peux toujours lire <a href="http://jeelabs.org/">les billets de blog de Jean-Claude</a>. Je sais c&#39;est touffu et c&#39;est pas facile de s&#39;y retrouver mais ca vaut le coup.</p>
+
+<p>Allez, je t&#39;embrasse, à la prochaine.</p>
+
+<h3>Références</h3>
+
+<ul>
+<li><a href="http://jeelabs.net/projects/hardware/wiki/JeeNode">http://jeelabs.net/projects/hardware/wiki/JeeNode</a></li>
+<li><a href="http://www.digitalsmarties.net/collections/all">http://www.digitalsmarties.net/collections/all</a></li>
+</ul>
+]]></content:encoded>
+      <dc:date>2015-01-05T00:00:00+01:00</dc:date>
+    </item>
+    <item>
+      <title>Backup a Synology NAS to a raspberry pi</title>
+      <link>http://www.aymerick.com/2014/12/22/backup-synology-on-raspberrypi.html</link>
+      <description><![CDATA[Prerequisites
+]]></description>
+      <pubDate>Mon, 22 Dec 2014 00:00:00 +0100</pubDate>
+      <guid>http://www.aymerick.com/2014/12/22/backup-synology-on-raspberrypi.html</guid>
+      <content:encoded><![CDATA[<h1>Prerequisites</h1>
+
+<ul>
+<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+</ul>
+
+<h1>Setup raspberry</h1>
+
+<p>Add a user for <code>synology</code>:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo useradd synology -m -G users
+<span class="nv">$ </span>sudo passwd synology</code></pre></div>
+
+<p>Mount USB drive on <code>/mnt/usbdrive</code>:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mkdir /mnt/usbdrive
+
+<span class="nv">$ </span>sudo fdisk -l
+<span class="nv">$ </span>sudo emacs /etc/fstab</code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">/dev/sdb1       /mnt/usbdrive   ext4    defaults,user     0       0
+</code></pre></div>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mount -a</code></pre></div>
+
+<p>Create bakckup directory:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mkdir /mnt/usbdrive/chezak_backup
+<span class="nv">$ </span>sudo chown synology:users /mnt/usbdrive/chezak_backup</code></pre></div>
+
+<h1>Configure synology</h1>
+
+<p>Go to <code>Backup and Restore</code> then</p>
+
+<ul>
+<li>Create: Databackup task</li>
+<li>Task: Pickup Full Backup</li>
+</ul>
+
+<p>Network Backup (rsync-compatible server)</p>
+
+<ul>
+<li>Server name of IP address: 192.168.0.41</li>
+<li>Username: synology</li>
+<li>Password: *********</li>
+<li>Backup module: /mnt/usbdrive/</li>
+<li>Directory: chezak_backup</li>
+</ul>
+
+<p>Check:</p>
+
+<ul>
+<li>Enable transfer encryption</li>
+<li>Enable metadata backup</li>
+</ul>
+
+<p>Select to backup:</p>
+
+<ul>
+<li>Configuration</li>
+<li>Shared folder (all)</li>
+</ul>
+
+<p>Enable backup schedule</p>
+
+<ul>
+<li>Day: Daily</li>
+<li>Hour(s): 03</li>
+<li>Minute: 30</li>
+</ul>
+
+<h1>External references</h1>
+
+<ul>
+<li><a href="http://www.vdsar.net/rsync-backup-synology-remote-raspberry-pi/">http://www.vdsar.net/rsync-backup-synology-remote-raspberry-pi/</a></li>
+<li><a href="http://www.synology.com/en-us/support/tutorials/461">http://www.synology.com/en-us/support/tutorials/461</a></li>
+<li><a href="http://www.prodeta.nl/synology-network-backups-to-rsync-compatible-servers/">http://www.prodeta.nl/synology-network-backups-to-rsync-compatible-servers/</a></li>
+</ul>
+]]></content:encoded>
+      <dc:date>2014-12-22T00:00:00+01:00</dc:date>
+    </item>
+    <item>
+      <title>Your jekyll site hosted on github pages with bower support</title>
+      <link>http://www.aymerick.com/2014/07/22/jekyll-github-pages-bower-bootstrap.html</link>
+      <description><![CDATA[This blog post is a tutorial to setup a jekyll site with bootstrap installed thanks to bower, and fully hosted on github pages.
+]]></description>
+      <pubDate>Tue, 22 Jul 2014 00:00:00 +0200</pubDate>
+      <guid>http://www.aymerick.com/2014/07/22/jekyll-github-pages-bower-bootstrap.html</guid>
+      <content:encoded><![CDATA[<p>This blog post is a tutorial to setup a jekyll site with <a href="http://getbootstrap.com">bootstrap</a> installed thanks to <a href="http://bower.io/">bower</a>, and fully hosted on github pages.</p>
+
+<p><a href="http://jekyllrb.com/">Jekyll</a> support on github pages is great, but there are some limitations that prevent me from using it:</p>
+
+<ul>
+<li>I want to use <a href="http://bower.io/">bower</a> to manage dependencies, and without pushing the bower components directory to git</li>
+<li>I want to be able to use custom jekyll plugins</li>
+</ul>
+
+<p>So I prefer to directly push the generated site on github pages.</p>
+
+<p>Code for this tutorial is available here: <a href="https://github.com/aymerick/jekyll-example">https://github.com/aymerick/jekyll-example</a></p>
+
+<p>Result website is here: <a href="http://jekyll-example.aymerick.com">http://jekyll-example.aymerick.com</a></p>
+
+<p>Websites I built with that setup:</p>
+
+<ul>
+<li><a href="http://www.aymerick.com">http://www.aymerick.com</a> <em>(source: <a href="https://github.com/aymerick/aymerick.github.io">https://github.com/aymerick/aymerick.github.io</a>)</em></li>
+<li><a href="http://www.williams-bretagne.org">http://www.williams-bretagne.org</a> <em>(source: <a href="https://github.com/aymerick/williams-bretagne">https://github.com/aymerick/williams-bretagne</a>)</em></li>
+</ul>
+
+<h3>Setup the master branch</h3>
+
+<p><strong>WARNING:</strong> This tutorial covers the setup of a <strong>Project Page</strong>, and as so the <code>master</code> branch is used as the source one, and the <code>gh-pages</code> branch holds the generated site. However, if you setup a <strong>User Page</strong> then the <code>master</code> branch holds the generated site, and so  you have to create a new branch (eg: <code>source</code>) to hold your site source.</p>
+
+<p>First, create an empty <code>jekyll-example</code> repository on github via the web interface.</p>
+
+<p>Then generate the website:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ jekyll new jekyll-example
+</code></pre></div>
+<p>Init git:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ cd jekyll-example
+$ git init
+$ git add .
+$ git commit -m &quot;Generated by Jekyll v2.1.1&quot;
+</code></pre></div>
+<p>Push <code>master</code> to github:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git remote add origin git@github.com:aymerick/jekyll-example.git
+$ git push -u origin master
+</code></pre></div>
+<h3>Setup the gh-pages branch</h3>
+
+<p>Create an orphan <code>gh-pages</code> branch:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git checkout --orphan gh-pages
+$ git reset .
+$ rm -r *
+$ rm .gitignore
+$ echo &#39;Coming soon&#39; &gt; index.html
+$ git add index.html
+$ git commit -m &quot;init&quot;
+</code></pre></div>
+<p>That way the <code>master</code> and the <code>gh-pages</code> branches are totally independant ones, they share no history at all.</p>
+
+<p>Push <code>gh-pages</code> to github:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git push -u origin gh-pages
+</code></pre></div>
+<p>Now you should see <code>Coming soon</code> message when browsing to: <a href="http://aymerick.github.io/jekyll-example/">http://aymerick.github.io/jekyll-example/</a></p>
+
+<h3>Checkout the gh-pages branch in _dist directory</h3>
+
+<p>Let&#39;s work in <code>master</code> branch:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git checkout master
+</code></pre></div>
+<p>Checkout the <code>gh-pages</code> branch into <code>_site</code> directory:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git clone git@github.com:aymerick/jekyll-example.git -b gh-pages _site
+</code></pre></div>
+<p>The <code>_site</code> directory is already in <code>.gitignore</code> so we are just fine.</p>
+
+<p>Let&#39;s test our new website:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ jekyll serve
+</code></pre></div>
+<p>Browse to <a href="http://127.0.0.1:4000/">http://127.0.0.1:4000/</a> and Bingo!</p>
+
+<p>Push the generated site on github:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ cd _site
+$ git add .
+$ git commit -m &quot;First generation&quot;
+$ git push
+</code></pre></div>
+<p>Now browse to <a href="http://aymerick.github.io/jekyll-example/">http://aymerick.github.io/jekyll-example/</a> and ... wow... the jekyll site is displayed but the CSS is broken. Why ? Because you have to set the <code>baseurl</code> setting in the main config file.</p>
+
+<p>So edit the <code>_config.yml</code> file and set:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">baseurl: &quot;/jekyll-example&quot;
+url: &quot;http://aymerick.github.io&quot;
+</code></pre></div>
+<p>Regenerate the site, and push result on github:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ cd ..
+$ jekyll build
+$ cd _site
+$ git add .
+$ git commit -m &quot;Fixes baseurl&quot;
+$ git push
+</code></pre></div>
+<p>Now browse to <a href="http://aymerick.github.io/jekyll-example/">http://aymerick.github.io/jekyll-example/</a> and everything should be fine.</p>
+
+<p>Let&#39;s go back locally:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ cd ..
+$ jekyll serve
+</code></pre></div>
+<p>Note that the local site is now accessible at <a href="http://127.0.0.1:4000/jekyll-example/">http://127.0.0.1:4000/jekyll-example/</a></p>
+
+<h3>Disable jekyll build on github</h3>
+
+<p>To be sure that jekyll generation is not triggered on github, you must add an empty <code>.nojekyll</code> file.</p>
+
+<p>Then edit the <code>_config.yml</code> file and set:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">include:
+  - .nojekyll
+</code></pre></div>
+<h3>Setup bower</h3>
+
+<p>Install bower:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ npm install -g bower
+$ bower init
+</code></pre></div>
+<p>The <code>bower.json</code> file should have been created with something like that:</p>
+
+<div class="highlight"><pre><code class="json"><span class="p">{</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;jekyll-example&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.0&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="s2">&quot;https://github.com/aymerick/jekyll-example&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;authors&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;Aymerick Jéhanne&quot;</span>
+  <span class="p">],</span>
+  <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Jekyll setup example&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;license&quot;</span><span class="p">:</span> <span class="s2">&quot;MIT&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;private&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="nt">&quot;ignore&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">&quot;**/.*&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;node_modules&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;bower_components&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tests&quot;</span>
+  <span class="p">]</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Now, we need to exclude bower files from jekyll build. Edit the <code>_config.yml</code> file and adds:</p>
+
+<div class="highlight"><pre><code class="yaml"><span class="l-Scalar-Plain">exclude</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="s">&quot;bower_components&quot;</span>
+  <span class="p-Indicator">-</span> <span class="s">&quot;bower.json&quot;</span></code></pre></div>
+
+<p>Make git ignore bower components by adding that line to <code>.gitignore</code> file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">/bower_components/
+</code></pre></div>
+<h3>Install bootstrap</h3>
+
+<p>Let&#39;s install <a href="http://getbootstrap.com">bootstrap</a> with bower:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ bower install bootstrap --save
+</code></pre></div>
+<p>Now <code>bootstrap</code> and <code>jquery</code> files are available here:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">/bower_components/bootstrap/dist/css/bootstrap.min.css
+/bower_components/bootstrap/dist/css/bootstrap.min.js
+/bower_components/jquery/dist/css/jquery.min.js
+</code></pre></div>
+<p>I really don&#39;t want to push the whole <code>bower_components</code> directory to github. So let&#39;s setup a build system with <a href="http://gruntjs.com/">grunt</a> that will replace <code>jekyll</code> tool and that will copy the vendor files as I want it.</p>
+
+<h3>Setup npm</h3>
+
+<p>Init npm:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ npm init
+</code></pre></div>
+<p>The <code>package.json</code> file should have been created with something like that:</p>
+
+<div class="highlight"><pre><code class="json"><span class="p">{</span>
+  <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;jekyll-example&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.0&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Jekyll setup example&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;main&quot;</span><span class="p">:</span> <span class="s2">&quot;_site/index.html&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;scripts&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;test&quot;</span><span class="p">:</span> <span class="s2">&quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;repository&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;git&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;git://github.com/aymerick/jekyll-example.git&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;Aymerick Jéhanne&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;license&quot;</span><span class="p">:</span> <span class="s2">&quot;MIT&quot;</span><span class="p">,</span>
+  <span class="nt">&quot;bugs&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://github.com/aymerick/jekyll-example/issues&quot;</span>
+  <span class="p">},</span>
+  <span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="s2">&quot;https://github.com/aymerick/jekyll-example&quot;</span>
+<span class="p">}</span></code></pre></div>
+
+<p>To exclude npm files from jekyll build, edit the <code>_config.yml</code> file and adds:</p>
+
+<div class="highlight"><pre><code class="yaml"><span class="l-Scalar-Plain">exclude</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="s">&quot;node_modules&quot;</span>
+  <span class="p-Indicator">-</span> <span class="s">&quot;package.json&quot;</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">...</span></code></pre></div>
+
+<p>Make git ignore npm packages by adding that line to <code>.gitignore</code> file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">/node_modules/
+...
+</code></pre></div>
+<h3>The grunt file</h3>
+
+<p>First, install needed grunt packages:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ npm install -g grunt-cli
+$ npm install grunt grunt-bower-task grunt-contrib-connect grunt-contrib-copy grunt-contrib-watch grunt-exec --save-dev
+</code></pre></div>
+<p>Now the fun part begins, let&#39;s create the grunt file. I&#39;m not a big fan of <a href="http://coffeescript.org">coffescript</a>, but for the purpose of a <em>makefile</em> I think its syntax is elegant and cleaner than raw javascript.</p>
+
+<p>So here is the <code>Gruntfile.coffee</code> file:</p>
+
+<div class="highlight"><pre><code class="js"><span class="err">#</span><span class="nx">global</span> <span class="nx">module</span><span class="o">:</span><span class="kc">false</span>
+
+<span class="s2">&quot;use strict&quot;</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="o">-&gt;</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span> <span class="s2">&quot;grunt-bower-task&quot;</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span> <span class="s2">&quot;grunt-contrib-connect&quot;</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span> <span class="s2">&quot;grunt-contrib-copy&quot;</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span> <span class="s2">&quot;grunt-contrib-watch&quot;</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span> <span class="s2">&quot;grunt-exec&quot;</span>
+
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">initConfig</span>
+
+    <span class="nx">copy</span><span class="o">:</span>
+      <span class="nx">jquery</span><span class="o">:</span>
+        <span class="nx">files</span><span class="o">:</span> <span class="p">[{</span>
+          <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span>
+          <span class="nx">cwd</span><span class="o">:</span> <span class="s2">&quot;bower_components/jquery/dist/&quot;</span>
+          <span class="nx">src</span><span class="o">:</span> <span class="s2">&quot;jquery.min.js&quot;</span>
+          <span class="nx">dest</span><span class="o">:</span> <span class="s2">&quot;vendor/js/&quot;</span>
+        <span class="p">}]</span>
+      <span class="nx">bootstrap</span><span class="o">:</span>
+        <span class="nx">files</span><span class="o">:</span> <span class="p">[{</span>
+          <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span>
+          <span class="nx">cwd</span><span class="o">:</span> <span class="s2">&quot;bower_components/bootstrap/dist/css/&quot;</span>
+          <span class="nx">src</span><span class="o">:</span> <span class="s2">&quot;bootstrap.min.css&quot;</span>
+          <span class="nx">dest</span><span class="o">:</span> <span class="s2">&quot;vendor/css/&quot;</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+          <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span>
+          <span class="nx">cwd</span><span class="o">:</span> <span class="s2">&quot;bower_components/bootstrap/dist/js/&quot;</span>
+          <span class="nx">src</span><span class="o">:</span> <span class="s2">&quot;bootstrap.min.js&quot;</span>
+          <span class="nx">dest</span><span class="o">:</span> <span class="s2">&quot;vendor/js/&quot;</span>
+        <span class="p">}]</span>
+
+    <span class="nx">exec</span><span class="o">:</span>
+      <span class="nx">jekyll</span><span class="o">:</span>
+        <span class="nx">cmd</span><span class="o">:</span> <span class="s2">&quot;jekyll build --trace&quot;</span>
+
+    <span class="nx">watch</span><span class="o">:</span>
+      <span class="nx">options</span><span class="o">:</span>
+        <span class="nx">livereload</span><span class="o">:</span> <span class="kc">true</span>
+      <span class="nx">source</span><span class="o">:</span>
+        <span class="nx">files</span><span class="o">:</span> <span class="p">[</span>
+          <span class="s2">&quot;_drafts/**/*&quot;</span>
+          <span class="s2">&quot;_includes/**/*&quot;</span>
+          <span class="s2">&quot;_layouts/**/*&quot;</span>
+          <span class="s2">&quot;_posts/**/*&quot;</span>
+          <span class="s2">&quot;css/**/*&quot;</span>
+          <span class="s2">&quot;js/**/*&quot;</span>
+          <span class="s2">&quot;_config.yml&quot;</span>
+          <span class="s2">&quot;*.html&quot;</span>
+          <span class="s2">&quot;*.md&quot;</span>
+        <span class="p">]</span>
+        <span class="nx">tasks</span><span class="o">:</span> <span class="p">[</span>
+          <span class="s2">&quot;exec:jekyll&quot;</span>
+        <span class="p">]</span>
+
+    <span class="nx">connect</span><span class="o">:</span>
+      <span class="nx">server</span><span class="o">:</span>
+        <span class="nx">options</span><span class="o">:</span>
+          <span class="nx">port</span><span class="o">:</span> <span class="mi">4000</span>
+          <span class="nx">base</span><span class="o">:</span> <span class="s1">&#39;_site&#39;</span>
+          <span class="nx">livereload</span><span class="o">:</span> <span class="kc">true</span>
+
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span> <span class="s2">&quot;build&quot;</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s2">&quot;copy&quot;</span>
+    <span class="s2">&quot;exec:jekyll&quot;</span>
+  <span class="p">]</span>
+
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span> <span class="s2">&quot;serve&quot;</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s2">&quot;build&quot;</span>
+    <span class="s2">&quot;connect:server&quot;</span>
+    <span class="s2">&quot;watch&quot;</span>
+  <span class="p">]</span>
+
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="p">[</span>
+    <span class="s2">&quot;serve&quot;</span>
+  <span class="p">]</span></code></pre></div>
+
+<p>First let&#39;s exclude the grunt file from jekyll build, by editing the <code>_config.yml</code> file and adding:</p>
+
+<div class="highlight"><pre><code class="yaml"><span class="l-Scalar-Plain">exclude</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="s">&quot;Gruntfile.coffee&quot;</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">...</span></code></pre></div>
+
+<h3>The grunt tasks</h3>
+
+<p>The <code>copy</code> subtask copies the <code>jquery</code> and <code>bootstrap</code> files to a new <code>vendor</code> directory. That directory will be copied as is by jekyll to <code>_dist</code> so it acts as a temporary zone and must be ignored by git. Adds that line to <code>.gitignore</code> file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  /vendor/
+  ...
+</code></pre></div>
+<p>The <code>exec:jekyll</code> subtask invokes the <code>jekyll</code> tool to build the site into <code>_site</code> directory.</p>
+
+<p>The <code>connect:server</code> subtask launches a server on port <code>4000</code>.</p>
+
+<p>The <code>watch</code> subtask rebuilds the site when a source file changes. The list of all watched source files must be provided in the <code>files</code> setting. Remember to update that setting when you add custom directories or files.</p>
+
+<p>Note the use of <code>livereload: true</code> in both <code>watch</code> and <code>connect:server</code> subtasks. Thanks to that setting, your browser will reload automatically when one of the source files changes.</p>
+
+<h3>Include bootstrap files</h3>
+
+<p>Let&#39;s include <code>vendor</code> files in our jekyll site:</p>
+
+<p>Edit the <code>_includes/head.html</code> file and add that line:</p>
+
+<div class="highlight"><pre><code class="html"><span class="c">&lt;!-- Custom CSS --&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;/vendor/css/bootstrap.min.css&quot;</span><span class="nt">&gt;</span></code></pre></div>
+
+<p>Edit the <code>_layouts/default.html</code> file and add those lines before <code>&lt;/body&gt;</code>:</p>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;/vendor/js/jquery.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;/vendor/js/bootstrap.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span></code></pre></div>
+
+<h3>The baseurl dilemma</h3>
+
+<p>So now, you can replace the <code>jekyll serve</code> command with:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ grunt
+</code></pre></div>
+<p>Or if you want verbose logs:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ grunt -v
+</code></pre></div>
+<p>But there is a problem:</p>
+
+<ul>
+<li>If you browse to <a href="http://127.0.0.1:4000/jekyll-example">http://127.0.0.1:4000/jekyll-example</a> you get a <code>Cannot GET /jekyll-example/</code> error</li>
+<li>If you browse to <a href="http://127.0.0.1:4000/">http://127.0.0.1:4000/</a> then the CSS is broken</li>
+</ul>
+
+<p>That&#39;s because jekyll is configured with <code>baseurl: &quot;/jekyll-example&quot;</code> so that it is browsable at <a href="http://aymerick.github.io/jekyll-example/">http://aymerick.github.io/jekyll-example/</a> but there is no such setting with <code>grunt-contrib-connect</code>. The <code>grunt-contrib-connect</code> package expects you to browse <a href="http://127.0.0.1:4000/">http://127.0.0.1:4000/</a>.</p>
+
+<h3>Custom domain name</h3>
+
+<p>I personnally always host my jekyll sites on custom domain names, so I will host that example on <a href="http://jekyll-example.aymerick.com">http://jekyll-example.aymerick.com</a> instead of <a href="http://aymerick.github.io/jekyll-example/">http://aymerick.github.io/jekyll-example/</a>.</p>
+
+<p>That way I don&#39;t need a <code>baseurl</code> setting and this setup works the same for development and for production. If you really need to keep the <code>baseurl</code> setting then you should probably create a new &#39;production specific&#39; grunt task that will build jekyll with the <code>--baseurl URL</code> option.</p>
+
+<p>So, first you need to comment the <code>baseurl</code> setting in the <code>_config.yml</code> file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"># baseurl: &quot;/jekyll-example&quot;
+</code></pre></div>
+<p>Then create a <code>CNAME</code> file with the custom domain name:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">jekyll-example.aymerick.com
+</code></pre></div>
+<p>Finally go to your DNS provider website and setup a <code>CNAME</code> from <code>jekyll-example.aymerick.com</code> to <code>aymerick.github.io</code>.</p>
+
+<p>Let&#39;s push everything:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ grunt build
+$ cd _site
+$ git add .
+$ git commit -m &quot;Setup bootstrap and custom domain&quot;
+$ git push
+$ cd ..
+</code></pre></div>
+<p>And now, browse to <a href="http://jekyll-example.aymerick.com">http://jekyll-example.aymerick.com</a>.</p>
+
+<p>You should probably see a <code>404 There isn&#39;t a GitHub Page here.</code> error, that&#39;s because it takes some time for github to setup your new custom domain configuration. Just wait a few minutes then try again, you will eventually see your site.</p>
+
+<h3>The deploy task</h3>
+
+<p>It is tedious to manually commit and push the <code>gh-pages</code> branch when you want to deploy to github pages. Let&#39;s create a rake task that will help us with that.</p>
+
+<p>Create a <code>Rakefile</code> file:</p>
+
+<div class="highlight"><pre><code class="ruby"><span class="nb">require</span> <span class="s2">&quot;rubygems&quot;</span>
+
+<span class="n">desc</span> <span class="s2">&quot;Deploy to Github Pages&quot;</span>
+<span class="n">task</span> <span class="ss">:deploy</span> <span class="k">do</span>
+  <span class="nb">puts</span> <span class="s2">&quot;## Deploying to Github Pages&quot;</span>
+
+  <span class="nb">puts</span> <span class="s2">&quot;## Generating site&quot;</span>
+  <span class="nb">system</span> <span class="s2">&quot;grunt build&quot;</span>
+
+  <span class="n">cd</span> <span class="s2">&quot;_site&quot;</span> <span class="k">do</span>
+    <span class="nb">system</span> <span class="s2">&quot;git add -A&quot;</span>
+
+    <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Site updated at </span><span class="si">#{</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">utc</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nb">puts</span> <span class="s2">&quot;## Commiting: </span><span class="si">#{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nb">system</span> <span class="s2">&quot;git commit -m </span><span class="se">\&quot;</span><span class="si">#{</span><span class="n">message</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2">&quot;</span>
+
+    <span class="nb">puts</span> <span class="s2">&quot;## Pushing generated site&quot;</span>
+    <span class="nb">system</span> <span class="s2">&quot;git push&quot;</span>
+
+    <span class="nb">puts</span> <span class="s2">&quot;## Deploy Complete!&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+
+<p>Exclude <code>Rakefile</code> from jekyll build, by editing the <code>_config.yml</code> file and adding:</p>
+
+<div class="highlight"><pre><code class="yaml"><span class="l-Scalar-Plain">exclude</span><span class="p-Indicator">:</span>
+  <span class="p-Indicator">-</span> <span class="s">&quot;Rakefile&quot;</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">...</span></code></pre></div>
+
+<p>And now, deploying your site on github page is as simple as running:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ rake deploy
+</code></pre></div>
+<h3>Conclusion</h3>
+
+<p>With that setup, you only have two commands to run:</p>
+
+<ul>
+<li><code>grunt</code> while developing, with live reload support</li>
+<li><code>rake deploy</code> to deploy the site in production</li>
+</ul>
+
+<p>You can now add more bower packages, use custom jekyll plugins, and have fun :)</p>
+
+<p><em>(You can contact me <a href="https://twitter.com/aymerick">@aymerick</a> and I want to thanks <a href="https://twitter.com/octplane">@octplane</a> for reviewing this tutorial)</em></p>
+]]></content:encoded>
+      <dc:date>2014-07-22T00:00:00+02:00</dc:date>
+    </item>
+    <item>
+      <title>Logitec Media Server on a raspberry pi</title>
+      <link>http://www.aymerick.com/2014/01/29/logitech_media_server_on_raspberrypi.html</link>
+      <description><![CDATA[Prerequisites
+]]></description>
+      <pubDate>Wed, 29 Jan 2014 00:00:00 +0100</pubDate>
+      <guid>http://www.aymerick.com/2014/01/29/logitech_media_server_on_raspberrypi.html</guid>
+      <content:encoded><![CDATA[<h1>Prerequisites</h1>
+
+<ul>
+<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+</ul>
+
+<h1>Install</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install libjpeg8 libpng12-0 libgif4 libexif12 libswscale2 libavcodec53
+<span class="nv">$ </span>wget http://downloads.slimdevices.com/LogitechMediaServer_v7.7.3/logitechmediaserver_7.7.3_all.deb
+<span class="nv">$ </span>sudo dpkg -i logitechmediaserver_7.7.3_all.deb</code></pre></div>
+
+<h1>Fix install</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo service logitechmediaserver stop
+
+<span class="nv">$ </span>wget http://allthingspi.webspace.virginmedia.com/files/lms-rpi-raspbian.tar.gz
+<span class="nv">$ </span>tar -zxvf lms-rpi-raspbian.tar.gz
+<span class="nv">$ </span>sudo patch /usr/share/perl5/Slim/bootstrap.pm lms-rpi-bootstrap.patch
+
+<span class="nv">$ </span>sudo mv arm-linux-gnueabihf-thread-multi-64int /usr/share/squeezeboxserver/CPAN/arch/5.14/
+<span class="nv">$ </span>sudo mv libmediascan.so.0.0.0 libfaad.so.2.0.0 /usr/local/lib
+<span class="nv">$ </span>sudo mv /usr/share/squeezeboxserver/Bin/arm-linux/faad /usr/share/squeezeboxserver/Bin/arm-linux/faad.old
+<span class="nv">$ </span>sudo mv faad /usr/share/squeezeboxserver/Bin/arm-linux
+<span class="nv">$ </span>sudo ln -s /usr/local/lib/libmediascan.so.0.0.0 /usr/local/lib/libmediascan.so
+<span class="nv">$ </span>sudo ln -s /usr/local/lib/libmediascan.so.0.0.0 /usr/local/lib/libmediascan.so.0
+<span class="nv">$ </span>sudo ln -s /usr/local/lib/libfaad.so.2.0.0 /usr/local/lib/libfaad.so
+<span class="nv">$ </span>sudo ln -s /usr/local/lib/libfaad.so.2.0.0 /usr/local/lib/libfaad.so.2
+<span class="nv">$ </span>sudo ldconfig
+
+<span class="nv">$ </span>sudo chown -R squeezeboxserver:nogroup /usr/share/squeezeboxserver/
+
+<span class="nv">$ </span>sudo service logitechmediaserver start</code></pre></div>
+
+<p>Browse to: <a href="http://pikan.local:9000">http://pikan.local:9000</a></p>
+
+<h1>External references</h1>
+
+<ul>
+<li><a href="http://allthingspi.webspace.virginmedia.com/lms.php">http://allthingspi.webspace.virginmedia.com/lms.php</a></li>
+<li><a href="http://wiki.slimdevices.com/index.php/Logitech_Media_Server">http://wiki.slimdevices.com/index.php/Logitech_Media_Server</a></li>
+</ul>
+]]></content:encoded>
+      <dc:date>2014-01-29T00:00:00+01:00</dc:date>
+    </item>
+    <item>
+      <title>Munin Client on a raspberry pi</title>
+      <link>http://www.aymerick.com/2013/12/25/munin_client_on_raspberrypi.html</link>
+      <description><![CDATA[Prerequisites
+]]></description>
+      <pubDate>Wed, 25 Dec 2013 00:00:00 +0100</pubDate>
+      <guid>http://www.aymerick.com/2013/12/25/munin_client_on_raspberrypi.html</guid>
+      <content:encoded><![CDATA[<h1>Prerequisites</h1>
+
+<ul>
+<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+<li><a href="/2013/12/24/munin_server_on_raspberrypi.html">Munin Server on a Raspberry Pi</a></li>
+</ul>
+
+<h1>Install</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install munin-node munin-plugins-extra</code></pre></div>
+
+<h1>Setup Node</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/munin/munin-node.conf</code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">allow ^192\.168\.0\.44$
+</code></pre></div>
+<p>Install pi sensors:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span><span class="nb">cd</span> /usr/share/munin/plugins
+<span class="nv">$ </span>sudo wget -O pisense_ https://raw.github.com/perception101/pisense/master/pisense_
+<span class="nv">$ </span>sudo chmod a+x pisense_
+<span class="nv">$ </span>sudo ln -s /usr/share/munin/plugins/pisense_ /etc/munin/plugins/pisense_temp
+<span class="nv">$ </span>sudo ln -s /usr/share/munin/plugins/pisense_ /etc/munin/plugins/pisense_clock
+<span class="nv">$ </span>sudo emacs /etc/munin/plugin-conf.d/munin-node</code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[pisense_*]
+user root
+</code></pre></div>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>munin-node-configure
+<span class="nv">$ </span>sudo /etc/init.d/munin-node restart</code></pre></div>
+
+<h1>Setup Server</h1>
+
+<p>On Munin Server (pikan.local):</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/munin/munin.conf</code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[NODE-NAME.local]
+    address 192.168.0.42
+    use_node_name yes
+</code></pre></div>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo service munin restart</code></pre></div>
+
+<p>Test:</p>
+
+<div class="highlight"><pre><code class="bash">pi@pikan:~<span class="nv">$ </span>telnet NODE-NAME.local 4949
+Trying 192.168.0.42...
+Connected to 192.168.0.42.
+Escape character is <span class="s1">&#39;^]&#39;</span>.
+<span class="c"># munin node at NODE-NAME</span>
+list
+cpu df df_inode entropy forks fw_packets if_err_eth0 if_eth0 interrupts irqstats load memory nfs4_client nfs_client nfsd nfsd4 ntp_kernel_err ntp_kernel_pll_freq ntp_kernel_pll_off ntp_offset open_files open_inodes pisense_clock pisense_temp proc_pri processes swap threads uptime users vmstat
+quit
+Connection closed by foreign host.
+pi@pikan:~<span class="nv">$ </span>telnet 192.168.0.42 4949
+Trying 192.168.0.42...
+Connected to 192.168.0.42.
+Escape character is <span class="s1">&#39;^]&#39;</span>.
+<span class="c"># munin node at NODE-NAME</span>
+nodes
+NODE-NAME
+.
+list
+cpu df df_inode entropy forks fw_packets if_err_eth0 if_eth0 interrupts irqstats load memory nfs4_client nfs_client nfsd nfsd4 ntp_kernel_err ntp_kernel_pll_freq ntp_kernel_pll_off ntp_offset open_files open_inodes pisense_clock pisense_temp proc_pri processes swap threads uptime users vmstat
+fetch pisense_temp
+temp.value 45.5
+.
+quit
+Connection closed by foreign host.</code></pre></div>
+
+<h1>External references</h1>
+
+<ul>
+<li><a href="http://pingbin.com/2012/07/howto-install-munin-raspberry-pi/">http://pingbin.com/2012/07/howto-install-munin-raspberry-pi/</a></li>
+</ul>
+]]></content:encoded>
+      <dc:date>2013-12-25T00:00:00+01:00</dc:date>
+    </item>
+    <item>
+      <title>Munin Server on a Raspberry Pi</title>
+      <link>http://www.aymerick.com/2013/12/24/munin_server_on_raspberrypi.html</link>
+      <description><![CDATA[Prerequisites
+]]></description>
+      <pubDate>Tue, 24 Dec 2013 00:00:00 +0100</pubDate>
+      <guid>http://www.aymerick.com/2013/12/24/munin_server_on_raspberrypi.html</guid>
+      <content:encoded><![CDATA[<h1>Prerequisites</h1>
+
+<ul>
+<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+<li><a href="/2013/12/23/nginx_on_raspberrypi.html">Nginx on Raspberry Pi</a></li>
+</ul>
+
+<h1>Install</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install munin munin-node munin-plugins-extra</code></pre></div>
+
+<h1>Setup Server</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/munin/munin.conf</code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[pikan.local]
+    address 127.0.0.1
+    use_node_name yes
+</code></pre></div>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/nginx/sites-available/pikan</code></pre></div>
+
+<div class="highlight"><pre><code class="nginx"><span class="k">server</span> <span class="p">{</span>
+    <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
+    <span class="kn">root</span> <span class="s">/var/www</span><span class="p">;</span>
+    <span class="kn">index</span> <span class="s">index.html</span> <span class="s">index.htm</span><span class="p">;</span>
+
+    <span class="kn">location</span> <span class="s">/stats</span> <span class="p">{</span>
+        <span class="kn">stub_status</span> <span class="no">on</span><span class="p">;</span>
+        <span class="kn">access_log</span> <span class="no">off</span><span class="p">;</span>
+        <span class="kn">allow</span> <span class="mi">127</span><span class="s">.0.0.1</span><span class="p">;</span>
+        <span class="kn">allow</span> <span class="mi">192</span><span class="s">.168.0.0/24</span><span class="p">;</span>
+        <span class="kn">deny</span> <span class="s">all</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kn">location</span> <span class="s">/munin</span> <span class="p">{</span>
+        <span class="kn">alias</span> <span class="s">/var/cache/munin/www</span><span class="p">;</span>
+        <span class="kn">index</span> <span class="s">index.html</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo service nginx reload</code></pre></div>
+
+<h1>Test</h1>
+
+<p>Browse: <a href="http://pikan.local/munin">http://pikan.local/munin</a></p>
+
+<p>RDD data is stored in: /var/lib/munin</p>
+
+<h1>Setup Node</h1>
+
+<p>Install pi sensors:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span><span class="nb">cd</span> /usr/share/munin/plugins
+<span class="nv">$ </span>sudo wget -O pisense_ https://raw.github.com/perception101/pisense/master/pisense_
+<span class="nv">$ </span>sudo chmod a+x pisense_
+<span class="nv">$ </span>sudo ln -s /usr/share/munin/plugins/pisense_ /etc/munin/plugins/pisense_temp
+<span class="nv">$ </span>sudo ln -s /usr/share/munin/plugins/pisense_ /etc/munin/plugins/pisense_clock
+<span class="nv">$ </span>sudo emacs /etc/munin/plugin-conf.d/munin-node</code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[pisense_*]
+user root
+</code></pre></div>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>munin-node-configure
+<span class="nv">$ </span>sudo /etc/init.d/munin-node restart</code></pre></div>
+
+<h1>External references</h1>
+
+<ul>
+<li><a href="http://pingbin.com/2011/07/how-to-install-munin-on-debian/">http://pingbin.com/2011/07/how-to-install-munin-on-debian/</a></li>
+<li><a href="http://raspiblog.besaba.com/?p=62">http://raspiblog.besaba.com/?p=62</a></li>
+</ul>
+]]></content:encoded>
+      <dc:date>2013-12-24T00:00:00+01:00</dc:date>
+    </item>
+    <item>
+      <title>Nginx on a Raspberry Pi</title>
+      <link>http://www.aymerick.com/2013/12/23/nginx_on_raspberrypi.html</link>
+      <description><![CDATA[Prerequisites
+]]></description>
+      <pubDate>Mon, 23 Dec 2013 00:00:00 +0100</pubDate>
+      <guid>http://www.aymerick.com/2013/12/23/nginx_on_raspberrypi.html</guid>
+      <content:encoded><![CDATA[<h1>Prerequisites</h1>
+
+<ul>
+<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+</ul>
+
+<h1>Install</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install nginx</code></pre></div>
+
+<h1>Setup</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mkdir /var/www
+<span class="nv">$ </span>sudo chown www-data:www-data /var/www
+<span class="nv">$ </span>sudo unlink /etc/nginx/sites-enabled/default
+<span class="nv">$ </span>sudo emacs /etc/nginx/sites-available/pikan</code></pre></div>
+
+<div class="highlight"><pre><code class="nginx"><span class="k">server</span> <span class="p">{</span>
+    <span class="kn">listen</span> <span class="mi">80</span><span class="p">;</span>
+    <span class="kn">root</span> <span class="s">/var/www</span><span class="p">;</span>
+    <span class="kn">index</span> <span class="s">index.html</span> <span class="s">index.htm</span><span class="p">;</span>
+
+    <span class="kn">location</span> <span class="s">/stats</span> <span class="p">{</span>
+        <span class="kn">stub_status</span> <span class="no">on</span><span class="p">;</span>
+        <span class="kn">access_log</span> <span class="no">off</span><span class="p">;</span>
+        <span class="kn">allow</span> <span class="mi">127</span><span class="s">.0.0.1</span><span class="p">;</span>
+        <span class="kn">allow</span> <span class="mi">192</span><span class="s">.168.0.0/24</span><span class="p">;</span>
+        <span class="kn">deny</span> <span class="s">all</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /var/www/index.html</code></pre></div>
+
+<div class="highlight"><pre><code class="html"><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;title&gt;</span>pikan.local<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;h1&gt;</span>Welcome to pikan<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span></code></pre></div>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span><span class="nb">cd</span> /etc/nginx/sites-enabled
+<span class="nv">$ </span>sudo ln -s ../sites-available/pikan
+<span class="nv">$ </span>sudo service nginx start</code></pre></div>
+
+<h1>Test</h1>
+
+<p>Browse:</p>
+
+<ul>
+<li><a href="http://pikan.local">http://pikan.local</a></li>
+<li><a href="http://pikan.local/stats">http://pikan.local/stats</a></li>
+</ul>
+
+<h1>External references</h1>
+
+<ul>
+<li><a href="http://www.ducky-pond.com/posts/2013/Sep/setup-a-web-server-on-rpi/">http://www.ducky-pond.com/posts/2013/Sep/setup-a-web-server-on-rpi/</a></li>
+</ul>
+]]></content:encoded>
+      <dc:date>2013-12-23T00:00:00+01:00</dc:date>
+    </item>
+    <item>
+      <title>Setup go language workspace</title>
+      <link>http://www.aymerick.com/2013/11/18/setup_go_language_workspace.html</link>
+      <description><![CDATA[Setup Workspace
+]]></description>
+      <pubDate>Mon, 18 Nov 2013 00:00:00 +0100</pubDate>
+      <guid>http://www.aymerick.com/2013/11/18/setup_go_language_workspace.html</guid>
+      <content:encoded><![CDATA[<h1>Setup Workspace</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mkdir -p ~/Dev/go
+<span class="nv">$ </span>emacs ~/.bash_profile</code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">export GOPATH=$HOME/Dev/go
+export PATH=$PATH:$GOPATH/bin
+</code></pre></div>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span><span class="nb">source</span> ~/.bash_profile
+<span class="nv">$ </span><span class="nb">echo</span> <span class="nv">$GOPATH</span></code></pre></div>
+
+<h1>Fetch package</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>go get github.com/aymerick/jeego</code></pre></div>
+
+<p>To Fetch updated package:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>go get -u github.com/aymerick/jeego</code></pre></div>
+
+<h1>Dev on package</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span><span class="nb">cd</span> ~/Dev/go/src/github.com/aymerick/jeego/</code></pre></div>
+
+<p>Make some changes to source files.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>go build
+<span class="nv">$ </span>go install
+<span class="nv">$ </span>jeego</code></pre></div>
+
+<h1>External References</h1>
+
+<ul>
+<li><a href="http://tip.golang.org/doc/code.html">http://tip.golang.org/doc/code.html</a></li>
+</ul>
+]]></content:encoded>
+      <dc:date>2013-11-18T00:00:00+01:00</dc:date>
+    </item>
+    <item>
+      <title>Go language on Raspberry Pi</title>
+      <link>http://www.aymerick.com/2013/09/24/go_language_on_raspberrypi.html</link>
+      <description><![CDATA[Prerequisites
+]]></description>
+      <pubDate>Tue, 24 Sep 2013 00:00:00 +0200</pubDate>
+      <guid>http://www.aymerick.com/2013/09/24/go_language_on_raspberrypi.html</guid>
+      <content:encoded><![CDATA[<h1>Prerequisites</h1>
+
+<ul>
+<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+</ul>
+
+<h1>Install</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>wget http://dave.cheney.net/paste/go1.1.2.linux-arm~multiarch-armv6-1.tar.gz
+<span class="nv">$ </span>sudo tar -C /usr/local -xzf go1.1.2.linux-arm~multiarch-armv6-1.tar.gz</code></pre></div>
+
+<h1>Setup</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>emacs /etc/profile</code></pre></div>
+
+<p>Add <code>:/usr/local/go/bin</code> to <code>PATH</code> then relog.</p>
+
+<h1>Test</h1>
+
+<p>Create a file named <code>hello.go</code> and put the following code in it:</p>
+
+<div class="highlight"><pre><code class="go"><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="s">&quot;fmt&quot;</span>
+
+<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;hello, world\n&quot;</span><span class="p">)</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Then run it with the go tool:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>go run hello.go</code></pre></div>
+
+<h1>External References</h1>
+
+<ul>
+<li><a href="http://dave.cheney.net/unofficial-arm-tarballs">http://dave.cheney.net/unofficial-arm-tarballs</a></li>
+<li><a href="http://tip.golang.org/doc/install">http://tip.golang.org/doc/install</a></li>
+</ul>
+]]></content:encoded>
+      <dc:date>2013-09-24T00:00:00+02:00</dc:date>
+    </item>
+    <item>
+      <title>Raspberry Pi Camera setup</title>
+      <link>http://www.aymerick.com/2013/09/23/raspberrypi_camera_setup.html</link>
+      <description><![CDATA[Prerequisites
+]]></description>
+      <pubDate>Mon, 23 Sep 2013 00:00:00 +0200</pubDate>
+      <guid>http://www.aymerick.com/2013/09/23/raspberrypi_camera_setup.html</guid>
+      <content:encoded><![CDATA[<h1>Prerequisites</h1>
+
+<ul>
+<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+</ul>
+
+<h1>Plug the camera</h1>
+
+<p>Plug the camera as explained here: <a href="http://www.youtube.com/watch?v=GImeVqHQzsE">http://www.youtube.com/watch?v=GImeVqHQzsE</a></p>
+
+<h1>Update system</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get update
+<span class="nv">$ </span>sudo apt-get upgrade</code></pre></div>
+
+<h1>Enable camera</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo raspi-config</code></pre></div>
+
+<p>Enable Camera then reboot.</p>
+
+<h1>Test</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mkdir /home/pi/picam
+<span class="nv">$ </span><span class="nb">cd</span> /home/pi/picam</code></pre></div>
+
+<p>Capture an image in jpeg format:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>raspistill -o image.jpg</code></pre></div>
+
+<p>Capture a 10s video:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>raspivid -o video.h264 -t 10000</code></pre></div>
+
+<p>Capture a 10s video in demo mode:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>raspivid -o video.h264 -t 10000 -d</code></pre></div>
+
+<p>Capture a 5s video in 1280x720 with a bitrate of 8Mb:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>raspivid -o video.h264 -w 1280 -h 720 -b 8000000</code></pre></div>
+
+<p>Convert h264 to mp4:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install -y gpac
+<span class="nv">$ </span>MP4Box -fps 30 -add video.h264 video.mp4</code></pre></div>
+
+<h1>Stream to VLC</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install vlc
+<span class="nv">$ </span>raspivid -o - -t 0 -w 640 -h 360 -fps 25 <span class="p">|</span> cvlc stream:///dev/stdin --sout <span class="s1">&#39;#standard{access=http,mux=ts,dst=:8090}&#39;</span> :demux<span class="o">=</span>h264</code></pre></div>
+
+<p>In VLC: Open Network URL =&gt; <a href="http://IP:8090">http://IP:8090</a></p>
+
+<h1>MJPG Steamer</h1>
+
+<p>TODO: <a href="http://blog.miguelgrinberg.com/post/how-to-build-and-run-mjpg-streamer-on-the-raspberry-pi">http://blog.miguelgrinberg.com/post/how-to-build-and-run-mjpg-streamer-on-the-raspberry-pi</a></p>
+
+<h1>Disable red led</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /boot/config.txt</code></pre></div>
+
+<p>Add line:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">disable_camera_led=1
+</code></pre></div>
+<p>Then reboot:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo reboot</code></pre></div>
+
+<h1>External References</h1>
+
+<ul>
+<li><a href="http://www.raspberrypi.org/archives/3890">http://www.raspberrypi.org/archives/3890</a></li>
+<li><a href="http://www.raspberrypi-spy.co.uk/2013/05/capturing-hd-video-with-the-pi-camera-module/">http://www.raspberrypi-spy.co.uk/2013/05/capturing-hd-video-with-the-pi-camera-module/</a></li>
+<li><a href="http://raspi.tv/2013/how-to-stream-video-from-your-raspicam-to-your-nexus-7-tablet-using-vlc">http://raspi.tv/2013/how-to-stream-video-from-your-raspicam-to-your-nexus-7-tablet-using-vlc</a></li>
+</ul>
+]]></content:encoded>
+      <dc:date>2013-09-23T00:00:00+02:00</dc:date>
+    </item>
+    <item>
+      <title>Sickbeard on Raspberry Pi</title>
+      <link>http://www.aymerick.com/2013/09/22/sickbeard_on_raspberrypi.html</link>
+      <description><![CDATA[Prerequisites
+]]></description>
+      <pubDate>Sun, 22 Sep 2013 00:00:00 +0200</pubDate>
+      <guid>http://www.aymerick.com/2013/09/22/sickbeard_on_raspberrypi.html</guid>
+      <content:encoded><![CDATA[<h1>Prerequisites</h1>
+
+<ul>
+<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+<li><a href="/2013/09/20/nfs_client_on_raspberrypi.html">NFS Client on Raspberry Pi</a></li>
+</ul>
+
+<h1>Install</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install python-cheetah
+<span class="nv">$ </span><span class="nb">cd</span>
+<span class="nv">$ </span>git clone git://github.com/midgetspy/Sick-Beard.git
+<span class="nv">$ </span><span class="nb">cd </span>Sick-Beard
+<span class="nv">$ </span>python SickBeard.py</code></pre></div>
+
+<h1>Configure</h1>
+
+<p>Browse to: <a href="http://IP:8081">http://IP:8081</a></p>
+
+<h2>Config &gt; General</h2>
+
+<ul>
+<li>Uncheck <code>Launch Browser</code></li>
+</ul>
+
+<h2>Config &gt; Search Settings</h2>
+
+<ul>
+<li>Uncheck <code>Search NZBs</code></li>
+<li>Check <code>Search Torrents</code></li>
+<li>Torrent Black Hole: <code>/mnt/freebox/Téléchargements/A Télécharger</code></li>
+</ul>
+
+<h2>Config &gt; Search Provides</h2>
+
+<ul>
+<li>Check EZRSS</li>
+</ul>
+
+<h2>Config &gt; Post Processing</h2>
+
+<ul>
+<li>TV download dir: <code>/mnt/freebox/Téléchargements</code></li>
+<li>Uncheck <code>Keep Original Files</code></li>
+<li>Check <code>Move Associated Files</code></li>
+<li>Uncheck <code>Rename episodes</code></li>
+<li>Check <code>Scan and Process</code></li>
+</ul>
+
+<h1>Setup daemon</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/init.d/sickbeard</code></pre></div>
+
+<p>Set content:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="c">#! /bin/sh</span>
+
+<span class="c"># Author: daemox</span>
+<span class="c"># Basis: Parts of the script based on and inspired by work from</span>
+<span class="c">#tret (sabnzbd.org), beckstown (xbmc.org),</span>
+<span class="c">#and midgetspy (sickbeard.com).</span>
+<span class="c"># Fixes: Alek (ainer.org), James (ainer.org), Tophicles (ainer.org),</span>
+<span class="c">#croontje (sickbeard.com)</span>
+<span class="c"># Contact: http://www.ainer.org</span>
+<span class="c"># Version: 3.1</span>
+
+<span class="c">### BEGIN INIT INFO</span>
+<span class="c"># Provides:          sickbeard</span>
+<span class="c"># Required-Start:    $local_fs $network $remote_fs</span>
+<span class="c"># Required-Stop:     $local_fs $network $remote_fs</span>
+<span class="c"># Should-Start:      $NetworkManager</span>
+<span class="c"># Should-Stop:       $NetworkManager</span>
+<span class="c"># Default-Start:     2 3 4 5</span>
+<span class="c"># Default-Stop:      0 1 6</span>
+<span class="c"># Short-Description: starts and stops sick beard</span>
+<span class="c"># Description:       Sick Beard is an Usenet PVR. For more information see:</span>
+<span class="c">#http://www.sickbeard.com</span>
+<span class="c">### END INIT INFO</span>
+
+<span class="c">#Required -- Must Be Changed!</span>
+<span class="nv">USER</span><span class="o">=</span><span class="s2">&quot;pi&quot;</span> <span class="c">#Set Linux Mint, Ubuntu, or Debian user name here.</span>
+
+<span class="c">#Required -- Defaults Provided (only change if you know you need to).</span>
+<span class="nv">HOST</span><span class="o">=</span><span class="s2">&quot;127.0.0.1&quot;</span> <span class="c">#Set Sick Beard address here.</span>
+<span class="nv">PORT</span><span class="o">=</span><span class="s2">&quot;8081&quot;</span> <span class="c">#Set Sick Beard port here.</span>
+
+<span class="c">#Optional -- Unneeded unless you have added a user name and password to Sick Beard.</span>
+<span class="nv">SBUSR</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="c">#Set Sick Beard user name (if you use one) here.</span>
+<span class="nv">SBPWD</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="c">#Set Sick Beard password (if you use one) here.</span>
+
+<span class="c">#Script -- No changes needed below.</span>
+<span class="k">case</span> <span class="s2">&quot;$1&quot;</span> in
+start<span class="o">)</span>
+<span class="c">#Start Sick Beard and send all messages to /dev/null.</span>
+<span class="nb">cd</span> /home/<span class="nv">$USER</span>/Sick-Beard
+<span class="nb">echo</span> <span class="s2">&quot;Starting Sick Beard&quot;</span>
+sudo -u <span class="nv">$USER</span> -EH nohup python /home/<span class="nv">$USER</span>/Sick-Beard/SickBeard.py -q &gt; /dev/null 2&gt;<span class="p">&amp;</span>1 <span class="p">&amp;</span>
+<span class="p">;;</span>
+stop<span class="o">)</span>
+<span class="c">#Shutdown Sick Beard and delete the index.html files that wget generates.</span>
+<span class="nb">echo</span> <span class="s2">&quot;Stopping Sick Beard&quot;</span>
+wget -q --user<span class="o">=</span><span class="nv">$SBUSR</span> --password<span class="o">=</span><span class="nv">$SBPWD</span> <span class="s2">&quot;http://$HOST:$PORT/home/shutdown/&quot;</span> --delete-after
+sleep 6s
+<span class="p">;;</span>
+*<span class="o">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;Usage: $0 {start|stop}&quot;</span>
+<span class="nb">exit </span>1
+<span class="k">esac</span>
+
+<span class="nb">exit </span>0</code></pre></div>
+
+<h1>Start daemon</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo chmod a+x /etc/init.d/sickbeard
+<span class="nv">$ </span>sudo update-rc.d sickbeard defaults
+<span class="nv">$ </span>sudo /etc/init.d/sickbeard start</code></pre></div>
+
+<h1>External References</h1>
+
+<ul>
+<li><a href="http://www.howtogeek.com/146410/how-to-automate-your-always-on-raspberry-pi-download-box/all/">http://www.howtogeek.com/146410/how-to-automate-your-always-on-raspberry-pi-download-box/all/</a></li>
+<li><a href="http://www.ainer.org/sick-beard-install-setup-configuration-guide-for-ubuntu-linux-mint">http://www.ainer.org/sick-beard-install-setup-configuration-guide-for-ubuntu-linux-mint</a></li>
+</ul>
+]]></content:encoded>
+      <dc:date>2013-09-22T00:00:00+02:00</dc:date>
+    </item>
+    <item>
+      <title>minidlna on Raspberry Pi</title>
+      <link>http://www.aymerick.com/2013/09/21/mini_dlna_on_raspberrypi.html</link>
+      <description><![CDATA[Prerequisites
+]]></description>
+      <pubDate>Sat, 21 Sep 2013 00:00:00 +0200</pubDate>
+      <guid>http://www.aymerick.com/2013/09/21/mini_dlna_on_raspberrypi.html</guid>
+      <content:encoded><![CDATA[<h1>Prerequisites</h1>
+
+<ul>
+<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+<li><a href="/2013/09/20/nfs_client_on_raspberrypi.html">NFS Client on Raspberry Pi</a></li>
+</ul>
+
+<h1>Goal</h1>
+
+<p>There are some animes on my <a href="http://www.synology.com/">NAS</a> for my kids. They mainly watch them on TV thanks to the <a href="http://en.wikipedia.org/wiki/Freebox">freebox</a> that acts as a DLNA client talking to the <a href="http://www.synology.com/dsm/home_home_applications_media_server.php">Media Server</a> intalled on the NAS. But my NAS is a but overloaded, so I decided to replace its <a href="http://www.synology.com/dsm/home_home_applications_media_server.php">Media Server</a> with a light DLNA server on a raspberry pi.</p>
+
+<h1>Install</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install minidlna</code></pre></div>
+
+<h1>Configure</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/minidlna.conf</code></pre></div>
+
+<p>Set those lines:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  media_dir=V,/mnt/video/dessins_animes
+  friendly_name=Dessins animes
+  root_container=B
+  inotify=yes
+</code></pre></div>
+<h1>Reload database</h1>
+
+<p>It seems that inotify does not work with NFS shares, so when I add new animes I have to run:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo minidlna -R</code></pre></div>
+
+<h1>Restart daemon</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo /etc/init.d/minidlna restart
+<span class="nv">$ </span>sudo /etc/init.d/minidlna force-reload</code></pre></div>
+
+<p>Note that <code>minidlna</code> reindex all files at each restart, so you have to wait a bit before trying to access the videos from the freebox.</p>
+
+<h1>External References</h1>
+
+<ul>
+<li><a href="http://doc.ubuntu-fr.org/minidlna">http://doc.ubuntu-fr.org/minidlna</a></li>
+</ul>
+]]></content:encoded>
+      <dc:date>2013-09-21T00:00:00+02:00</dc:date>
+    </item>
+    <item>
+      <title>NFS Client on Raspberry Pi</title>
+      <link>http://www.aymerick.com/2013/09/20/nfs_client_on_raspberrypi.html</link>
+      <description><![CDATA[Prerequisites
+]]></description>
+      <pubDate>Fri, 20 Sep 2013 00:00:00 +0200</pubDate>
+      <guid>http://www.aymerick.com/2013/09/20/nfs_client_on_raspberrypi.html</guid>
+      <content:encoded><![CDATA[<h1>Prerequisites</h1>
+
+<ul>
+<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+</ul>
+
+<h1>Mount folders on NAS</h1>
+
+<p>My goal is to share folders that are on my <a href="http://www.synology.com/">NAS</a> which hostname is <code>chezak.local</code> and IP is <code>192.168.0.13</code>. So first:</p>
+
+<ul>
+<li>create a <code>pi</code> user/group on the NAS with the sames uids as on the pi: <code>1000/1000</code></li>
+<li>setup NFS permissions on shared directories on the NAS via the web interface</li>
+</ul>
+
+<p>It seems that <code>rpcbin</code> is a necessary dependency:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install rpcbind
+<span class="nv">$ </span>sudo update-rc.d rpcbind <span class="nb">enable</span>
+<span class="nv">$ </span>sudo /etc/init.d/rpcbind start</code></pre></div>
+
+<p>Create folders:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mkdir /mnt/incoming
+<span class="nv">$ </span>sudo mkdir /mnt/music
+<span class="nv">$ </span>sudo mkdir /mnt/video</code></pre></div>
+
+<p>Mount folders:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mount chezak.local:/volume1/incoming /mnt/incoming
+<span class="nv">$ </span>sudo mount chezak.local:/volume1/music /mnt/music
+<span class="nv">$ </span>sudo mount chezak.local:/volume1/video /mnt/video</code></pre></div>
+
+<p>Test:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>showmount -e chezak.local</code></pre></div>
+
+<p>Persist mounts:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/fstab</code></pre></div>
+
+<p>Add those lines:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">192.168.0.13:/volume1/incoming /mnt/incoming nfs rw,hard,intr 0 0
+192.168.0.13:/volume1/music /mnt/music nfs ro,hard,intr 0 0
+192.168.0.13:/volume1/video /mnt/video nfs ro,hard,intr 0 0
+</code></pre></div>
+<p>External References:</p>
+
+<ul>
+<li><a href="https://help.ubuntu.com/community/SettingUpNFSHowTo">https://help.ubuntu.com/community/SettingUpNFSHowTo</a></li>
+<li><a href="https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/3/html/System_Administration_Guide/s1-nfs-mount.html">https://access.redhat.com/site/documentation/en-US/Red_Hat_Enterprise_Linux/3/html/System_Administration_Guide/s1-nfs-mount.html</a></li>
+</ul>
+
+<h1>Mount folder on Freebox v6</h1>
+
+<p>First, enable windows share on <a href="http://en.wikipedia.org/wiki/Freebox">freebox</a> with user/pass and <code>CHEZAK</code> workgroup.</p>
+
+<p>Freebox&#39;s hostname is <code>mafreebox.freebox.fr</code>.</p>
+
+<p>Test:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>smbclient -L mafreebox.freebox.fr -N <span class="p">|</span> grep <span class="s2">&quot;Disk&quot;</span> <span class="p">|</span> cut -c -17</code></pre></div>
+
+<p>Create folder:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mkdir /mnt/freebox</code></pre></div>
+
+<p>Setup mount:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/fstab</code></pre></div>
+
+<p>Add that line:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">//mafreebox.freebox.fr/Disque\040dur /mnt/freebox cifs _netdev,rw,users,iocharset=utf8,user=freebox,password=PASSWORD, uid=1000,sec=none,file_mode=0777,dir_mode=0777 0 0
+</code></pre></div>
+<p>Mount folder:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mount /mnt/freebox</code></pre></div>
+
+<p>External References:</p>
+
+<ul>
+<li><a href="http://www.mumbly58.fr/monter-automatiquement-les-disques-de-la-freebox/">http://www.mumbly58.fr/monter-automatiquement-les-disques-de-la-freebox/</a></li>
+<li><a href="http://doc.ubuntu-fr.org/freeboxv6">http://doc.ubuntu-fr.org/freeboxv6</a></li>
+</ul>
+]]></content:encoded>
+      <dc:date>2013-09-20T00:00:00+02:00</dc:date>
+    </item>
+    <item>
+      <title>Audio on Raspberry Pi</title>
+      <link>http://www.aymerick.com/2013/09/19/audio_on_raspberrypi.html</link>
+      <description><![CDATA[Prerequisites
+]]></description>
+      <pubDate>Thu, 19 Sep 2013 00:00:00 +0200</pubDate>
+      <guid>http://www.aymerick.com/2013/09/19/audio_on_raspberrypi.html</guid>
+      <content:encoded><![CDATA[<h1>Prerequisites</h1>
+
+<ul>
+<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+</ul>
+
+<h1>Sound tests</h1>
+
+<p>List sound devices:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>aplay -L</code></pre></div>
+
+<p>Play a sound on default RPI output:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>aplay /usr/share/scratch/Media/Sounds/Vocals/Singer2.wav</code></pre></div>
+
+<h1>Install a DAC</h1>
+
+<p>I bought <a href="http://www.ebay.fr/itm/New-PCM2704-USB-DAC-USB-to-S-PDIF-Sound-Card-Decoder-Board-with-Aluminum-Housing-/160945210698">this USB DAC</a> but it is cheaper <a href="http://www.ebay.fr/itm/New-PCM2704-USB-DAC-USB-to-S-PDIF-Sound-Card-Decoder-Board-3-5mm-Analog-Output-/160945208556">without the enclosure</a>.</p>
+
+<p>Play on USB DAC:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>aplay -D default:CARD<span class="o">=</span>DAC /usr/share/scratch/Media/Sounds/Vocals/Singer2.wav</code></pre></div>
+
+<p>Set USB DAC as default output:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/modprobe.d/alsa-base.conf</code></pre></div>
+
+<p>Comment that line:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">options snd-usb-audio index=-2
+</code></pre></div>
+<p>Add that line:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">options snd-usb-audio nrpacks=1
+</code></pre></div>
+<p>Restart daemon:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo /etc/init.d/alsasound restart</code></pre></div>
+
+<h1>Install squeezelite</h1>
+
+<p>I already have a <a href="http://en.wikipedia.org/wiki/Logitech_Media_Server">Logitec Media Server</a> installed on my <a href="http://www.synology.com/">NAS</a> for my [Squeezebox Radio](http://en.wikipedia.org/wiki/Squeezebox<em>(network</em>music_player). So let&#39;s install <a href="https://code.google.com/p/squeezelite/">SqueezeLite</a> client on the raspberry pi.</p>
+
+<p>Install dependencies:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install libflac-dev
+<span class="nv">$ </span>sudo apt-get install libfaad2
+<span class="nv">$ </span>sudo apt-get install libmad0</code></pre></div>
+
+<p>Install squeezelite:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mkdir squeezelite
+<span class="nv">$ </span><span class="nb">cd </span>squeezelite
+<span class="nv">$ </span>wget http://squeezelite.googlecode.com/files/squeezelite-armv6hf
+<span class="nv">$ </span>sudo mv squeezelite-armv6hf /usr/bin
+<span class="nv">$ </span>chmod u+x /usr/bin/squeezelite-armv6hf</code></pre></div>
+
+<p>Test with:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>squeezelite-armv6hf -l
+<span class="nv">$ </span>squeezelite-armv6hf -o default:CARD<span class="o">=</span>ALSA -a 200
+<span class="nv">$ </span>squeezelite-armv6hf -n <span class="s2">&quot;PI-NAME&quot;</span> -a 200</code></pre></div>
+
+<p>Install daemon:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo wget http://www.gerrelt.nl/RaspberryPi/squeezelitehf.sh
+<span class="nv">$ </span>sudo mv squeezelitehf.sh /etc/init.d/squeezelite
+<span class="nv">$ </span>sudo chmod a+x /etc/init.d/squeezelite</code></pre></div>
+
+<p>Fix daemon script:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/init.d/squeezelite</code></pre></div>
+
+<p>Remove &#39;SLMAC&#39; stuff and set:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">SLOPTIONS=&quot;-a 200 -n PI-NAME&quot;
+</code></pre></div>
+<p>Start daemon:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo update-rc.d squeezelite defaults
+<span class="nv">$ </span>sudo service squeezelite start</code></pre></div>
+
+<p>External References:</p>
+
+<ul>
+<li><a href="http://www.raspberrypi.org/phpBB3/viewtopic.php?f=38&amp;t=23108">http://www.raspberrypi.org/phpBB3/viewtopic.php?f=38&amp;t=23108</a></li>
+</ul>
+
+<h1>Install AirPlay</h1>
+
+<p>Now I want to stream the music stored on my <a href="http://www.synology.com/">NAS</a> to the raspberry pi through <a href="http://www.synology.com/dsm/home_home_applications_audio_station.php">Audio Station</a>, controlling it with <a href="http://www.synology.com/dsm/home_mobile_support_ds_audio.php">DS Audio</a>.</p>
+
+<p>Thanks to <a href="https://github.com/abrasive/shairport">ShairPort</a> that&#39;s easy.</p>
+
+<p>Install dependencies:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install git libao-dev libssl-dev libcrypt-openssl-rsa-perl libio-socket-inet6-perl libwww-perl avahi-utils
+<span class="nv">$ </span>sudo cpan install Net::SDP</code></pre></div>
+
+<p>Install ShairPort:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>git clone https://github.com/abrasive/shairport.git shairport
+<span class="nv">$ </span><span class="nb">cd </span>shairport
+<span class="nv">$ </span>./configure
+<span class="nv">$ </span>make
+<span class="nv">$ </span>sudo make install</code></pre></div>
+
+<p>Test:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>shairport.pl -a ShairPort</code></pre></div>
+
+<p>Install daemon:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo cp ./shairport.init.sample /etc/init.d/shairport
+<span class="nv">$ </span>sudo chmod a+x /etc/init.d/shairport</code></pre></div>
+
+<p>Fix daemon:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>emacs /etc/init.d/shairport</code></pre></div>
+
+<p>Change name: <code>NAME=ShairPort</code></p>
+
+<p>Start daemon:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo update-rc.d shairport defaults
+<span class="nv">$ </span>sudo service shairport start</code></pre></div>
+
+<p>External References:</p>
+
+<ul>
+<li><a href="http://pihomeserver.wordpress.com/2012/12/05/raspberry-pi-home-server-etape-6-installer-un-serveur-airplay-avec-shairport/">http://pihomeserver.wordpress.com/2012/12/05/raspberry-pi-home-server-etape-6-installer-un-serveur-airplay-avec-shairport/</a></li>
+<li><a href="http://blog.nicolargo.com/2013/03/utiliser-votre-raspberry-pi-comme-borne-airplay.html">http://blog.nicolargo.com/2013/03/utiliser-votre-raspberry-pi-comme-borne-airplay.html</a></li>
+</ul>
+]]></content:encoded>
+      <dc:date>2013-09-19T00:00:00+02:00</dc:date>
+    </item>
+    <item>
+      <title>TL-WN725N wifi dongle on Raspberry Pi</title>
+      <link>http://www.aymerick.com/2013/09/18/wifi_dongle_on_raspberrypi.html</link>
+      <description><![CDATA[Prerequisites
+]]></description>
+      <pubDate>Wed, 18 Sep 2013 00:00:00 +0200</pubDate>
+      <guid>http://www.aymerick.com/2013/09/18/wifi_dongle_on_raspberrypi.html</guid>
+      <content:encoded><![CDATA[<h1>Prerequisites</h1>
+
+<ul>
+<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+</ul>
+
+<h1>Network setup</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo nano /etc/network/interfaces</code></pre></div>
+
+<p>Set:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">auto lo
+
+iface lo inet loopback
+iface eth0 inet dhcp
+
+allow-hotplug wlan0
+iface wlan0 inet dhcp
+wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+iface default inet dhcp
+</code></pre></div>
+<h1>WPA setup</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo nano /etc/wpa_supplicant/wpa_supplicant.conf</code></pre></div>
+
+<p>Set:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+ ssid=&quot;chezak_ng&quot;
+ proto=RSN
+ key_mgmt=WPA-PSK
+ pairwise=CCMP TKIP
+ group=CCMP TKIP
+ psk=&quot;&lt;PASSWORD&gt;&quot;
+}
+</code></pre></div>
+<h1>Fix TL-WN725N v2.0 issue</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>wget https://dl.dropboxusercontent.com/u/80256631/8188eu-20130209.tar.gz
+<span class="nv">$ </span>tar -zxvf 8188eu-20130209.tar.gz
+<span class="nv">$ </span>sudo install -p -m 644 8188eu.ko /lib/modules/3.6.11+/kernel/drivers/net/wireless
+<span class="nv">$ </span>sudo depmod -a
+<span class="nv">$ </span>sudo modprobe 8188eu
+<span class="nv">$ </span>ifconfig -a
+<span class="nv">$ </span>sudo reboot</code></pre></div>
+
+<p>If wifi becomes unavailable after an update, run:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo depmod -a
+<span class="nv">$ </span>sudo modprobe 8188eu</code></pre></div>
+
+<h1>External References</h1>
+
+<ul>
+<li><a href="http://www.raspberrypi.org/phpBB3/viewtopic.php?f=65&amp;t=43398">http://www.raspberrypi.org/phpBB3/viewtopic.php?f=65&amp;t=43398</a></li>
+<li><a href="http://burogu.makotoworkshop.org/index.php?post/2013/04/27/TL-WN725N-v2">http://burogu.makotoworkshop.org/index.php?post/2013/04/27/TL-WN725N-v2</a></li>
+<li><a href="http://blog.pi3g.com/2013/05/tp-link-tl-wn725n-nano-wifi-adapter-v2-0-raspberry-pi-driver/">http://blog.pi3g.com/2013/05/tp-link-tl-wn725n-nano-wifi-adapter-v2-0-raspberry-pi-driver/</a></li>
+</ul>
+]]></content:encoded>
+      <dc:date>2013-09-18T00:00:00+02:00</dc:date>
+    </item>
+    <item>
+      <title>Headless Raspberry Pi setup</title>
+      <link>http://www.aymerick.com/2013/09/17/headless_raspberrypi_setup.html</link>
+      <description><![CDATA[SDCard setup on Mac OS X
+]]></description>
+      <pubDate>Tue, 17 Sep 2013 00:00:00 +0200</pubDate>
+      <guid>http://www.aymerick.com/2013/09/17/headless_raspberrypi_setup.html</guid>
+      <content:encoded><![CDATA[<h1>SDCard setup on Mac OS X</h1>
+
+<p>Download raspbian <a href="http://www.raspberrypi.org/downloads">here</a>.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>df -h</code></pre></div>
+
+<p>Connect the SDCard.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>df -h</code></pre></div>
+
+<p>Look for the new device that wasn&#39;t listed last time (eg: <code>/dev/disk2s1</code>).</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo diskutil unmount /dev/disk2s1
+<span class="nv">$ </span>sudo dd <span class="nv">bs</span><span class="o">=</span>1m <span class="k">if</span><span class="o">=</span>~/Downloads/2014-09-09-wheezy-raspbian.img <span class="nv">of</span><span class="o">=</span>/dev/rdisk2
+<span class="nv">$ </span>sudo diskutil eject /dev/rdisk2</code></pre></div>
+
+<p>Insert SDCard in the raspberry pi then power it.</p>
+
+<p>Login is <code>pi</code> and password is <code>raspberry</code>.</p>
+
+<p>External References:</p>
+
+<ul>
+<li><a href="http://elinux.org/RPi_Easy_SD_Card_Setup#Using_command_line_tools_.282.29">http://elinux.org/RPi_Easy_SD_Card_Setup#Using_command_line_tools_.282.29</a></li>
+</ul>
+
+<h1>Optional: USB Stick setup</h1>
+
+<p>This is an optional step if you want to run the system on an USB stick (the SD card will only by used to boot).</p>
+
+<p>So let&#39;s install raspbian on the USB stick.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>diskutil list</code></pre></div>
+
+<p>Connect the USB stick.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>diskutil list</code></pre></div>
+
+<p>Look for the new device that wasn&#39;t listed last time (eg: <code>/dev/disk1</code>).</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>diskutil unmountDisk /dev/disk1
+<span class="nv">$ </span>sudo dd <span class="nv">bs</span><span class="o">=</span>1m <span class="k">if</span><span class="o">=</span>~/Downloads/2014-09-09-wheezy-raspbian.img <span class="nv">of</span><span class="o">=</span>/dev/disk1</code></pre></div>
+
+<p>Eject the USB stick.</p>
+
+<p>Insert the USB stick in the raspberry pi.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo fdisk -l</code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  Disk /dev/sda: 32.0 GB, 32015679488 bytes
+</code></pre></div>
+<p>Expand partition on USB Stick:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo fdisk /dev/sda</code></pre></div>
+
+<p>Press <code>p</code>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  Device Boot      Start         End      Blocks   Id  System
+  /dev/sda1         8192      122879       57344    c  W95 FAT32 (LBA)
+  /dev/sda2       122880     6399999     3138560   83  Linux
+</code></pre></div>
+<p>Note the start of <code>/dev/sda2</code>: <code>122880</code>.</p>
+
+<p>Press <code>d</code>, type <code>2</code> and then hit <code>return</code> to delete the <code>sda2</code> partition.</p>
+
+<p>Then create a new partition (but leave 10Mb free):</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  Command (m for help): n
+  Partition type:
+     p   primary (1 primary, 0 extended, 3 free)
+     e   extended
+  Select (default p): p
+  Partition number (1-4, default 2): 2
+  First sector (2048-62530623, default 2048): 122880
+  Last sector, +sectors or +size{K,M,G} (122880-62530623, default 62530623): 62528623
+</code></pre></div>
+<p>The math:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  10240000 / 512 = 2000 sectors
+  62530623 - 2000 = 62528623
+</code></pre></div>
+<p>Press <code>w</code> to commit changes and exit fdisk.</p>
+
+<p>Reboot the raspberry:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo reboot</code></pre></div>
+
+<p>Resize the FS:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>e2fsck -f /dev/sda2
+<span class="nv">$ </span>sudo resize2fs /dev/sda2</code></pre></div>
+
+<p>Convert the partition table from DOS to GPT:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get update
+<span class="nv">$ </span>sudo apt-get install gdisk
+<span class="nv">$ </span>sudo gdisk /dev/sda</code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  GPT fdisk (gdisk) version 0.8.5
+
+  Partition table scan:
+    MBR: MBR only
+    BSD: not present
+    APM: not present
+    GPT: not present
+
+
+  ***************************************************************
+  Found invalid GPT and valid MBR; converting MBR to GPT format.
+  THIS OPERATION IS POTENTIALLY DESTRUCTIVE! Exit by typing &#39;q&#39; if
+  you don&#39;t want to convert your MBR partitions to GPT format!
+  ***************************************************************
+
+  Command (? for help): r
+
+  Recovery/transformation command (? for help): f
+  Warning! This will destroy the currently defined partitions! Proceed? (Y/N): Y
+
+  Recovery/transformation command (? for help): w
+
+  Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
+  PARTITIONS!!
+
+  Do you want to proceed? (Y/N): Y
+  OK; writing new GUID partition table (GPT) to /dev/sda.
+  The operation has completed successfully.
+</code></pre></div>
+<p>Now remove USB stick, then re-plug it.</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo gdisk /dev/sda</code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  GPT fdisk (gdisk) version 0.8.5
+
+  Partition table scan:
+    MBR: protective
+    BSD: not present
+    APM: not present
+    GPT: present
+
+  Found valid GPT with protective MBR; using GPT.
+
+  Command (? for help): i
+  Partition number (1-2): 2
+  Partition GUID code: 0FC63DAF-8483-4772-8E79-3D69D8477DE4 (Linux filesystem)
+  Partition unique GUID: D7BBB26D-DD33-4333-8CF3-0AA7F3517B48
+  First sector: 122880 (at 60.0 MiB)
+  Last sector: 62528623 (at 29.8 GiB)
+  Partition size: 62405744 sectors (29.8 GiB)
+  Attribute flags: 0000000000000000
+  Partition name: &#39;Linux filesystem&#39;
+</code></pre></div>
+<p>Note the <code>Partition unique GUID</code>: D7BBB26D-DD33-4333-8CF3-0AA7F3517B48</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /boot/cmdline.txt</code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">  dwc_otg.lpm_enable=0 console=ttyAMA0,115200 console=tty1 root=PARTUUID=D7BBB26D-DD33-4333-8CF3-0AA7F3517B48 rootfstype=ext4 elevator=deadline rootwait
+</code></pre></div>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo reboot</code></pre></div>
+
+<p>External References:</p>
+
+<ul>
+<li><a href="http://www.raspipress.com/2013/05/install-and-run-raspbian-from-a-usb-flash-drive/">http://www.raspipress.com/2013/05/install-and-run-raspbian-from-a-usb-flash-drive/</a></li>
+<li><a href="https://samhobbs.co.uk/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive">https://samhobbs.co.uk/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive</a></li>
+<li><a href="http://blog.krastanov.org/2014/01/30/booting-pi-reliably-from-usb/">http://blog.krastanov.org/2014/01/30/booting-pi-reliably-from-usb/</a></li>
+</ul>
+
+<h1>Raspi config</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo raspi-config</code></pre></div>
+
+<ul>
+<li>Advanced Options &gt; Update</li>
+<li>Expand Filesystem</li>
+<li>Change User Password</li>
+<li>Enable Boot to Desktop: No</li>
+<li>Internationalisation Options &gt; Change Timezone</li>
+<li>Overclock &gt; Medium</li>
+<li>Advanced Options &gt; Hostname</li>
+<li>Advanced Options &gt; Memory Split: 16</li>
+</ul>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install emacs23-nox
+<span class="nv">$ </span>sudo reboot</code></pre></div>
+
+<h1>Fix the &#39;Setting locale failed&#39; issue during ssh</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/ssh/sshd_config</code></pre></div>
+
+<p>Comment that line:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">AcceptEnv LANG LC_*
+</code></pre></div>
+<p>To test:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo /etc/init.d/ssh restart
+<span class="nv">$ </span><span class="nb">exit</span>
+<span class="nv">$ </span>ssh pi@&lt;PI IP&gt;
+<span class="nv">$ </span>perl -e <span class="nb">exit</span></code></pre></div>
+
+<p>External References:</p>
+
+<ul>
+<li><a href="http://stackoverflow.com/questions/2499794/how-can-i-fix-a-locale-warning-from-perl">http://stackoverflow.com/questions/2499794/how-can-i-fix-a-locale-warning-from-perl</a></li>
+</ul>
+
+<h1>Optimizations</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get purge consolekit desktop-base* desktop-file-utils* gnome-icon-theme* gnome-themes-standard* hicolor-icon-theme* leafpad* lxde* lxde-core* midori* xserver-common* xserver-xorg* xserver-xorg-core* xserver-xorg-input-all* xserver-xorg-input-evdev* xserver-xorg-input-synaptics* xserver-xorg-video-fbdev* gconf gconf2 gconf2-common gnome-accessibility-themes libmenu-cache1 lxappearance lxinput lxmenu-data lxpanel lxpolkit lxrandr lxsession lxsession-edit lxshortcut lxtask lxterminal scratch
+<span class="nv">$ </span>sudo apt-get -y remove cups* gnome* x11-common*
+<span class="nv">$ </span>sudo apt-get -y autoremove
+<span class="nv">$ </span>sudo apt-get -y autoclean</code></pre></div>
+
+<h1>Update</h1>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get update
+<span class="nv">$ </span>sudo apt-get upgrade
+<span class="nv">$ </span>uname -a
+<span class="nv">$ </span>sudo apt-get -y dist-upgrade</code></pre></div>
+
+<h1>SSH setup</h1>
+
+<p>Regenerate unique host public/private keys:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo rm /etc/ssh/ssh_host_*
+<span class="nv">$ </span>sudo dpkg-reconfigure openssh-server</code></pre></div>
+
+<p>Add public key:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mkdir /home/pi/.ssh
+<span class="nv">$ </span>emacs /home/pi/.ssh/authorized_keys</code></pre></div>
+
+<p>Add content of <code>id_rsa.pub</code>.</p>
+
+<h1>avahi/netatalk setup</h1>
+
+<p>Install avahi:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install avahi-daemon
+<span class="nv">$ </span>sudo insserv avahi-daemon</code></pre></div>
+
+<p>Setup conf file:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/avahi/services/multiple.service</code></pre></div>
+
+<p>Insert:</p>
+
+<div class="highlight"><pre><code class="xml"><span class="cp">&lt;?xml version=&quot;1.0&quot; standalone=&#39;no&#39;?&gt;</span>
+<span class="cp">&lt;!DOCTYPE service-group SYSTEM &quot;avahi-service.dtd&quot;&gt;</span>
+<span class="nt">&lt;service-group&gt;</span>
+        <span class="nt">&lt;name</span> <span class="na">replace-wildcards=</span><span class="s">&quot;yes&quot;</span><span class="nt">&gt;</span>%h<span class="nt">&lt;/name&gt;</span>
+        <span class="nt">&lt;service&gt;</span>
+                <span class="nt">&lt;type&gt;</span>_device-info._tcp<span class="nt">&lt;/type&gt;</span>
+                <span class="nt">&lt;port&gt;</span>0<span class="nt">&lt;/port&gt;</span>
+                <span class="nt">&lt;txt-record&gt;</span>model=RackMac<span class="nt">&lt;/txt-record&gt;</span>
+        <span class="nt">&lt;/service&gt;</span>
+        <span class="nt">&lt;service&gt;</span>
+                <span class="nt">&lt;type&gt;</span>_ssh._tcp<span class="nt">&lt;/type&gt;</span>
+                <span class="nt">&lt;port&gt;</span>22<span class="nt">&lt;/port&gt;</span>
+        <span class="nt">&lt;/service&gt;</span>
+<span class="nt">&lt;/service-group&gt;</span></code></pre></div>
+
+<p>Restart avahi daemon:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo /etc/init.d/avahi-daemon restart</code></pre></div>
+
+<p>Install netatalk:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install netatalk</code></pre></div>
+
+<p>Can be tested with:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install avahi-utils
+<span class="nv">$ </span>avahi-browse -arp</code></pre></div>
+
+<p>External References:</p>
+
+<ul>
+<li><a href="http://elinux.org/RPi_Advanced_Setup">http://elinux.org/RPi_Advanced_Setup</a></li>
+<li><a href="http://gettingstartedwithraspberrypi.tumblr.com/post/24398167109/file-sharing-with-afp-and-auto-discovery-with-bonjour">http://gettingstartedwithraspberrypi.tumblr.com/post/24398167109/file-sharing-with-afp-and-auto-discovery-with-bonjour</a></li>
+</ul>
+]]></content:encoded>
+      <dc:date>2013-09-17T00:00:00+02:00</dc:date>
+    </item>
+    <dc:date>2015-01-08T00:00:00+01:00</dc:date>
+  </channel>
+</rss>

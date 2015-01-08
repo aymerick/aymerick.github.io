@@ -130,7 +130,7 @@
 <div class="highlight"><pre><code class="language-text" data-lang="text">[RF12demo.7] A i1 g100 @ 915 Mhz
 </code></pre></div>
 <p>Ce qu&#39;on peut traduire par:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">Wesh cousin, je suis le sketch RF12demo version 7 mon pote. Hey ouais ! Je suis le number 1 du crew 100 et je sent la vibe à 915Mhz.
+<div class="highlight"><pre><code class="language-text" data-lang="text">Wesh cousin, je suis le sketch RF12demo version 7 mon pote. Eh ouais ! Je suis le number 1 du crew 100 et je sent la vibe à 915Mhz.
 </code></pre></div>
 <p>Ce qu&#39;on peut traduire également par:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">Je suis le node numéro 1 dans le groupe numéro 100 et je communique sur du 915Mhz.
@@ -217,7 +217,7 @@
 
 <p>Soyons clair, le node maitre ne fait que transmettre les données brutes au raspberry. Il faut donc un programme qui décode les paquets reçus; c&#39;est le role du <code>RFM12demo decoder</code> sur le schéma. Notre ami <a href="/2015/01/05/plateforme_jeenode.html">Jean-Claude</a> a développé un outil pour jouer ce role: <a href="http://jeelabs.net/projects/housemon/wiki">HouseMon</a>. Alors autant te dire tout de suite, j&#39;ai installé une vieille version il y a bien longtemps qui ne m&#39;a pas vraiment emballé. Depuis ça a pas mal bougé, mais ça m&#39;a l&#39;air bien compliqué avec des histoires de <a href="https://github.com/jcw/jeebus">jeebus</a> et de <a href="https://github.com/jcw/flow">flow</a>... mMmm ok bon, ba <em>&quot;ça ne me plait pas donc je vais coder un truc à ma façon&quot; (tm)</em>.</p>
 
-<p>Mais je vois qu&#39;une question te taraude. Que ce passe-t-il si on veut installer plus de 31 nodes chez soit ? Hey bien mon jeune ami, il faut mettre en place un deuxième groupe, et donc un deuxième node maitre pour ce groupe. On se retrouvera alors avec deux nodes maitres sur le raspberry pi, et le <code>RFM12demo decoder</code> devra prendre ça en compte.</p>
+<p>Mais je vois qu&#39;une question te taraude. Que ce passe-t-il si on veut installer plus de 31 nodes chez soit ? Eh bien mon jeune ami, il faut mettre en place un deuxième groupe, et donc un deuxième node maitre pour ce groupe. On se retrouvera alors avec deux nodes maitres sur le raspberry pi, et le <code>RFM12demo decoder</code> devra prendre ça en compte.</p>
 
 <h3>Bééééé !</h3>
 
@@ -259,7 +259,7 @@
 <p>Et surtout, on recoit ce message:</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">OK 143
 </code></pre></div>
-<p>Eh bien ça mon jeune ami, c&#39;est le JeeLink qui envoie un acquittement, ce qui signifie qu&#39;il a bien reçu ton message. Et là, normalement, tu pleures de joie tellement c&#39;est beau. Comment ça non ? Ah ok... hey ba moi non plus hein.</p>
+<p>Eh bien ça mon jeune ami, c&#39;est le JeeLink qui envoie un acquittement, ce qui signifie qu&#39;il a bien reçu ton message. Et là, normalement, tu pleures de joie tellement c&#39;est beau. Comment ça non ? Ah ok... eh ba moi non plus hein.</p>
 
 <p><img src="/img/meme/meme_crying.png" alt="I shall not cry"></p>
 

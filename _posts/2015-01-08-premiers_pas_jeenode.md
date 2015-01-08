@@ -124,7 +124,7 @@ Tu l'as compris, il y a une histoire de groupes. On peut avoir 212 groupes de 31
 
 Dans mon cas de figure, qui est je te le rappelle la mise en place de capteurs un peu partout chez moi, un node maitre (le node **31**) est branché en permanence sur un raspberry pi pour faire tourner le célèbre sketch RF12demo.
 
-Les autres nodes, numérotés **de 1 à 30**, font tourner un sketch spécifique aux capteurs qu'ils possèdent et envoient leurs données à intervalle régulier. Je configure toujours ces nodes pour qu'ils demandent un acquittement; le node maitre doit est le seul à envoyer ces acquittements. C'est pour celà que mon JeeLink de test est configuré en mode **collect**, pour ne pas interférer avec le node maitre.
+Les autres nodes, numérotés **de 1 à 30**, font tourner un sketch spécifique aux capteurs qu'ils possèdent et envoient leurs données à intervalle régulier. Je configure toujours ces nodes pour qu'ils demandent un acquittement; le node maitre doit est le seul à envoyer ces acquittements. C'est pour cela que mon JeeLink de test est configuré en mode **collect**, pour ne pas interférer avec le node maitre.
 
 Dans l'exemple ci-dessous, on voit le node maitre `JeeNode 31` qui reçoit des données des deux JeeNode `JeeNode 1` et `JeeNode 2` possédant chacun un capteur de température, et il leur répond en envoyant un acquittement.
 
@@ -186,7 +186,7 @@ Et enfin sélectionne `Outils > Moniteur série`.
 
 Si rien ne s'affiche, c'est peut etre un soucis de connexion, essaie de bouger un peu le JeeNode au niveau du connecteur FTDI. Si vraiment cela ne fonctionne pas, vérifie toutes les soudures de ton JeeNode.
 
-Normalement tu dois voir le JeeNode causer avec toi comme le faisait le JeeLink. C'est normal, c'est parce qu'il a été flashé avec le même sketch `RFM12demo`. Calà va nous permettre de le configurer correctement, cette fois-ci en lui donnant le numéro **16**:
+Normalement tu dois voir le JeeNode causer avec toi comme le faisait le JeeLink. C'est normal, c'est parce qu'il a été flashé avec le même sketch `RFM12demo`. Cela va nous permettre de le configurer correctement, cette fois-ci en lui donnant le numéro **16**:
 
     16i
     8b

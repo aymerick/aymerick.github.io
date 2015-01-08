@@ -65,7 +65,7 @@ Revenons à notre JeeLink qui vient de nous dire plein de choses super intéress
 
 Ce qu'on peut traduire par:
 
-    Wesh cousin, je suis le sketch RF12demo version 7 mon pote. Hey ouais ! Je suis le number 1 du crew 100 et je sent la vibe à 915Mhz.
+    Wesh cousin, je suis le sketch RF12demo version 7 mon pote. Eh ouais ! Je suis le number 1 du crew 100 et je sent la vibe à 915Mhz.
 
 Ce qu'on peut traduire également par:
 
@@ -161,7 +161,7 @@ Si les nodes ne recoivent pas d'acquittement, il réémettrons plusieurs fois av
 
 Soyons clair, le node maitre ne fait que transmettre les données brutes au raspberry. Il faut donc un programme qui décode les paquets reçus; c'est le role du `RFM12demo decoder` sur le schéma. Notre ami [Jean-Claude]({% post_url 2015-01-05-plateforme_jeenode %}) a développé un outil pour jouer ce role: [HouseMon](http://jeelabs.net/projects/housemon/wiki). Alors autant te dire tout de suite, j'ai installé une vieille version il y a bien longtemps qui ne m'a pas vraiment emballé. Depuis ça a pas mal bougé, mais ça m'a l'air bien compliqué avec des histoires de [jeebus](https://github.com/jcw/jeebus) et de [flow](https://github.com/jcw/flow)... mMmm ok bon, ba *"ça ne me plait pas donc je vais coder un truc à ma façon" (tm)*.
 
-Mais je vois qu'une question te taraude. Que ce passe-t-il si on veut installer plus de 31 nodes chez soit ? Hey bien mon jeune ami, il faut mettre en place un deuxième groupe, et donc un deuxième node maitre pour ce groupe. On se retrouvera alors avec deux nodes maitres sur le raspberry pi, et le `RFM12demo decoder` devra prendre ça en compte.
+Mais je vois qu'une question te taraude. Que ce passe-t-il si on veut installer plus de 31 nodes chez soit ? Eh bien mon jeune ami, il faut mettre en place un deuxième groupe, et donc un deuxième node maitre pour ce groupe. On se retrouvera alors avec deux nodes maitres sur le raspberry pi, et le `RFM12demo decoder` devra prendre ça en compte.
 
 
 ### Bééééé !
@@ -208,7 +208,7 @@ Et surtout, on recoit ce message:
 
     OK 143
 
-Eh bien ça mon jeune ami, c'est le JeeLink qui envoie un acquittement, ce qui signifie qu'il a bien reçu ton message. Et là, normalement, tu pleures de joie tellement c'est beau. Comment ça non ? Ah ok... hey ba moi non plus hein.
+Eh bien ça mon jeune ami, c'est le JeeLink qui envoie un acquittement, ce qui signifie qu'il a bien reçu ton message. Et là, normalement, tu pleures de joie tellement c'est beau. Comment ça non ? Ah ok... eh ba moi non plus hein.
 
 ![I shall not cry](/img/meme/meme_crying.png)
 

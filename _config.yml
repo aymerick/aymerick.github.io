@@ -1,4 +1,10 @@
 name: Aymerick's stuff
+url: http://www.aymerick.com
+description: The personal website of a generalist developer living in France.
+author: Aymerick Jéhanne
+
+rss_post_limit: 20
+
 markdown: redcarpet
 highlighter: pygments
 

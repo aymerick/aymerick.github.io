@@ -5,6 +5,10 @@ title: Jeenode
 
 @todo Alors attention, le **protocole** ce n'est pas un proctologue qui a mangé de la confiture, non, c'est simplement la façon dont deux nodes doivent communiquer pour se comprendre.
 
+@todo Dit dont Ginette, il est pas un peu gros le nouveau thermomètre la ?
+
+@todo http://jeelabs.net/projects/cafe/wiki/Dive_Into_JeeNodes
+
 
 Jeelink
 =======

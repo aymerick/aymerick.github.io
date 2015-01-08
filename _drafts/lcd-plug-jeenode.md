@@ -17,7 +17,7 @@ Parmis ces éléments il y a trois intrus. Sauras-tu les reconnaitre ?
 
 ![JeeNode LCD Plug](/img/jeenode_lcd/lcd_plug_02.jpg)
 
-Bon, commençons par le header de port. Coup de bol, c'est un header droit qui est livré avec le kit, donc c'est plus simple. Remarquez l'astucieuse utilisation de l'autre header pour qualer la carte, ce qui permet de souder bien droit:
+Bon, commençons par le header de port. Coup de bol, c'est un header à angle droit qui est livré avec le kit, donc c'est plus simple. Remarquez l'astucieuse utilisation de l'autre header pour qualer la carte, ce qui permet de souder bien droit:
 
 ![JeeNode LCD Plug](/img/jeenode_lcd/lcd_plug_03.jpg)
 

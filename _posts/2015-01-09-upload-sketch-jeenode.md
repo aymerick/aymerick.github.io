@@ -71,7 +71,7 @@ Et donc, si le *téléversement* foire lamentablement avec le message `avrdude: 
 
 Oui ça fait toujours peur, mais ne t'inquiète pas j'ai la solution: rend toi [sur cette page](http://www.ftdichip.com/Drivers/VCP.htm) et télécharge le fichier qui correspond à ta machine. Par exemple en ce qui me concerne j'ai besoin du fichier *Mac OS X 2.2.18* pour *x64 (64-bit)*.
 
-Ensuite on installe les drivers, on débranche puis rebranche le USB HUB, et on retente le... *téléversement* donc (non je ne m'y ferai pas, c'est pas possible). Et là, maintenant, ça doit est bon:
+Ensuite on installe les drivers, on débranche puis rebranche le USB HUB, et on retente le... *téléversement* donc (non je ne m'y ferai pas, c'est pas possible). Et là, maintenant, ça doit être bon:
 
 ![Sketch upload ok](/img/jeenode_sketch/sketch_upload_ok.png)
 

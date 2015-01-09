@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Upload de sketch sur un jeenode</title>
+        <meta name="description" content="The personal website of a generalist developer living in France.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/png" href="/favicon.png" />
+
+        <link rel="alternate" type="application/rss+xml" title="Aymerick's stuff" href="http://www.aymerick.com/rss.xml">
+
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/assets/css/syntax.css">
+        <link rel="stylesheet" href="/assets/css/main.css">
+
+        
+
+        <!-- OG meta -->
+        <meta property="og:title" content="Upload de sketch sur un jeenode" />
+        
+          <meta property="og:description" content="Ah ma Ginette ! Qu'est ce qu'on rigole avec toi !" />
+        
+
+        
+          <meta property="og:type" content="article" />
+          
+            
+          
+          
+            
+              <meta property="article:tag" content="jeenode" />
+            
+          
+        
+    </head>
+
+    <body id="">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a href="/index.html" class='navbar-brand'>Aymerick</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li class="">
+                  <a href="/about.html">About</a>
+                </li>
+                <li class="">
+                  <a href="/stuff.html">Stuff</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="post-header">
+              <h2 class='post-title'>Upload de sketch sur un jeenode</h2>
+              
+                <ul class="post-tags">
+                  
+                    <li><a href="/tags/#jeenode-ref">#jeenode</a></li>
+                  
+                </ul>
+              
+              <p class="meta">09 Jan 2015</p>
+            </div>
+
+            <div class="post">
+            <p>Ami jeenodeur, bien le bonjour.</p>
+
+<p>Aujourd&#39;hui ta mission sera d&#39;uploader un nouveau sketch dans ton <a href="/2015/01/06/souder_jeenode.html">magnifique JeeNode</a> pour remplacer le <a href="/2015/01/08/premiers_pas_jeenode.html">sketch RF12demo</a>.</p>
+
+<p>Pour rappel, par <em>sketch</em> je ne parle pas du jeu d&#39;acteur dont le but est de te faire hurler de rire, comme par exemple celui-ci:</p>
+
+<p><iframe frameborder="0" width="480" height="270" src="//www.dailymotion.com/embed/video/x3q5gc" allowfullscreen></iframe><br /><a href="http://www.dailymotion.com/video/x3q5gc_les-nuls-professeur-thibault-la-mou_fun" target="_blank">Les Nuls - Professeur Thibault - La mouche qui...</a> <i>par <a href="http://www.dailymotion.com/les-nuls" target="_blank">les-nuls</a></i></p>
+
+<p>Non non non, dans l&#39;univers <em>Arduino</em>, un sketch est la façon de dire <em>programme</em>. Je ne sais absolument pas d&#39;où ça vient et pourquoi ils ont choisi ce nom là. Peut-être qu&#39;à la base c&#39;était une énorme blague, j&#39;en sais rien, je ne veux pas savoir, laisse moi tranquille, merci.</p>
+
+<p>Ah, alors on me fait signe dans mon oreillette qu&#39;en français on dit <strong>croquis</strong>, du coup oublie tout ce que je viens de dire, nous allons donc écrire un croq... ho non c&#39;est trop naze, on va garder <em>sketch</em>.</p>
+
+<h3>Alors c&#39;est l&#39;histoire d&#39;un Italien, un Allemand et un Belge...</h3>
+
+<p>Pour commencer, il faut installer la <a href="http://jeelabs.net/projects/jeelib/wiki">jeelib</a>, qui est la lib de base pour les JeeNode. Sur MacOS, c&#39;est comme ça que ça se passe:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ cd ~/Documents/Arduino/libraries/
+$ git clone https://github.com/jcw/jeelib
+</code></pre></div>
+<p>Puis relance l&#39;IDE Arduino.</p>
+
+<p>Ensuite va dans <code>Ficher &gt; Exemples &gt; jeelib &gt; RF12 &gt; radioBlip</code>:</p>
+
+<p><img src="/img/jeenode_sketch/sketch_radioBlip.png" alt="Sketch radioBlip"></p>
+
+<p>Une fenêtre s&#39;ouvre avec le sketch <code>radioBlip</code>. Celui-ci envoie un message toutes les 60 secondes, avec comme payload un compteur qui s&#39;incrémente. Nous allons le modifier un peu.</p>
+
+<p>Tout d&#39;abord, remplace la ligne:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">rf12_initialize(22, RF12_868MHZ, 5);
+</code></pre></div>
+<p>par celle-ci:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">rf12_initialize(16, RF12_868MHZ, 212);
+</code></pre></div>
+<p>En effet, dans ce sketch le numéro de node et le groupe sont en dûr. C&#39;est mal mais on va vivre avec. On le modifie juste pour mettre les bonnes valeurs: c&#39;est le node <strong>16</strong> du groupe <strong>212</strong> qui fera tourner ce sketch.</p>
+
+<p>Puis, on va faire en sorte d&#39;envoyer des messages plus souvent, genre toutes les 10 secondes. Change cette ligne:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Sleepy::loseSomeTime(60000);
+</code></pre></div>
+<p>par:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Sleepy::loseSomeTime(10000);
+</code></pre></div>
+<p>Sauvegarde le fichier ainsi modifié.</p>
+
+<p>Clique maintenant sur le bouton <code>Vérifier</code> pour compiler le sketch. Si tout va bien, le message <strong>Compilation terminée</strong> s&#39;affiche sans erreur. Sinon, eh ba... bon courage:</p>
+
+<p><img src="/img/jeenode_sketch/sketch_check.png" alt="Sketch check"></p>
+
+<p>Maintenant on va uploader le sketch. Branche ton JeeNode sélectionne le dans <code>Outils &gt; Port série</code> (genre <code>/dev/tty.usbserial-AH019ZSM</code>).</p>
+
+<p><strong>Fait bien attention à ne pas sélectionner le <a href="/2015/01/08/premiers_pas_jeenode.html">JeeLink de test</a> si tu l&#39;as laissé branché sur ton ordi.</strong></p>
+
+<p>Ensuite clique sur la deuxième icone qui s&#39;appelle... QUOI?!... non mais... qu&#39;est-ce que c&#39;est que ce.... ouaw... ok. Bon, donc cette deuxième icône s&#39;appelle <code>Téléverser</code>, qui permet donc de... téléverser un croquis. Voilà voilà. On n&#39;a pas peur du ridicule, non non.</p>
+
+<p>Et donc, si le <em>téléversement</em> foire lamentablement avec le message <code>avrdude: stk500_getsync(): not in sync: resp=0xfe</code> c&#39;est que nous sommes face à un <strong>problème de drivers! TADAAAAAAAAA!</strong></p>
+
+<p><img src="/img/jeenode_sketch/sketch_upload_fail.png" alt="Sketch upload fail"></p>
+
+<p>Oui ça fait toujours peur, mais ne t&#39;inquiète pas j&#39;ai la solution: rend toi <a href="http://www.ftdichip.com/Drivers/VCP.htm">sur cette page</a> et télécharge le fichier qui correspond à ta machine. Par exemple en ce qui me concerne j&#39;ai besoin du fichier <em>Mac OS X 2.2.18</em> pour <em>x64 (64-bit)</em>.</p>
+
+<p>Ensuite on installe les drivers, on débranche puis rebranche le USB HUB, et on retente le... <em>téléversement</em> donc (non je ne m&#39;y ferai pas, c&#39;est pas possible). Et là, maintenant, ça doit être bon:</p>
+
+<p><img src="/img/jeenode_sketch/sketch_upload_ok.png" alt="Sketch upload ok"></p>
+
+<p><em>&quot;Hey mais c&#39;est super !&quot;</em> te dis-tu, <em>&quot;Mais... et maintenant ? Qu&#39;est-ce que quoi ?&quot;</em>. Alors dèjà tu te calmes, tu respires à fond, et tu me laisses continuer.</p>
+
+<p>Branche donc ton JeeLink de test, et sélectionne le dans <code>Outils &gt; Port série</code> (ex: <code>/dev/tty.usbserial-A1014IM4</code>), puis affiche <code>Outils &gt; Moniteur série</code>. Voyons-voir ce que reçoit notre ami JeeLink.</p>
+
+<p>Tu dois voir apparaitre un nouveau message toutes les 10 secondes en provenance du node 16, avec un compteur qui s&#39;incrémente:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">OK 16 1 0 0 0
+OK 16 2 0 0 0
+OK 16 3 0 0 0
+OK 16 4 0 0 0
+</code></pre></div>
+<p>Wouhou ! Trop la fête ! Tu viens d&#39;uploader un sketch que tu as modifié sur ton JeeNode, et ça fonctionne ! Tu trouves pas ça génial ? ... Comment ça bof ? Il t&#39;en faut plus pour être impressionné ?</p>
+
+<p>Okaaayyy, défi accepté.</p>
+
+<p><img src="/img/meme/challenge_accepted.jpg" alt="Challenge accepted"></p>
+
+<p>On se retrouve bientôt pour t&#39;en mettre plein les mirettes.</p>
+
+<p>Repose toi bien mon ami, car je vais avoir besoin de toute ton attention la prochaine fois.</p>
+
+<p>A+ Arthus.</p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        <footer>
+          <div class="container-fluid">
+            <div class="row footer">
+              <div class="col-md-12">
+                <p>
+                  <a href="https://github.com/aymerick">github</a> |
+                  <a href="https://twitter.com/aymerick">twitter</a> |
+                  <a href="http://www.linkedin.com/in/aymerick">linkedin</a> |
+                  <a href="https://pinboard.in/u:aymerick">pinboard</a> |
+                  <a href="http://fudahu.tumblr.com/">tumblr</a> |
+                  <a href="http://www.flickr.com/photos/aymerick">flickr</a> |
+                  <a href="http://www.youtube.com/ajehanne">youtube</a> |
+                  <a href="http://soundcloud.com/aymerick-jehanne">soundcloud</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </footer>
+
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="/assets/js/bootstrap.min.js"></script>
+
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-52977462-1', 'auto');
+          ga('send', 'pageview');
+        </script>
+    </body>
+</html>

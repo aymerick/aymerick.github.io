@@ -37,6 +37,12 @@ module.exports = (grunt) ->
           cwd: "bower_components/jquery/dist/"
           src: "jquery.min.js"
           dest: "assets/js/"
+        },
+        {
+          expand: true
+          cwd: "bower_components/jquery/dist/"
+          src: "jquery.min.map"
+          dest: "assets/js/"
         }]
       bootstrap:
         files: [{

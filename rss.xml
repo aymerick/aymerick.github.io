@@ -10,7 +10,7 @@
     <description>The personal website of a generalist developer living in France.</description>
     <pubDate>Thu, 26 Mar 2015 00:00:00 +0100</pubDate>
     <item>
-      <title>Add an upload directory to your ember cli project</title>
+      <title>Make ember cli serve uploaded files</title>
       <link>http://www.aymerick.com/2015/03/26/ember-cli-server-upload-directory.html</link>
       <description><![CDATA[I currently work on a projet with a backend in Go and a web app powered by Ember.js with an image upload feature.
 ]]></description>

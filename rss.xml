@@ -85,7 +85,7 @@ $ mkdir upload
 
 <p>Victory \o/</p>
 
-<p>My backend can now save uploaded file into the <code>/upload</code> directory of my ember cli project, and the ember cli server can serves them.</p>
+<p>My backend can now save uploaded file into the <code>/upload</code> directory of my ember cli project, and the ember cli server will serve them.</p>
 
 <p><img src="/img/emberjs/ember_cli_server_victory.jpg" alt="victory"></p>
 

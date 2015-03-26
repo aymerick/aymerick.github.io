@@ -1,7 +1,7 @@
 ---
 layout: post
 kind: post
-title: Add an upload directory to your ember cli project
+title: Make ember cli serve uploaded files
 description: Make ember cli development server serve files in another directory
 tags:
 - ember.js

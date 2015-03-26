@@ -85,14 +85,10 @@
     @media (min-width: 575px) and (max-width: 887px) {
       .resume .timeline {
         width: 47px;
-        height: 800px; }
-        .resume .timeline > .year:last-child {
-          bottom: -3.2em; } }
+        height: 800px; } }
     @media (min-width: 888px) {
       .resume .timeline {
-        height: 9px; }
-        .resume .timeline > .year:last-child {
-          right: 1.35em; } }
+        height: 9px; } }
   .resume .year {
     width: 3.2em;
     height: 3.2em;
@@ -114,11 +110,17 @@
     border-radius: 1.7em; }
     @media (min-width: 575px) and (max-width: 887px) {
       .resume .year {
-        position: absolute; } }
+        position: absolute; }
+        .resume .year.begin {
+          bottom: -3.2em; } }
     @media (min-width: 888px) {
       .resume .year {
         position: absolute;
-        top: -1.5em; } }
+        top: -1.5em; }
+        .resume .year.begin {
+          left: 0; }
+        .resume .year.end {
+          right: 1.35em; } }
   .resume .entry {
     position: relative;
     height: 80px;
@@ -256,61 +258,70 @@
         top: -145px;
         height: 136px; } }
   @media (min-width: 575px) and (max-width: 887px) {
-    .resume .yaccom {
+    .resume .assoninja {
       bottom: 82%; } }
   @media (min-width: 888px) {
-    .resume .yaccom {
-      left: 5%;
+    .resume .assoninja {
+      left: 75%;
       width: 200px; }
-      .resume .yaccom:before {
-        left: 10%; } }
+      .resume .assoninja:before {
+        left: 40%; } }
   @media (min-width: 575px) and (max-width: 887px) {
-    .resume .wbxml {
+    .resume .jeego {
       bottom: 75%; } }
   @media (min-width: 888px) {
-    .resume .wbxml {
-      left: 15%; } }
+    .resume .jeego {
+      left: 69%; }
+      .resume .jeego:before {
+        left: 65%; } }
   @media (min-width: 575px) and (max-width: 887px) {
-    .resume .newlc {
-      bottom: 59%; } }
+    .resume .activr {
+      bottom: 62%; } }
   @media (min-width: 888px) {
-    .resume .newlc {
-      left: 30%;
-      width: 200px; }
-      .resume .newlc:before {
-        left: 10%; } }
-  @media (min-width: 575px) and (max-width: 887px) {
-    .resume .fotopedia {
-      bottom: 38%; } }
-  @media (min-width: 888px) {
-    .resume .fotopedia {
-      left: 55%;
-      width: 300px; }
-      .resume .fotopedia:before {
-        left: 10%; } }
+    .resume .activr {
+      left: 57%;
+      bottom: -190px; } }
   @media (min-width: 575px) and (max-width: 887px) {
     .resume .fwissr {
-      bottom: 26%; } }
+      bottom: 49%; } }
   @media (min-width: 888px) {
     .resume .fwissr {
-      left: 51%; }
+      left: 46%; }
       .resume .fwissr:before {
         left: 60%; } }
   @media (min-width: 575px) and (max-width: 887px) {
-    .resume .activr {
-      bottom: 13%; } }
+    .resume .fotopedia {
+      bottom: 43%; } }
   @media (min-width: 888px) {
-    .resume .activr {
-      left: 62%;
-      bottom: -190px; } }
+    .resume .fotopedia {
+      left: 50%;
+      width: 200px; }
+      .resume .fotopedia:before {
+        left: 10%; } }
   @media (min-width: 575px) and (max-width: 887px) {
-    .resume .jeego {
+    .resume .newlc {
+      bottom: 23%; } }
+  @media (min-width: 888px) {
+    .resume .newlc {
+      left: 25%;
+      width: 200px; }
+      .resume .newlc:before {
+        left: 30%; } }
+  @media (min-width: 575px) and (max-width: 887px) {
+    .resume .wbxml {
+      bottom: 15%; } }
+  @media (min-width: 888px) {
+    .resume .wbxml {
+      left: 10%; } }
+  @media (min-width: 575px) and (max-width: 887px) {
+    .resume .yaccom {
       bottom: 0%; } }
   @media (min-width: 888px) {
-    .resume .jeego {
-      left: 74%; }
-      .resume .jeego:before {
-        left: 65%; } }
+    .resume .yaccom {
+      left: 0%;
+      width: 200px; }
+      .resume .yaccom:before {
+        left: 25%; } }
 
 .about-button {
   margin-top: 2em;

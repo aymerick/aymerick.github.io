@@ -85,7 +85,7 @@ And now browse to: <http://127.0.0.1:4200/upload/test.html>
 
 Victory \o/
 
-My backend can now save uploaded file into the `/upload` directory of my ember cli project, and the ember cli server can serves them.
+My backend can now save uploaded file into the `/upload` directory of my ember cli project, and the ember cli server will serve them.
 
 ![victory](/img/emberjs/ember_cli_server_victory.jpg)
 

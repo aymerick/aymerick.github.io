@@ -337,11 +337,11 @@
             bottom: 82%;
         }
         @media (min-width: 888px) {
-            left: 5%;
+            left: 0%;
             width: 200px;
 
             &:before {
-                left: 10%;
+                left: 25%;
             }
         }
     }
@@ -351,7 +351,7 @@
             bottom: 75%;
         }
         @media (min-width: 888px) {
-            left: 15%;
+            left: 10%;
         }
     }
 
@@ -360,11 +360,11 @@
             bottom: 59%;
         }
         @media (min-width: 888px) {
-            left: 30%;
+            left: 25%;
             width: 200px;
 
             &:before {
-                left: 10%;
+                left: 30%;
             }
         }
     }
@@ -374,8 +374,8 @@
             bottom: 38%;
         }
         @media (min-width: 888px) {
-            left: 55%;
-            width: 300px;
+            left: 50%;
+            width: 200px;
 
             &:before {
                 left: 10%;
@@ -388,7 +388,7 @@
             bottom: 26%;
         }
         @media (min-width: 888px) {
-            left: 51%;
+            left: 46%;
 
             &:before {
                 left: 60%;
@@ -401,7 +401,7 @@
             bottom: 13%;
         }
         @media (min-width: 888px) {
-            left: 62%;
+            left: 57%;
             bottom: -190px;
         }
     }
@@ -411,10 +411,24 @@
             bottom: 0%;
         }
         @media (min-width: 888px) {
-            left: 74%;
+            left: 69%;
 
             &:before {
                 left: 65%;
+            }
+        }
+    }
+
+    .assoninja {
+        @media (min-width: 575px) and (max-width: 887px) {
+            bottom: -2%;
+        }
+        @media (min-width: 888px) {
+            left: 75%;
+            width: 200px;
+
+            &:before {
+                left: 40%;
             }
         }
     }

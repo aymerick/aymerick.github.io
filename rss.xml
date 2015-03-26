@@ -8,7 +8,93 @@
     <title>Aymerick's stuff</title>
     <link>http://www.aymerick.com</link>
     <description>The personal website of a generalist developer living in France.</description>
-    <pubDate>Fri, 09 Jan 2015 00:00:00 +0100</pubDate>
+    <pubDate>Thu, 26 Mar 2015 00:00:00 +0100</pubDate>
+    <item>
+      <title>Add an upload directory to your ember cli project</title>
+      <link>http://www.aymerick.com/2015/03/26/ember-cli-server-upload-directory.html</link>
+      <description><![CDATA[I currently work on a projet with a backend in Go and a web app powered by Ember.js with an image upload feature.
+]]></description>
+      <pubDate>Thu, 26 Mar 2015 00:00:00 +0100</pubDate>
+      <guid>http://www.aymerick.com/2015/03/26/ember-cli-server-upload-directory.html</guid>
+      <content:encoded><![CDATA[<p>I currently work on a projet with a backend in <a href="http://golang.org">Go</a> and a web app powered by <a href="http://emberjs.com">Ember.js</a> with an image upload feature.</p>
+
+<p>When developing, I use the server provided by <a href="http://www.ember-cli.com">ember cli</a> with a proxy enabled to send api requests to my backend:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ember server --proxy http://127.0.0.1:&lt;BACKEND_PORT&gt;
+</code></pre></div>
+<p>All requests starting with <code>/api</code> are proxied to the backend, and the ember cli server serves the ember app files and the assets, with a nice live-reload feature. This setup is perfect for development.</p>
+
+<p>However, how to handle uploaded files ? My backend needs to store them somewhere on the file system where the ember cli server can serves them too.</p>
+
+<p>You may think that storing them inside the <code>/public</code> directory of the ember cli project is the solution. But this is not the way to go, because everything in the <code>/public</code> folder is copied into the <code>/dist</code> directory when building your app, including for production. So that&#39;s a bad idea.</p>
+
+<p>I searched how to make the ember cli server serve another directory. I&#39;m not sure this is the best way to do it, but here is the solution I came to.</p>
+
+<p>First let&#39;s create the <code>upload</code> directory in the ember cli project:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ cd myapp
+$ mkdir upload
+</code></pre></div>
+<p>Add a <code>/upload/test.html</code> file with this content:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">This file is in the upload directory
+</code></pre></div>
+<p>Now let&#39;s generate a <code>server</code> directory:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ember g server
+</code></pre></div>
+<p><img src="/img/emberjs/ember_cli_server_01.png" alt="ember g server"></p>
+
+<p>The main purpose of the new <code>server</code> directory is to mock server enpoints.</p>
+
+<p>Open the <code>/server/index.js</code> file and add those lines:</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;express&#39;</span><span class="p">);</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;/upload&#39;</span><span class="p">,</span> <span class="nx">express</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s2">&quot;/../upload&quot;</span><span class="p">));</span></code></pre></div>
+
+<p>For example, my file looks like that:</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="c1">// To use it create some files under `mocks/`</span>
+<span class="c1">// e.g. `server/mocks/ember-hamsters.js`</span>
+<span class="c1">//</span>
+<span class="c1">// module.exports = function(app) {</span>
+<span class="c1">//   app.get(&#39;/ember-hamsters&#39;, function(req, res) {</span>
+<span class="c1">//     res.send(&#39;hello&#39;);</span>
+<span class="c1">//   });</span>
+<span class="c1">// };</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">globSync</span>   <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;glob&#39;</span><span class="p">).</span><span class="nx">sync</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">mocks</span>      <span class="o">=</span> <span class="nx">globSync</span><span class="p">(</span><span class="s1">&#39;./mocks/**/*.js&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">cwd</span><span class="o">:</span> <span class="nx">__dirname</span> <span class="p">}).</span><span class="nx">map</span><span class="p">(</span><span class="nx">require</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">proxies</span>    <span class="o">=</span> <span class="nx">globSync</span><span class="p">(</span><span class="s1">&#39;./proxies/**/*.js&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">cwd</span><span class="o">:</span> <span class="nx">__dirname</span> <span class="p">}).</span><span class="nx">map</span><span class="p">(</span><span class="nx">require</span><span class="p">);</span>
+
+  <span class="c1">// Log proxy requests</span>
+  <span class="kd">var</span> <span class="nx">morgan</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;morgan&#39;</span><span class="p">);</span>
+  <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">morgan</span><span class="p">(</span><span class="s1">&#39;dev&#39;</span><span class="p">));</span>
+
+  <span class="nx">mocks</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">route</span><span class="p">)</span> <span class="p">{</span> <span class="nx">route</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span> <span class="p">});</span>
+  <span class="nx">proxies</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">route</span><span class="p">)</span> <span class="p">{</span> <span class="nx">route</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span> <span class="p">});</span>
+
+  <span class="c1">// Permits to serve files in /upload directory</span>
+  <span class="kd">var</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;express&#39;</span><span class="p">);</span>
+  <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;/upload&#39;</span><span class="p">,</span> <span class="nx">express</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s2">&quot;/../upload&quot;</span><span class="p">));</span>
+<span class="p">};</span></code></pre></div>
+
+<p>Start the server:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ember server
+</code></pre></div>
+<p>And now browse to: <a href="http://127.0.0.1:4200/upload/test.html">http://127.0.0.1:4200/upload/test.html</a></p>
+
+<p><img src="/img/emberjs/ember_cli_server_02.png" alt="serving upload dir"></p>
+
+<p>Victory \o/</p>
+
+<p>My backend can now save uploaded file into the <code>/upload</code> directory of my ember cli project, and the ember cli server can serves them.</p>
+
+<p><img src="/img/emberjs/ember_cli_server_victory.jpg" alt="victory"></p>
+
+<p>You can now continue having fun with <a href="http://emberjs.com">Ember.js</a>.</p>
+
+<p><a href="https://twitter.com/aymerick">@aymerick</a></p>
+]]></content:encoded>
+      <dc:date>2015-03-26T00:00:00+01:00</dc:date>
+    </item>
     <item>
       <title>Upload de sketch sur un jeenode</title>
       <link>http://www.aymerick.com/2015/01/09/upload-sketch-jeenode.html</link>
@@ -2319,6 +2405,6 @@ network={
 ]]></content:encoded>
       <dc:date>2013-09-17T00:00:00+02:00</dc:date>
     </item>
-    <dc:date>2015-01-09T00:00:00+01:00</dc:date>
+    <dc:date>2015-03-26T00:00:00+01:00</dc:date>
   </channel>
 </rss>

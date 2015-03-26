@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Add an upload directory to your ember cli project</title>
+        <meta name="description" content="The personal website of a generalist developer living in France.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/png" href="/favicon.png" />
+
+        <link rel="alternate" type="application/rss+xml" title="Aymerick's stuff" href="http://www.aymerick.com/rss.xml">
+
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/assets/css/syntax.css">
+        <link rel="stylesheet" href="/assets/css/main.css">
+
+        
+
+        <!-- OG meta -->
+        <meta property="og:title" content="Add an upload directory to your ember cli project" />
+        
+          <meta property="og:description" content="Make ember cli development server serve files in another directory" />
+        
+
+        
+          <meta property="og:type" content="article" />
+          
+            
+          
+          
+            
+              <meta property="article:tag" content="ember.js" />
+            
+          
+        
+    </head>
+
+    <body id="">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a href="/index.html" class='navbar-brand'>Aymerick</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li class="">
+                  <a href="/about.html">About</a>
+                </li>
+                <li class="">
+                  <a href="/stuff.html">Stuff</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="post-header">
+              <h2 class='post-title'>Add an upload directory to your ember cli project</h2>
+              
+                <ul class="post-tags">
+                  
+                    <li><a href="/tags/#ember.js-ref">#ember.js</a></li>
+                  
+                </ul>
+              
+              <p class="meta">26 Mar 2015</p>
+            </div>
+
+            <div class="post">
+            <p>I currently work on a projet with a backend in <a href="http://golang.org">Go</a> and a web app powered by <a href="http://emberjs.com">Ember.js</a> with an image upload feature.</p>
+
+<p>When developing, I use the server provided by <a href="http://www.ember-cli.com">ember cli</a> with a proxy enabled to send api requests to my backend:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ember server --proxy http://127.0.0.1:&lt;BACKEND_PORT&gt;
+</code></pre></div>
+<p>All requests starting with <code>/api</code> are proxied to the backend, and the ember cli server serves the ember app files and the assets, with a nice live-reload feature. This setup is perfect for development.</p>
+
+<p>However, how to handle uploaded files ? My backend needs to store them somewhere on the file system where the ember cli server can serves them too.</p>
+
+<p>You may think that storing them inside the <code>/public</code> directory of the ember cli project is the solution. But this is not the way to go, because everything in the <code>/public</code> folder is copied into the <code>/dist</code> directory when building your app, including for production. So that&#39;s a bad idea.</p>
+
+<p>I searched how to make the ember cli server serve another directory. I&#39;m not sure this is the best way to do it, but here is the solution I came to.</p>
+
+<p>First let&#39;s create the <code>upload</code> directory in the ember cli project:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ cd myapp
+$ mkdir upload
+</code></pre></div>
+<p>Add a <code>/upload/test.html</code> file with this content:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">This file is in the upload directory
+</code></pre></div>
+<p>Now let&#39;s generate a <code>server</code> directory:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ember g server
+</code></pre></div>
+<p><img src="/img/emberjs/ember_cli_server_01.png" alt="ember g server"></p>
+
+<p>The main purpose of the new <code>server</code> directory is to mock server enpoints.</p>
+
+<p>Open the <code>/server/index.js</code> file and add those lines:</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="kd">var</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;express&#39;</span><span class="p">);</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;/upload&#39;</span><span class="p">,</span> <span class="nx">express</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s2">&quot;/../upload&quot;</span><span class="p">));</span></code></pre></div>
+
+<p>For example, my file looks like that:</p>
+
+<div class="highlight"><pre><code class="javascript"><span class="c1">// To use it create some files under `mocks/`</span>
+<span class="c1">// e.g. `server/mocks/ember-hamsters.js`</span>
+<span class="c1">//</span>
+<span class="c1">// module.exports = function(app) {</span>
+<span class="c1">//   app.get(&#39;/ember-hamsters&#39;, function(req, res) {</span>
+<span class="c1">//     res.send(&#39;hello&#39;);</span>
+<span class="c1">//   });</span>
+<span class="c1">// };</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">app</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">globSync</span>   <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;glob&#39;</span><span class="p">).</span><span class="nx">sync</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">mocks</span>      <span class="o">=</span> <span class="nx">globSync</span><span class="p">(</span><span class="s1">&#39;./mocks/**/*.js&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">cwd</span><span class="o">:</span> <span class="nx">__dirname</span> <span class="p">}).</span><span class="nx">map</span><span class="p">(</span><span class="nx">require</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">proxies</span>    <span class="o">=</span> <span class="nx">globSync</span><span class="p">(</span><span class="s1">&#39;./proxies/**/*.js&#39;</span><span class="p">,</span> <span class="p">{</span> <span class="nx">cwd</span><span class="o">:</span> <span class="nx">__dirname</span> <span class="p">}).</span><span class="nx">map</span><span class="p">(</span><span class="nx">require</span><span class="p">);</span>
+
+  <span class="c1">// Log proxy requests</span>
+  <span class="kd">var</span> <span class="nx">morgan</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;morgan&#39;</span><span class="p">);</span>
+  <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">morgan</span><span class="p">(</span><span class="s1">&#39;dev&#39;</span><span class="p">));</span>
+
+  <span class="nx">mocks</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">route</span><span class="p">)</span> <span class="p">{</span> <span class="nx">route</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span> <span class="p">});</span>
+  <span class="nx">proxies</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">route</span><span class="p">)</span> <span class="p">{</span> <span class="nx">route</span><span class="p">(</span><span class="nx">app</span><span class="p">);</span> <span class="p">});</span>
+
+  <span class="c1">// Permits to serve files in /upload directory</span>
+  <span class="kd">var</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;express&#39;</span><span class="p">);</span>
+  <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="s1">&#39;/upload&#39;</span><span class="p">,</span> <span class="nx">express</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">__dirname</span> <span class="o">+</span> <span class="s2">&quot;/../upload&quot;</span><span class="p">));</span>
+<span class="p">};</span></code></pre></div>
+
+<p>Start the server:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ ember server
+</code></pre></div>
+<p>And now browse to: <a href="http://127.0.0.1:4200/upload/test.html">http://127.0.0.1:4200/upload/test.html</a></p>
+
+<p><img src="/img/emberjs/ember_cli_server_02.png" alt="serving upload dir"></p>
+
+<p>Victory \o/</p>
+
+<p>My backend can now save uploaded file into the <code>/upload</code> directory of my ember cli project, and the ember cli server can serves them.</p>
+
+<p><img src="/img/emberjs/ember_cli_server_victory.jpg" alt="victory"></p>
+
+<p>You can now continue having fun with <a href="http://emberjs.com">Ember.js</a>.</p>
+
+<p><a href="https://twitter.com/aymerick">@aymerick</a></p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        <footer>
+          <div class="container-fluid">
+            <div class="row footer">
+              <div class="col-md-12">
+                <p>
+                  <a href="https://github.com/aymerick">github</a> |
+                  <a href="https://twitter.com/aymerick">twitter</a> |
+                  <a href="http://www.linkedin.com/in/aymerick">linkedin</a> |
+                  <a href="https://pinboard.in/u:aymerick">pinboard</a> |
+                  <a href="http://fudahu.tumblr.com/">tumblr</a> |
+                  <a href="http://www.flickr.com/photos/aymerick">flickr</a> |
+                  <a href="http://www.youtube.com/ajehanne">youtube</a> |
+                  <a href="http://soundcloud.com/aymerick-jehanne">soundcloud</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </footer>
+
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="/assets/js/bootstrap.min.js"></script>
+
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-52977462-1', 'auto');
+          ga('send', 'pageview');
+        </script>
+    </body>
+</html>

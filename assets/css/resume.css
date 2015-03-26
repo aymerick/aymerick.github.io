@@ -120,7 +120,7 @@
         .resume .year.begin {
           left: 0; }
         .resume .year.end {
-          right: 1.35em; } }
+          right: 0; } }
   .resume .entry {
     position: relative;
     height: 80px;
@@ -258,6 +258,15 @@
         top: -145px;
         height: 136px; } }
   @media (min-width: 575px) and (max-width: 887px) {
+    .resume .kowa {
+      bottom: 86%; } }
+  @media (min-width: 888px) {
+    .resume .kowa {
+      right: -2%;
+      width: 157px; }
+      .resume .kowa:before {
+        left: 40%; } }
+  @media (min-width: 575px) and (max-width: 887px) {
     .resume .assoninja {
       bottom: 82%; } }
   @media (min-width: 888px) {
@@ -268,48 +277,48 @@
         left: 40%; } }
   @media (min-width: 575px) and (max-width: 887px) {
     .resume .jeego {
-      bottom: 75%; } }
+      bottom: 73%; } }
   @media (min-width: 888px) {
     .resume .jeego {
-      left: 69%; }
+      left: 74%; }
       .resume .jeego:before {
-        left: 65%; } }
+        left: 17%; } }
   @media (min-width: 575px) and (max-width: 887px) {
     .resume .activr {
-      bottom: 62%; } }
+      bottom: 60%; } }
   @media (min-width: 888px) {
     .resume .activr {
-      left: 57%;
-      bottom: -190px; } }
+      left: 55%;
+      width: 172px; } }
   @media (min-width: 575px) and (max-width: 887px) {
     .resume .fwissr {
-      bottom: 49%; } }
+      bottom: 47%; } }
   @media (min-width: 888px) {
     .resume .fwissr {
-      left: 46%; }
+      left: 48%; }
       .resume .fwissr:before {
-        left: 60%; } }
+        left: 18%; } }
   @media (min-width: 575px) and (max-width: 887px) {
     .resume .fotopedia {
-      bottom: 43%; } }
+      bottom: 40%; } }
   @media (min-width: 888px) {
     .resume .fotopedia {
-      left: 50%;
+      left: 46%;
       width: 200px; }
       .resume .fotopedia:before {
         left: 10%; } }
   @media (min-width: 575px) and (max-width: 887px) {
     .resume .newlc {
-      bottom: 23%; } }
+      bottom: 20%; } }
   @media (min-width: 888px) {
     .resume .newlc {
-      left: 25%;
-      width: 200px; }
+      left: 23%;
+      width: 180px; }
       .resume .newlc:before {
         left: 30%; } }
   @media (min-width: 575px) and (max-width: 887px) {
     .resume .wbxml {
-      bottom: 15%; } }
+      bottom: 13%; } }
   @media (min-width: 888px) {
     .resume .wbxml {
       left: 10%; } }
@@ -319,7 +328,7 @@
   @media (min-width: 888px) {
     .resume .yaccom {
       left: 0%;
-      width: 200px; }
+      width: 180px; }
       .resume .yaccom:before {
         left: 25%; } }
 

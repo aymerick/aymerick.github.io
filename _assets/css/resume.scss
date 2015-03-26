@@ -155,7 +155,7 @@
             }
 
             &.end {
-                right: 1.35em;
+                right: 0
             }
         }
     }
@@ -336,6 +336,20 @@
         }
     }
 
+    .kowa {
+        @media (min-width: 575px) and (max-width: 887px) {
+            bottom: 86%;
+        }
+        @media (min-width: 888px) {
+            right: -2%;
+            width: 157px;
+
+            &:before {
+                left: 40%;
+            }
+        }
+    }
+
     .assoninja {
         @media (min-width: 575px) and (max-width: 887px) {
             bottom: 82%;
@@ -352,46 +366,46 @@
 
     .jeego {
         @media (min-width: 575px) and (max-width: 887px) {
-            bottom: 75%;
+            bottom: 73%;
         }
         @media (min-width: 888px) {
-            left: 69%;
+            left: 74%;
 
             &:before {
-                left: 65%;
+                left: 17%;
             }
         }
     }
 
     .activr {
         @media (min-width: 575px) and (max-width: 887px) {
-            bottom: 62%;
+            bottom: 60%;
         }
         @media (min-width: 888px) {
-            left: 57%;
-            bottom: -190px;
+            left: 55%;
+            width: 172px;
         }
     }
 
     .fwissr {
         @media (min-width: 575px) and (max-width: 887px) {
-            bottom: 49%;
+            bottom: 47%;
         }
         @media (min-width: 888px) {
-            left: 46%;
+            left: 48%;
 
             &:before {
-                left: 60%;
+                left: 18%;
             }
         }
     }
 
     .fotopedia {
         @media (min-width: 575px) and (max-width: 887px) {
-            bottom: 43%;
+            bottom: 40%;
         }
         @media (min-width: 888px) {
-            left: 50%;
+            left: 46%;
             width: 200px;
 
             &:before {
@@ -402,11 +416,11 @@
 
     .newlc {
         @media (min-width: 575px) and (max-width: 887px) {
-            bottom: 23%;
+            bottom: 20%;
         }
         @media (min-width: 888px) {
-            left: 25%;
-            width: 200px;
+            left: 23%;
+            width: 180px;
 
             &:before {
                 left: 30%;
@@ -416,7 +430,7 @@
 
     .wbxml {
         @media (min-width: 575px) and (max-width: 887px) {
-            bottom: 15%;
+            bottom: 13%;
         }
         @media (min-width: 888px) {
             left: 10%;
@@ -429,7 +443,7 @@
         }
         @media (min-width: 888px) {
             left: 0%;
-            width: 200px;
+            width: 180px;
 
             &:before {
                 left: 25%;

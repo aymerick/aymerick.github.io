@@ -117,17 +117,9 @@
         @media (min-width: 575px) and (max-width: 887px) {
             width: 47px;
             height: 800px;
-
-            & > .year:last-child {
-                bottom: -3.2em;
-            }
         }
         @media (min-width: 888px) {
             height: 9px;
-
-            & > .year:last-child {
-                right: 1.35em;
-            }
         }
     }
 
@@ -149,10 +141,22 @@
 
         @media (min-width: 575px) and (max-width: 887px) {
             position: absolute;
+
+            &.begin {
+                bottom: -3.2em;
+            }
         }
         @media (min-width: 888px) {
             position: absolute;
             top: -1.5em;
+
+            &.begin {
+                left: 0;
+            }
+
+            &.end {
+                right: 1.35em;
+            }
         }
     }
 
@@ -332,46 +336,59 @@
         }
     }
 
-    .yaccom {
+    .assoninja {
         @media (min-width: 575px) and (max-width: 887px) {
             bottom: 82%;
         }
         @media (min-width: 888px) {
-            left: 0%;
+            left: 75%;
             width: 200px;
 
             &:before {
-                left: 25%;
+                left: 40%;
             }
         }
     }
 
-    .wbxml {
+    .jeego {
         @media (min-width: 575px) and (max-width: 887px) {
             bottom: 75%;
         }
         @media (min-width: 888px) {
-            left: 10%;
+            left: 69%;
+
+            &:before {
+                left: 65%;
+            }
         }
     }
 
-    .newlc {
+    .activr {
         @media (min-width: 575px) and (max-width: 887px) {
-            bottom: 59%;
+            bottom: 62%;
         }
         @media (min-width: 888px) {
-            left: 25%;
-            width: 200px;
+            left: 57%;
+            bottom: -190px;
+        }
+    }
+
+    .fwissr {
+        @media (min-width: 575px) and (max-width: 887px) {
+            bottom: 49%;
+        }
+        @media (min-width: 888px) {
+            left: 46%;
 
             &:before {
-                left: 30%;
+                left: 60%;
             }
         }
     }
 
     .fotopedia {
         @media (min-width: 575px) and (max-width: 887px) {
-            bottom: 38%;
+            bottom: 43%;
         }
         @media (min-width: 888px) {
             left: 50%;
@@ -383,52 +400,39 @@
         }
     }
 
-    .fwissr {
+    .newlc {
         @media (min-width: 575px) and (max-width: 887px) {
-            bottom: 26%;
+            bottom: 23%;
         }
         @media (min-width: 888px) {
-            left: 46%;
+            left: 25%;
+            width: 200px;
 
             &:before {
-                left: 60%;
+                left: 30%;
             }
         }
     }
 
-    .activr {
+    .wbxml {
         @media (min-width: 575px) and (max-width: 887px) {
-            bottom: 13%;
+            bottom: 15%;
         }
         @media (min-width: 888px) {
-            left: 57%;
-            bottom: -190px;
+            left: 10%;
         }
     }
 
-    .jeego {
+    .yaccom {
         @media (min-width: 575px) and (max-width: 887px) {
             bottom: 0%;
         }
         @media (min-width: 888px) {
-            left: 69%;
-
-            &:before {
-                left: 65%;
-            }
-        }
-    }
-
-    .assoninja {
-        @media (min-width: 575px) and (max-width: 887px) {
-            bottom: -2%;
-        }
-        @media (min-width: 888px) {
-            left: 75%;
+            left: 0%;
             width: 200px;
 
             &:before {
-                left: 40%;
+                left: 25%;
             }
         }
     }

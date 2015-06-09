@@ -46,7 +46,7 @@ pre {
     color: #D5DCE8; }
 
 /**
- * Perso
+ * Index
  */
 .perso {
   font-size: 18px;
@@ -88,9 +88,15 @@ pre {
       .perso h3 {
         font-size: 14px; } }
 
-/**
- * Intro
- */
 .intro {
   font-size: 18px;
   margin-bottom: 40px; }
+
+.skills {
+  margin-bottom: 20px; }
+
+.skills .row, .oss .row {
+  margin-bottom: 20px; }
+.skills .col-md-4, .oss .col-md-4 {
+  padding-bottom: 20px;
+  min-height: 80px; }

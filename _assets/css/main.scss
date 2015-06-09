@@ -70,8 +70,9 @@ $navbar-background-active: #142E54;
 }
 
 /**
- * Perso
+ * Index
  */
+
 .perso {
     font-size: 18px;
     font-family: Georgia, "Times New Roman", Times, serif;
@@ -123,10 +124,22 @@ $navbar-background-active: #142E54;
     }
 }
 
-/**
- * Intro
- */
 .intro {
   font-size: 18px;
   margin-bottom: 40px;
+}
+
+.skills {
+  margin-bottom: 20px;
+}
+
+.skills, .oss {
+  .row {
+      margin-bottom: 20px;
+  }
+
+  .col-md-4 {
+      padding-bottom: 20px;
+      min-height: 80px;
+  }
 }

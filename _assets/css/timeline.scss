@@ -2,461 +2,413 @@
 
 /* CSS adapted from http://joshuasortino.com */
 
-.perso {
-    font-family: Georgia, "Times New Roman", Times, serif;
-    text-align: center;
-
-    margin: 2em auto;
-    @media (min-width: 575px) and (max-width: 887px) {
-        margin: 4em auto;
-    }
-    @media (min-width: 888px) {
-        margin: 4em auto;
-    }
-
-    h1 {
-        font-weight: bold;
-
-        font-size: 30px;
-        @media (min-width: 575px) and (max-width: 887px) {
-            font-size: 45px;
-        }
-        @media (min-width: 888px) {
-            font-size: 50px;
-        }
-    }
-
-    h2 {
-        color: #a39996;
-        font-style: italic;
-        font-weight: normal;
-
-        font-size: 20px;
-        @media (min-width: 575px) and (max-width: 887px) {
-            font-size: 22px;
-        }
-        @media (min-width: 888px) {
-            font-size: 24px;
-        }
-    }
-
-    h3 {
-        color: #a39996;
-        font-style: italic;
-        font-weight: normal;
-
-        font-size: 12px;
-        @media (min-width: 888px) {
-            font-size: 14px;
-        }
-    }
-}
-
-.resume {
-    position: relative;
-    width: 100%;
-
-    margin: 1em 0 2em;
-    padding: 0;
-
-    text-align: center;
-
-    font-family: Helvetica, Arial, sans-serif;
-
-    @media (max-width: 887px) {
-        &:before {
-            position: absolute;
-
-            content: "";
-            line-height: 0;
-
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-
-            width: 7px;
-            margin: 0 auto;
-
-            border: 2px solid #fff;
-            background: #758AA8;
-
-            @include box-shadow(-1px 0 0 0 #758AA8);
-        }
-
-        &:after {
-            display: table;
-            clear: both;
-
-            content: "";
-            line-height: 0;
-        }
-    }
-
-    @media (min-width: 888px) {
-        height: 5px;
-
-        margin: 10em 0 20em 0;
-
-        background: #758AA8;
-
-        border: 2px solid #fff;
-        border-left: none;
-        border-right: none;
-        border-bottom: none;
-
-        @include box-shadow(0 -1px 0 0 #758AA8);
-    }
-
-    .timeline {
+#timeline {
+    .resume {
         position: relative;
-        max-width: 960px;
+        width: 100%;
 
-        margin: 0 auto;
+        margin: 1em 0 2em;
+        padding: 0;
 
-        @media (min-width: 575px) and (max-width: 887px) {
-            width: 47px;
-            height: 800px;
-        }
-        @media (min-width: 888px) {
-            height: 9px;
-        }
-    }
-
-    .year {
-        width: 3.2em;
-        height: 3.2em;
-        margin: 0 auto;
-
-        color: #5a504e;
-        font-size: 14px;
-        line-height: 3.25em;
         text-align: center;
 
-        background: #fff scroll;
+        font-family: Helvetica, Arial, sans-serif;
 
-        @include background-size(485px);
-        @include box-shadow(0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff);
-        @include border-radius(1.7em);
+        @media (max-width: 887px) {
+            &:before {
+                position: absolute;
 
-        @media (min-width: 575px) and (max-width: 887px) {
-            position: absolute;
+                content: "";
+                line-height: 0;
 
-            &.begin {
-                bottom: -3.2em;
-            }
-        }
-        @media (min-width: 888px) {
-            position: absolute;
-            top: -1.5em;
-
-            &.begin {
+                top: 0;
+                bottom: 0;
                 left: 0;
-            }
-
-            &.end {
-                right: 0
-            }
-        }
-    }
-
-    .entry {
-        position: relative;
-
-        height: 80px;
-        margin: 2em;
-        padding: .4em;
-
-        color: #5a504e;
-        font-size: 14px;
-        vertical-align: middle;
-
-        background-color: #fff;
-
-        @include background-size(485px);
-        @include box-sizing(border-box);
-        @include box-shadow(0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff);
-
-        @media (min-width: 575px) and (max-width: 887px) {
-            position: absolute;
-            margin: 0 1em;
-            width: 200px;
-
-            &:before {
-                position: absolute;
-                content: "";
-
-                top: 50%;
-                width: 57px;
-                height: 7px;
-
-                margin-top: -2px;
-
-                background-color: #758AA8;
-
-                border: 2px solid #f5f5ef;
-                border-left: none;
-                border-right: none;
-            }
-        }
-        @media (min-width: 888px) {
-            position: absolute;
-            margin: 0 1em;
-
-            &:before {
-                position: absolute;
-                content: "";
-
-                left: 50%;
+                right: 0;
 
                 width: 7px;
-                height: 36px;
-
-                margin-left: -2px;
-
-                background-color: #758AA8;
+                margin: 0 auto;
 
                 border: 2px solid #fff;
-                border-top: none;
-                border-bottom: none;
+                background: #758AA8;
+
+                @include box-shadow(-1px 0 0 0 #758AA8);
+            }
+
+            &:after {
+                display: table;
+                clear: both;
+
+                content: "";
+                line-height: 0;
             }
         }
-    }
 
-    .entry h1 {
-        margin: 0 auto;
-        margin-bottom: 5px;
-
-        clear: both;
-
-        color: #5a504e;
-        font-size: 14px;
-        font-weight: bold;
-
-        line-height: 1.2em;
-        text-align: center;
-        vertical-align: middle;
-    }
-
-    .github-ribbon {
-        position: absolute;
-        left: -20px;
-        top: -3px;
-
-        overflow: hidden;
-
-        background-color: #a00;
-        white-space: nowrap;
-
-        @include rotate(-25deg);
-        @include box-shadow(0 0 10px 0 #888);
-    }
-    .github-ribbon a {
-        display: block;
-        margin: 1px 0;
-        padding: 4px 6px;
-
-        border: 1px solid #faa;
-
-        color: #fff;
-        font: bold 81.25% 'Helvetica Neue', Helvetica, Arial, sans-serif;
-
-        text-align: center;
-        text-decoration: none;
-        text-shadow: 0 0 5px #444;
-    }
-
-    .tags {
-        position: absolute;
-        bottom: 7px;
-        right: 1px;
-    }
-
-    .tags span {
-        padding: 4px;
-        margin: 2px;
-
-        color: #fff;
-        background-color: #B7CDEC;
-        font-size: 12px;
-
-        @include border-radius(4px);
-    }
-
-    .job {
-        @media (min-width: 575px) and (max-width: 887px) {
-            left: -260px;
-
-            &:before {
-                right: -68px;
-
-                @include box-shadow(-1px -3px 0px -2px #758AA8);
-            }
-        }
         @media (min-width: 888px) {
-            top: -125px;
+            height: 5px;
 
-            &:before {
-                bottom: -45px;
+            margin: 10em 0 20em 0;
 
-                @include box-shadow(3px -1px 0px -2px #758AA8);
+            background: #758AA8;
+
+            border: 2px solid #fff;
+            border-left: none;
+            border-right: none;
+            border-bottom: none;
+
+            @include box-shadow(0 -1px 0 0 #758AA8);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 960px;
+
+            margin: 0 auto;
+
+            @media (min-width: 575px) and (max-width: 887px) {
+                width: 47px;
+                height: 800px;
+            }
+            @media (min-width: 888px) {
+                height: 9px;
             }
         }
-    }
 
-    .oss {
-        @media (min-width: 575px) and (max-width: 887px) {
-            right: -262px;
+        .year {
+            width: 3.2em;
+            height: 3.2em;
+            margin: 0 auto;
 
-            &:before {
-                left: -68px;
+            color: #5a504e;
+            font-size: 14px;
+            line-height: 3.25em;
+            text-align: center;
 
-                @include box-shadow(0 -1px 0px 0px #758AA8);
+            background: #fff scroll;
+
+            @include background-size(485px);
+            @include box-shadow(0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff);
+            @include border-radius(1.7em);
+
+            @media (min-width: 575px) and (max-width: 887px) {
+                position: absolute;
+
+                &.begin {
+                    bottom: -3.2em;
+                }
+            }
+            @media (min-width: 888px) {
+                position: absolute;
+                top: -1.5em;
+
+                &.begin {
+                    left: 0;
+                }
+
+                &.end {
+                    right: 0
+                }
             }
         }
-        @media (min-width: 888px) {
-            bottom: -119px;
 
-            &:before {
-                top: -45px;
+        .entry {
+            position: relative;
 
-                @include box-shadow(1px 0px 0px 0px #758AA8);
+            height: 80px;
+            margin: 2em;
+            padding: .4em;
+
+            color: #5a504e;
+            font-size: 14px;
+            vertical-align: middle;
+
+            background-color: #fff;
+
+            @include background-size(485px);
+            @include box-sizing(border-box);
+            @include box-shadow(0 0 0 1px #758AA8, 0 0 0 3px #fff, 0 0 0 6px #758AA8, 0 0 0 8px #fff);
+
+            @media (min-width: 575px) and (max-width: 887px) {
+                position: absolute;
+                margin: 0 1em;
+                width: 200px;
+
+                &:before {
+                    position: absolute;
+                    content: "";
+
+                    top: 50%;
+                    width: 57px;
+                    height: 7px;
+
+                    margin-top: -2px;
+
+                    background-color: #758AA8;
+
+                    border: 2px solid #f5f5ef;
+                    border-left: none;
+                    border-right: none;
+                }
+            }
+            @media (min-width: 888px) {
+                position: absolute;
+                margin: 0 1em;
+
+                &:before {
+                    position: absolute;
+                    content: "";
+
+                    left: 50%;
+
+                    width: 7px;
+                    height: 36px;
+
+                    margin-left: -2px;
+
+                    background-color: #758AA8;
+
+                    border: 2px solid #fff;
+                    border-top: none;
+                    border-bottom: none;
+                }
             }
         }
-    }
 
-    .oss.level2 {
-        @media (min-width: 888px) {
-            bottom: -219px;
+        .entry h1 {
+            margin: 0 auto;
+            margin-bottom: 5px;
 
-            &:before {
-                top: -145px;
-                height: 136px;
+            clear: both;
+
+            color: #5a504e;
+            font-size: 14px;
+            font-weight: bold;
+
+            line-height: 1.2em;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .github-ribbon {
+            position: absolute;
+            left: -20px;
+            top: -3px;
+
+            overflow: hidden;
+
+            background-color: #a00;
+            white-space: nowrap;
+
+            @include rotate(-25deg);
+            @include box-shadow(0 0 10px 0 #888);
+        }
+        .github-ribbon a {
+            display: block;
+            margin: 1px 0;
+            padding: 4px 6px;
+
+            border: 1px solid #faa;
+
+            color: #fff;
+            font: bold 81.25% 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+            text-align: center;
+            text-decoration: none;
+            text-shadow: 0 0 5px #444;
+        }
+
+        .tags {
+            position: absolute;
+            bottom: 7px;
+            right: 1px;
+        }
+
+        .tags span {
+            padding: 4px;
+            margin: 2px;
+
+            color: #fff;
+            background-color: #B7CDEC;
+            font-size: 12px;
+
+            @include border-radius(4px);
+        }
+
+        .job {
+            @media (min-width: 575px) and (max-width: 887px) {
+                left: -260px;
+
+                &:before {
+                    right: -68px;
+
+                    @include box-shadow(-1px -3px 0px -2px #758AA8);
+                }
+            }
+            @media (min-width: 888px) {
+                top: -125px;
+
+                &:before {
+                    bottom: -45px;
+
+                    @include box-shadow(3px -1px 0px -2px #758AA8);
+                }
             }
         }
-    }
 
-    .kowa {
-        @media (min-width: 575px) and (max-width: 887px) {
-            bottom: 86%;
-        }
-        @media (min-width: 888px) {
-            right: -2%;
-            width: 157px;
+        .oss {
+            @media (min-width: 575px) and (max-width: 887px) {
+                right: -262px;
 
-            &:before {
-                left: 40%;
+                &:before {
+                    left: -68px;
+
+                    @include box-shadow(0 -1px 0px 0px #758AA8);
+                }
+            }
+            @media (min-width: 888px) {
+                bottom: -119px;
+
+                &:before {
+                    top: -45px;
+
+                    @include box-shadow(1px 0px 0px 0px #758AA8);
+                }
             }
         }
-    }
 
-    .assoninja {
-        @media (min-width: 575px) and (max-width: 887px) {
-            bottom: 82%;
-        }
-        @media (min-width: 888px) {
-            left: 75%;
-            width: 200px;
+        .oss.level2 {
+            @media (min-width: 888px) {
+                bottom: -219px;
 
-            &:before {
-                left: 40%;
+                &:before {
+                    top: -145px;
+                    height: 136px;
+                }
             }
         }
-    }
 
-    .jeego {
-        @media (min-width: 575px) and (max-width: 887px) {
-            bottom: 73%;
-        }
-        @media (min-width: 888px) {
-            left: 74%;
+        .kowa {
+            @media (min-width: 575px) and (max-width: 887px) {
+                bottom: 86%;
+            }
+            @media (min-width: 888px) {
+                right: -2%;
+                width: 157px;
 
-            &:before {
-                left: 17%;
+                &:before {
+                    left: 40%;
+                }
             }
         }
-    }
 
-    .activr {
-        @media (min-width: 575px) and (max-width: 887px) {
-            bottom: 60%;
-        }
-        @media (min-width: 888px) {
-            left: 55%;
-            width: 172px;
-        }
-    }
+        .assoninja {
+            @media (min-width: 575px) and (max-width: 887px) {
+                bottom: 82%;
+            }
+            @media (min-width: 888px) {
+                left: 75%;
+                width: 200px;
 
-    .fwissr {
-        @media (min-width: 575px) and (max-width: 887px) {
-            bottom: 47%;
-        }
-        @media (min-width: 888px) {
-            left: 48%;
-
-            &:before {
-                left: 18%;
+                &:before {
+                    left: 40%;
+                }
             }
         }
-    }
 
-    .fotopedia {
-        @media (min-width: 575px) and (max-width: 887px) {
-            bottom: 40%;
+        .jeego {
+            @media (min-width: 575px) and (max-width: 887px) {
+                bottom: 73%;
+            }
+            @media (min-width: 888px) {
+                left: 74%;
+
+                &:before {
+                    left: 17%;
+                }
+            }
         }
-        @media (min-width: 888px) {
-            left: 46%;
-            width: 200px;
 
-            &:before {
+        .activr {
+            @media (min-width: 575px) and (max-width: 887px) {
+                bottom: 60%;
+            }
+            @media (min-width: 888px) {
+                left: 55%;
+                width: 172px;
+            }
+        }
+
+        .fwissr {
+            @media (min-width: 575px) and (max-width: 887px) {
+                bottom: 47%;
+            }
+            @media (min-width: 888px) {
+                left: 48%;
+
+                &:before {
+                    left: 18%;
+                }
+            }
+        }
+
+        .fotopedia {
+            @media (min-width: 575px) and (max-width: 887px) {
+                bottom: 40%;
+            }
+            @media (min-width: 888px) {
+                left: 46%;
+                width: 200px;
+
+                &:before {
+                    left: 10%;
+                }
+            }
+        }
+
+        .newlc {
+            @media (min-width: 575px) and (max-width: 887px) {
+                bottom: 20%;
+            }
+            @media (min-width: 888px) {
+                left: 23%;
+                width: 180px;
+
+                &:before {
+                    left: 30%;
+                }
+            }
+        }
+
+        .wbxml {
+            @media (min-width: 575px) and (max-width: 887px) {
+                bottom: 13%;
+            }
+            @media (min-width: 888px) {
                 left: 10%;
             }
         }
-    }
 
-    .newlc {
-        @media (min-width: 575px) and (max-width: 887px) {
-            bottom: 20%;
-        }
-        @media (min-width: 888px) {
-            left: 23%;
-            width: 180px;
+        .yaccom {
+            @media (min-width: 575px) and (max-width: 887px) {
+                bottom: 0%;
+            }
+            @media (min-width: 888px) {
+                left: 0%;
+                width: 180px;
 
-            &:before {
-                left: 30%;
+                &:before {
+                    left: 25%;
+                }
             }
         }
     }
 
-    .wbxml {
+    .about-button {
+        margin-top: 2em;
+        margin-bottom: 3em;
+
         @media (min-width: 575px) and (max-width: 887px) {
-            bottom: 13%;
+            margin-top: 5em;
         }
-        @media (min-width: 888px) {
-            left: 10%;
-        }
-    }
-
-    .yaccom {
-        @media (min-width: 575px) and (max-width: 887px) {
-            bottom: 0%;
-        }
-        @media (min-width: 888px) {
-            left: 0%;
-            width: 180px;
-
-            &:before {
-                left: 25%;
-            }
-        }
-    }
-}
-
-.about-button {
-    margin-top: 2em;
-    margin-bottom: 3em;
-
-    @media (min-width: 575px) and (max-width: 887px) {
-        margin-top: 5em;
     }
 }

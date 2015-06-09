@@ -1,0 +1,52 @@
+@import 'mixins';
+
+#about {
+  .bio, .work {
+    font-family: Georgia, "Times New Roman", Times, serif;
+
+    .row {
+      margin-top: 2em;
+      margin-bottom: 2em;
+    }
+  }
+
+  .bio {
+    font-size: 22px;
+    line-height: 1.7em;
+  }
+
+  .work {
+    font-size: 20px;
+    line-height: 1.5em;
+
+    img {
+      margin: 10px auto;
+    }
+
+    .features span {
+      font-weight: bold;
+    }
+
+    h4 {
+      font-family: Arial;
+      color: #999;
+    }
+  }
+
+  section.work:nth-child(2n+1) {
+    background-color: #DDE6F3;
+  }
+
+  .avatar {
+    display: block;
+    margin: 0 auto 2em;
+
+    @include rotate(-5deg);
+
+    @media (min-width: 575px) {
+      float: left;
+      margin-right: 30px;
+      margin-bottom: 0;
+    }
+  }
+}

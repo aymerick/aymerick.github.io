@@ -46,38 +46,51 @@ pre {
     color: #D5DCE8; }
 
 /**
- * About
+ * Perso
  */
-#about .bio, #about .work {
-  font-family: Georgia, "Times New Roman", Times, serif; }
-  #about .bio .row, #about .work .row {
-    margin-top: 2em;
-    margin-bottom: 2em; }
-#about .bio {
-  font-size: 22px;
-  line-height: 1.7em; }
-#about .work {
-  font-size: 20px;
-  line-height: 1.5em; }
-  #about .work img {
-    margin: 10px auto; }
-  #about .work .features span {
-    font-weight: bold; }
-  #about .work h4 {
-    font-family: Arial;
-    color: #999; }
-#about section.work:nth-child(2n+1) {
-  background-color: #DDE6F3; }
-#about .avatar {
-  display: block;
-  margin: 0 auto 2em;
-  -webkit-transform: rotate(-5deg);
-  -moz-transform: rotate(-5deg);
-  -ms-transform: rotate(-5deg);
-  -o-transform: rotate(-5deg);
-  transform: rotate(-5deg); }
-  @media (min-width: 575px) {
-    #about .avatar {
-      float: left;
-      margin-right: 30px;
-      margin-bottom: 0; } }
+.perso {
+  font-size: 18px;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  text-align: center;
+  margin: 2em auto; }
+  @media (min-width: 575px) and (max-width: 887px) {
+    .perso {
+      margin: 4em auto; } }
+  @media (min-width: 888px) {
+    .perso {
+      margin: 4em auto; } }
+  .perso h1 {
+    font-weight: bold;
+    font-size: 30px; }
+    @media (min-width: 575px) and (max-width: 887px) {
+      .perso h1 {
+        font-size: 45px; } }
+    @media (min-width: 888px) {
+      .perso h1 {
+        font-size: 50px; } }
+  .perso h2 {
+    color: #a39996;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 20px; }
+    @media (min-width: 575px) and (max-width: 887px) {
+      .perso h2 {
+        font-size: 22px; } }
+    @media (min-width: 888px) {
+      .perso h2 {
+        font-size: 24px; } }
+  .perso h3 {
+    color: #a39996;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 12px; }
+    @media (min-width: 888px) {
+      .perso h3 {
+        font-size: 14px; } }
+
+/**
+ * Intro
+ */
+.intro {
+  font-size: 18px;
+  margin-bottom: 40px; }

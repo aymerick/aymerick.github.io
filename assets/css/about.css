@@ -1,0 +1,33 @@
+#about .bio, #about .work {
+  font-family: Georgia, "Times New Roman", Times, serif; }
+  #about .bio .row, #about .work .row {
+    margin-top: 2em;
+    margin-bottom: 2em; }
+#about .bio {
+  font-size: 22px;
+  line-height: 1.7em; }
+#about .work {
+  font-size: 20px;
+  line-height: 1.5em; }
+  #about .work img {
+    margin: 10px auto; }
+  #about .work .features span {
+    font-weight: bold; }
+  #about .work h4 {
+    font-family: Arial;
+    color: #999; }
+#about section.work:nth-child(2n+1) {
+  background-color: #DDE6F3; }
+#about .avatar {
+  display: block;
+  margin: 0 auto 2em;
+  -webkit-transform: rotate(-5deg);
+  -moz-transform: rotate(-5deg);
+  -ms-transform: rotate(-5deg);
+  -o-transform: rotate(-5deg);
+  transform: rotate(-5deg); }
+  @media (min-width: 575px) {
+    #about .avatar {
+      float: left;
+      margin-right: 30px;
+      margin-bottom: 0; } }

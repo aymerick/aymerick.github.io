@@ -1,54 +1,5 @@
 /* CSS adapted from http://joshuasortino.com */
-.perso {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  text-align: center;
-  margin: 2em auto; }
-  @media (min-width: 575px) and (max-width: 887px) {
-    .perso {
-      margin: 4em auto; } }
-  @media (min-width: 888px) {
-    .perso {
-      margin: 4em auto; } }
-  .perso h1 {
-    font-weight: bold;
-    font-size: 30px; }
-    @media (min-width: 575px) and (max-width: 887px) {
-      .perso h1 {
-        font-size: 45px; } }
-    @media (min-width: 888px) {
-      .perso h1 {
-        font-size: 50px; } }
-  .perso h2 {
-    color: #a39996;
-    font-style: italic;
-    font-weight: normal;
-    font-size: 20px; }
-    @media (min-width: 575px) and (max-width: 887px) {
-      .perso h2 {
-        font-size: 22px; } }
-    @media (min-width: 888px) {
-      .perso h2 {
-        font-size: 24px; } }
-  .perso h3 {
-    color: #a39996;
-    font-style: italic;
-    font-weight: normal;
-    font-size: 12px; }
-    @media (min-width: 888px) {
-      .perso h3 {
-        font-size: 14px; } }
-
-.skills .logo {
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: block;
-  width: 70px;
-  height: 70px; }
-.skills p {
-  padding-left: 80px; }
-
-.resume {
+#timeline .resume {
   position: relative;
   width: 100%;
   margin: 1em 0 2em;
@@ -56,7 +7,7 @@
   text-align: center;
   font-family: Helvetica, Arial, sans-serif; }
   @media (max-width: 887px) {
-    .resume:before {
+    #timeline .resume:before {
       position: absolute;
       content: "";
       line-height: 0;
@@ -71,13 +22,13 @@
       -webkit-box-shadow: -1px 0 0 0 #758aa8;
       -moz-box-shadow: -1px 0 0 0 #758aa8;
       box-shadow: -1px 0 0 0 #758aa8; }
-    .resume:after {
+    #timeline .resume:after {
       display: table;
       clear: both;
       content: "";
       line-height: 0; } }
   @media (min-width: 888px) {
-    .resume {
+    #timeline .resume {
       height: 5px;
       margin: 10em 0 20em 0;
       background: #758AA8;
@@ -88,18 +39,18 @@
       -webkit-box-shadow: 0 -1px 0 0 #758aa8;
       -moz-box-shadow: 0 -1px 0 0 #758aa8;
       box-shadow: 0 -1px 0 0 #758aa8; } }
-  .resume .timeline {
+  #timeline .resume .timeline {
     position: relative;
     max-width: 960px;
     margin: 0 auto; }
     @media (min-width: 575px) and (max-width: 887px) {
-      .resume .timeline {
+      #timeline .resume .timeline {
         width: 47px;
         height: 800px; } }
     @media (min-width: 888px) {
-      .resume .timeline {
+      #timeline .resume .timeline {
         height: 9px; } }
-  .resume .year {
+  #timeline .resume .year {
     width: 3.2em;
     height: 3.2em;
     margin: 0 auto;
@@ -119,19 +70,19 @@
     -moz-border-radius: 1.7em;
     border-radius: 1.7em; }
     @media (min-width: 575px) and (max-width: 887px) {
-      .resume .year {
+      #timeline .resume .year {
         position: absolute; }
-        .resume .year.begin {
+        #timeline .resume .year.begin {
           bottom: -3.2em; } }
     @media (min-width: 888px) {
-      .resume .year {
+      #timeline .resume .year {
         position: absolute;
         top: -1.5em; }
-        .resume .year.begin {
+        #timeline .resume .year.begin {
           left: 0; }
-        .resume .year.end {
+        #timeline .resume .year.end {
           right: 0; } }
-  .resume .entry {
+  #timeline .resume .entry {
     position: relative;
     height: 80px;
     margin: 2em;
@@ -151,11 +102,11 @@
     -moz-box-shadow: 0 0 0 1px #758aa8, 0 0 0 3px white, 0 0 0 6px #758aa8, 0 0 0 8px white;
     box-shadow: 0 0 0 1px #758aa8, 0 0 0 3px white, 0 0 0 6px #758aa8, 0 0 0 8px white; }
     @media (min-width: 575px) and (max-width: 887px) {
-      .resume .entry {
+      #timeline .resume .entry {
         position: absolute;
         margin: 0 1em;
         width: 200px; }
-        .resume .entry:before {
+        #timeline .resume .entry:before {
           position: absolute;
           content: "";
           top: 50%;
@@ -167,10 +118,10 @@
           border-left: none;
           border-right: none; } }
     @media (min-width: 888px) {
-      .resume .entry {
+      #timeline .resume .entry {
         position: absolute;
         margin: 0 1em; }
-        .resume .entry:before {
+        #timeline .resume .entry:before {
           position: absolute;
           content: "";
           left: 50%;
@@ -181,7 +132,7 @@
           border: 2px solid #fff;
           border-top: none;
           border-bottom: none; } }
-  .resume .entry h1 {
+  #timeline .resume .entry h1 {
     margin: 0 auto;
     margin-bottom: 5px;
     clear: both;
@@ -191,7 +142,7 @@
     line-height: 1.2em;
     text-align: center;
     vertical-align: middle; }
-  .resume .github-ribbon {
+  #timeline .resume .github-ribbon {
     position: absolute;
     left: -20px;
     top: -3px;
@@ -206,7 +157,7 @@
     -webkit-box-shadow: 0 0 10px 0 #888888;
     -moz-box-shadow: 0 0 10px 0 #888888;
     box-shadow: 0 0 10px 0 #888888; }
-  .resume .github-ribbon a {
+  #timeline .resume .github-ribbon a {
     display: block;
     margin: 1px 0;
     padding: 4px 6px;
@@ -216,11 +167,11 @@
     text-align: center;
     text-decoration: none;
     text-shadow: 0 0 5px #444; }
-  .resume .tags {
+  #timeline .resume .tags {
     position: absolute;
     bottom: 7px;
     right: 1px; }
-  .resume .tags span {
+  #timeline .resume .tags span {
     padding: 4px;
     margin: 2px;
     color: #fff;
@@ -230,121 +181,120 @@
     -moz-border-radius: 4px;
     border-radius: 4px; }
   @media (min-width: 575px) and (max-width: 887px) {
-    .resume .job {
+    #timeline .resume .job {
       left: -260px; }
-      .resume .job:before {
+      #timeline .resume .job:before {
         right: -68px;
         -webkit-box-shadow: -1px -3px 0px -2px #758aa8;
         -moz-box-shadow: -1px -3px 0px -2px #758aa8;
         box-shadow: -1px -3px 0px -2px #758aa8; } }
   @media (min-width: 888px) {
-    .resume .job {
+    #timeline .resume .job {
       top: -125px; }
-      .resume .job:before {
+      #timeline .resume .job:before {
         bottom: -45px;
         -webkit-box-shadow: 3px -1px 0px -2px #758aa8;
         -moz-box-shadow: 3px -1px 0px -2px #758aa8;
         box-shadow: 3px -1px 0px -2px #758aa8; } }
   @media (min-width: 575px) and (max-width: 887px) {
-    .resume .oss {
+    #timeline .resume .oss {
       right: -262px; }
-      .resume .oss:before {
+      #timeline .resume .oss:before {
         left: -68px;
         -webkit-box-shadow: 0 -1px 0px 0px #758aa8;
         -moz-box-shadow: 0 -1px 0px 0px #758aa8;
         box-shadow: 0 -1px 0px 0px #758aa8; } }
   @media (min-width: 888px) {
-    .resume .oss {
+    #timeline .resume .oss {
       bottom: -119px; }
-      .resume .oss:before {
+      #timeline .resume .oss:before {
         top: -45px;
         -webkit-box-shadow: 1px 0px 0px 0px #758aa8;
         -moz-box-shadow: 1px 0px 0px 0px #758aa8;
         box-shadow: 1px 0px 0px 0px #758aa8; } }
   @media (min-width: 888px) {
-    .resume .oss.level2 {
+    #timeline .resume .oss.level2 {
       bottom: -219px; }
-      .resume .oss.level2:before {
+      #timeline .resume .oss.level2:before {
         top: -145px;
         height: 136px; } }
   @media (min-width: 575px) and (max-width: 887px) {
-    .resume .kowa {
+    #timeline .resume .kowa {
       bottom: 86%; } }
   @media (min-width: 888px) {
-    .resume .kowa {
+    #timeline .resume .kowa {
       right: -2%;
       width: 157px; }
-      .resume .kowa:before {
+      #timeline .resume .kowa:before {
         left: 40%; } }
   @media (min-width: 575px) and (max-width: 887px) {
-    .resume .assoninja {
+    #timeline .resume .assoninja {
       bottom: 82%; } }
   @media (min-width: 888px) {
-    .resume .assoninja {
+    #timeline .resume .assoninja {
       left: 75%;
       width: 200px; }
-      .resume .assoninja:before {
+      #timeline .resume .assoninja:before {
         left: 40%; } }
   @media (min-width: 575px) and (max-width: 887px) {
-    .resume .jeego {
+    #timeline .resume .jeego {
       bottom: 73%; } }
   @media (min-width: 888px) {
-    .resume .jeego {
+    #timeline .resume .jeego {
       left: 74%; }
-      .resume .jeego:before {
+      #timeline .resume .jeego:before {
         left: 17%; } }
   @media (min-width: 575px) and (max-width: 887px) {
-    .resume .activr {
+    #timeline .resume .activr {
       bottom: 60%; } }
   @media (min-width: 888px) {
-    .resume .activr {
+    #timeline .resume .activr {
       left: 55%;
       width: 172px; } }
   @media (min-width: 575px) and (max-width: 887px) {
-    .resume .fwissr {
+    #timeline .resume .fwissr {
       bottom: 47%; } }
   @media (min-width: 888px) {
-    .resume .fwissr {
+    #timeline .resume .fwissr {
       left: 48%; }
-      .resume .fwissr:before {
+      #timeline .resume .fwissr:before {
         left: 18%; } }
   @media (min-width: 575px) and (max-width: 887px) {
-    .resume .fotopedia {
+    #timeline .resume .fotopedia {
       bottom: 40%; } }
   @media (min-width: 888px) {
-    .resume .fotopedia {
+    #timeline .resume .fotopedia {
       left: 46%;
       width: 200px; }
-      .resume .fotopedia:before {
+      #timeline .resume .fotopedia:before {
         left: 10%; } }
   @media (min-width: 575px) and (max-width: 887px) {
-    .resume .newlc {
+    #timeline .resume .newlc {
       bottom: 20%; } }
   @media (min-width: 888px) {
-    .resume .newlc {
+    #timeline .resume .newlc {
       left: 23%;
       width: 180px; }
-      .resume .newlc:before {
+      #timeline .resume .newlc:before {
         left: 30%; } }
   @media (min-width: 575px) and (max-width: 887px) {
-    .resume .wbxml {
+    #timeline .resume .wbxml {
       bottom: 13%; } }
   @media (min-width: 888px) {
-    .resume .wbxml {
+    #timeline .resume .wbxml {
       left: 10%; } }
   @media (min-width: 575px) and (max-width: 887px) {
-    .resume .yaccom {
+    #timeline .resume .yaccom {
       bottom: 0%; } }
   @media (min-width: 888px) {
-    .resume .yaccom {
+    #timeline .resume .yaccom {
       left: 0%;
       width: 180px; }
-      .resume .yaccom:before {
+      #timeline .resume .yaccom:before {
         left: 25%; } }
-
-.about-button {
+#timeline .about-button {
   margin-top: 2em;
   margin-bottom: 3em; }
   @media (min-width: 575px) and (max-width: 887px) {
-    .about-button {
+    #timeline .about-button {
       margin-top: 5em; } }

@@ -98,8 +98,10 @@ pre {
 
 .skills, .oss, .expectations {
   margin-bottom: 20px; }
-  .skills .row, .oss .row, .expectations .row {
+  .skills .media, .oss .media, .expectations .media {
+    margin-top: 10px;
     margin-bottom: 20px; }
-  .skills .col-md-4, .oss .col-md-4, .expectations .col-md-4 {
-    padding-bottom: 20px;
-    min-height: 80px; }
+
+.contact {
+  padding-top: 20px;
+  font-size: 20px; }

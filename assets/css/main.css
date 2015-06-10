@@ -98,6 +98,8 @@ pre {
 
 .skills, .oss, .expectations {
   margin-bottom: 20px; }
+  .skills .title, .oss .title, .expectations .title {
+    padding-bottom: 20px; }
   .skills .media, .oss .media, .expectations .media {
     margin-top: 10px;
     margin-bottom: 20px; }

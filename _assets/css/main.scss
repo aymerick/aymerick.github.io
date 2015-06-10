@@ -129,11 +129,14 @@ $navbar-background-active: #142E54;
   margin-bottom: 40px;
 }
 
-.skills {
-  margin-bottom: 20px;
+.expectations {
+  font-size: 16px;
+  padding-bottom: 40px;
 }
 
-.skills, .oss {
+.skills, .oss, .expectations {
+   margin-bottom: 20px;
+
   .row {
       margin-bottom: 20px;
   }

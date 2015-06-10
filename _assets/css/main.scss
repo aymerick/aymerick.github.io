@@ -135,7 +135,11 @@ $navbar-background-active: #142E54;
 }
 
 .skills, .oss, .expectations {
-   margin-bottom: 20px;
+  margin-bottom: 20px;
+
+  .title {
+    padding-bottom: 20px;
+  }
 
   .media {
     margin-top: 10px;

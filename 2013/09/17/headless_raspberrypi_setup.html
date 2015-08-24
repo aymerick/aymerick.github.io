@@ -84,16 +84,15 @@
 
 <p>Download raspbian <a href="http://www.raspberrypi.org/downloads">here</a>.</p>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>df -h</code></pre></div>
-
 <p>Connect the SDCard.</p>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>df -h</code></pre></div>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>df -h
+<span class="nv">$ </span>diskutil list</code></pre></div>
 
 <p>Look for the new device that wasn&#39;t listed last time (eg: <code>/dev/disk2s1</code>).</p>
 
 <div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo diskutil unmount /dev/disk2s1
-<span class="nv">$ </span>sudo dd <span class="nv">bs</span><span class="o">=</span>1m <span class="k">if</span><span class="o">=</span>~/Downloads/2014-09-09-wheezy-raspbian.img <span class="nv">of</span><span class="o">=</span>/dev/rdisk2
+<span class="nv">$ </span>sudo dd <span class="nv">bs</span><span class="o">=</span>1m <span class="k">if</span><span class="o">=</span>~/Downloads/2015-05-05-raspbian-wheezy.img <span class="nv">of</span><span class="o">=</span>/dev/rdisk2
 <span class="nv">$ </span>sudo diskutil eject /dev/rdisk2</code></pre></div>
 
 <p>Insert SDCard in the raspberry pi then power it.</p>

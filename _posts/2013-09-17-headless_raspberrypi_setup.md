@@ -11,21 +11,18 @@ SDCard setup on Mac OS X
 
 Download raspbian [here](http://www.raspberrypi.org/downloads).
 
-{% highlight bash %}
-$ df -h
-{% endhighlight %}
-
 Connect the SDCard.
 
 {% highlight bash %}
 $ df -h
+$ diskutil list
 {% endhighlight %}
 
 Look for the new device that wasn't listed last time (eg: `/dev/disk2s1`).
 
 {% highlight bash %}
 $ sudo diskutil unmount /dev/disk2s1
-$ sudo dd bs=1m if=~/Downloads/2014-09-09-wheezy-raspbian.img of=/dev/rdisk2
+$ sudo dd bs=1m if=~/Downloads/2015-05-05-raspbian-wheezy.img of=/dev/rdisk2
 $ sudo diskutil eject /dev/rdisk2
 {% endhighlight %}
 

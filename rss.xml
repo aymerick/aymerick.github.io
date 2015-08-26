@@ -8,7 +8,53 @@
     <title>Aymerick's stuff</title>
     <link>http://www.aymerick.com</link>
     <description>The personal website of a generalist developer living in France.</description>
-    <pubDate>Thu, 26 Mar 2015 00:00:00 +0100</pubDate>
+    <pubDate>Wed, 26 Aug 2015 00:00:00 +0200</pubDate>
+    <item>
+      <title>Send email with gmail on raspberry pi</title>
+      <link>http://www.aymerick.com/2015/08/26/send-email-with-gmail-on-raspberry-pi.html</link>
+      <description><![CDATA[Prerequisites
+]]></description>
+      <pubDate>Wed, 26 Aug 2015 00:00:00 +0200</pubDate>
+      <guid>http://www.aymerick.com/2015/08/26/send-email-with-gmail-on-raspberry-pi.html</guid>
+      <content:encoded><![CDATA[<h1>Prerequisites</h1>
+
+<ul>
+<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+</ul>
+
+<h1>Setup</h1>
+
+<p>Install <a href="https://wiki.debian.org/sSMTP">ssmtp</a>:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install ssmtp
+<span class="nv">$ </span>sudo emacs /etc/ssmtp/ssmtp.conf</code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">root=YOUR_EMAIL
+mailhub=smtp.gmail.com:587
+hostname=PI_HOSTNAME
+AuthUser=YOUR_EMAIL
+AuthPass=YOUR_PASSWORD
+FromLineOverride=YES
+UseSTARTTLS=YES
+</code></pre></div>
+<p>Install <a href="http://heirloom.sourceforge.net/mailx.html">heirloom-mailx</a>:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install heirloom-mailx</code></pre></div>
+
+<h1>Test</h1>
+
+<p>Send a mail to <code>DESTINATION_EMAIL</code>:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span><span class="nb">echo </span>This is a <span class="nb">test</span> <span class="p">|</span> mail -v -s <span class="s2">&quot;A mail from your pi&quot;</span> DESTINATION_EMAIL</code></pre></div>
+
+<h1>External references</h1>
+
+<ul>
+<li><a href="http://doc.ubuntu-fr.org/ssmtp">http://doc.ubuntu-fr.org/ssmtp</a></li>
+<li><a href="http://blog.hotfirenet.com/envoyer-mail-depuis-le-raspberry-pi/">http://blog.hotfirenet.com/envoyer-mail-depuis-le-raspberry-pi/</a></li>
+</ul>
+]]></content:encoded>
+      <dc:date>2015-08-26T00:00:00+02:00</dc:date>
+    </item>
     <item>
       <title>Make ember cli serve uploaded files</title>
       <link>http://www.aymerick.com/2015/03/26/ember-cli-server-upload-directory.html</link>
@@ -690,7 +736,7 @@ OK 16 4 0 0 0
 </code></pre></div>
 <div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mount -a</code></pre></div>
 
-<p>Create bakckup directory:</p>
+<p>Create backup directory:</p>
 
 <div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mkdir /mnt/usbdrive/chezak_backup
 <span class="nv">$ </span>sudo chown synology:users /mnt/usbdrive/chezak_backup</code></pre></div>
@@ -2122,288 +2168,6 @@ network={
 ]]></content:encoded>
       <dc:date>2013-09-18T00:00:00+02:00</dc:date>
     </item>
-    <item>
-      <title>Headless Raspberry Pi setup</title>
-      <link>http://www.aymerick.com/2013/09/17/headless_raspberrypi_setup.html</link>
-      <description><![CDATA[SDCard setup on Mac OS X
-]]></description>
-      <pubDate>Tue, 17 Sep 2013 00:00:00 +0200</pubDate>
-      <guid>http://www.aymerick.com/2013/09/17/headless_raspberrypi_setup.html</guid>
-      <content:encoded><![CDATA[<h1>SDCard setup on Mac OS X</h1>
-
-<p>Download raspbian <a href="http://www.raspberrypi.org/downloads">here</a>.</p>
-
-<p>Connect the SDCard.</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>df -h
-<span class="nv">$ </span>diskutil list</code></pre></div>
-
-<p>Look for the new device that wasn&#39;t listed last time (eg: <code>/dev/disk2s1</code>).</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo diskutil unmount /dev/disk2s1
-<span class="nv">$ </span>sudo dd <span class="nv">bs</span><span class="o">=</span>1m <span class="k">if</span><span class="o">=</span>~/Downloads/2015-05-05-raspbian-wheezy.img <span class="nv">of</span><span class="o">=</span>/dev/rdisk2
-<span class="nv">$ </span>sudo diskutil eject /dev/rdisk2</code></pre></div>
-
-<p>Insert SDCard in the raspberry pi then power it.</p>
-
-<p>Login is <code>pi</code> and password is <code>raspberry</code>.</p>
-
-<p>External References:</p>
-
-<ul>
-<li><a href="http://elinux.org/RPi_Easy_SD_Card_Setup#Using_command_line_tools_.282.29">http://elinux.org/RPi_Easy_SD_Card_Setup#Using_command_line_tools_.282.29</a></li>
-</ul>
-
-<h1>Optional: USB Stick setup</h1>
-
-<p>This is an optional step if you want to run the system on an USB stick (the SD card will only by used to boot).</p>
-
-<p>So let&#39;s install raspbian on the USB stick.</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>diskutil list</code></pre></div>
-
-<p>Connect the USB stick.</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>diskutil list</code></pre></div>
-
-<p>Look for the new device that wasn&#39;t listed last time (eg: <code>/dev/disk1</code>).</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>diskutil unmountDisk /dev/disk1
-<span class="nv">$ </span>sudo dd <span class="nv">bs</span><span class="o">=</span>1m <span class="k">if</span><span class="o">=</span>~/Downloads/2014-09-09-wheezy-raspbian.img <span class="nv">of</span><span class="o">=</span>/dev/disk1</code></pre></div>
-
-<p>Eject the USB stick.</p>
-
-<p>Insert the USB stick in the raspberry pi.</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo fdisk -l</code></pre></div>
-<div class="highlight"><pre><code class="language-text" data-lang="text">  Disk /dev/sda: 32.0 GB, 32015679488 bytes
-</code></pre></div>
-<p>Expand partition on USB Stick:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo fdisk /dev/sda</code></pre></div>
-
-<p>Press <code>p</code>:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">  Device Boot      Start         End      Blocks   Id  System
-  /dev/sda1         8192      122879       57344    c  W95 FAT32 (LBA)
-  /dev/sda2       122880     6399999     3138560   83  Linux
-</code></pre></div>
-<p>Note the start of <code>/dev/sda2</code>: <code>122880</code>.</p>
-
-<p>Press <code>d</code>, type <code>2</code> and then hit <code>return</code> to delete the <code>sda2</code> partition.</p>
-
-<p>Then create a new partition (but leave 10Mb free):</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">  Command (m for help): n
-  Partition type:
-     p   primary (1 primary, 0 extended, 3 free)
-     e   extended
-  Select (default p): p
-  Partition number (1-4, default 2): 2
-  First sector (2048-62530623, default 2048): 122880
-  Last sector, +sectors or +size{K,M,G} (122880-62530623, default 62530623): 62528623
-</code></pre></div>
-<p>The math:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">  10240000 / 512 = 2000 sectors
-  62530623 - 2000 = 62528623
-</code></pre></div>
-<p>Press <code>w</code> to commit changes and exit fdisk.</p>
-
-<p>Reboot the raspberry:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo reboot</code></pre></div>
-
-<p>Resize the FS:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>e2fsck -f /dev/sda2
-<span class="nv">$ </span>sudo resize2fs /dev/sda2</code></pre></div>
-
-<p>Convert the partition table from DOS to GPT:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get update
-<span class="nv">$ </span>sudo apt-get install gdisk
-<span class="nv">$ </span>sudo gdisk /dev/sda</code></pre></div>
-<div class="highlight"><pre><code class="language-text" data-lang="text">  GPT fdisk (gdisk) version 0.8.5
-
-  Partition table scan:
-    MBR: MBR only
-    BSD: not present
-    APM: not present
-    GPT: not present
-
-
-  ***************************************************************
-  Found invalid GPT and valid MBR; converting MBR to GPT format.
-  THIS OPERATION IS POTENTIALLY DESTRUCTIVE! Exit by typing &#39;q&#39; if
-  you don&#39;t want to convert your MBR partitions to GPT format!
-  ***************************************************************
-
-  Command (? for help): r
-
-  Recovery/transformation command (? for help): f
-  Warning! This will destroy the currently defined partitions! Proceed? (Y/N): Y
-
-  Recovery/transformation command (? for help): w
-
-  Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
-  PARTITIONS!!
-
-  Do you want to proceed? (Y/N): Y
-  OK; writing new GUID partition table (GPT) to /dev/sda.
-  The operation has completed successfully.
-</code></pre></div>
-<p>Now remove USB stick, then re-plug it.</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo gdisk /dev/sda</code></pre></div>
-<div class="highlight"><pre><code class="language-text" data-lang="text">  GPT fdisk (gdisk) version 0.8.5
-
-  Partition table scan:
-    MBR: protective
-    BSD: not present
-    APM: not present
-    GPT: present
-
-  Found valid GPT with protective MBR; using GPT.
-
-  Command (? for help): i
-  Partition number (1-2): 2
-  Partition GUID code: 0FC63DAF-8483-4772-8E79-3D69D8477DE4 (Linux filesystem)
-  Partition unique GUID: D7BBB26D-DD33-4333-8CF3-0AA7F3517B48
-  First sector: 122880 (at 60.0 MiB)
-  Last sector: 62528623 (at 29.8 GiB)
-  Partition size: 62405744 sectors (29.8 GiB)
-  Attribute flags: 0000000000000000
-  Partition name: &#39;Linux filesystem&#39;
-</code></pre></div>
-<p>Note the <code>Partition unique GUID</code>: D7BBB26D-DD33-4333-8CF3-0AA7F3517B48</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /boot/cmdline.txt</code></pre></div>
-<div class="highlight"><pre><code class="language-text" data-lang="text">  dwc_otg.lpm_enable=0 console=ttyAMA0,115200 console=tty1 root=PARTUUID=D7BBB26D-DD33-4333-8CF3-0AA7F3517B48 rootfstype=ext4 elevator=deadline rootwait
-</code></pre></div>
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo reboot</code></pre></div>
-
-<p>External References:</p>
-
-<ul>
-<li><a href="http://www.raspipress.com/2013/05/install-and-run-raspbian-from-a-usb-flash-drive/">http://www.raspipress.com/2013/05/install-and-run-raspbian-from-a-usb-flash-drive/</a></li>
-<li><a href="https://samhobbs.co.uk/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive">https://samhobbs.co.uk/2013/10/speed-up-your-pi-by-booting-to-a-usb-flash-drive</a></li>
-<li><a href="http://blog.krastanov.org/2014/01/30/booting-pi-reliably-from-usb/">http://blog.krastanov.org/2014/01/30/booting-pi-reliably-from-usb/</a></li>
-</ul>
-
-<h1>Raspi config</h1>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo raspi-config</code></pre></div>
-
-<ul>
-<li>Advanced Options &gt; Update</li>
-<li>Expand Filesystem</li>
-<li>Change User Password</li>
-<li>Enable Boot to Desktop: No</li>
-<li>Internationalisation Options &gt; Change Timezone</li>
-<li>Overclock &gt; Medium</li>
-<li>Advanced Options &gt; Hostname</li>
-<li>Advanced Options &gt; Memory Split: 16</li>
-</ul>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install emacs23-nox
-<span class="nv">$ </span>sudo reboot</code></pre></div>
-
-<h1>Fix the &#39;Setting locale failed&#39; issue during ssh</h1>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/ssh/sshd_config</code></pre></div>
-
-<p>Comment that line:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">AcceptEnv LANG LC_*
-</code></pre></div>
-<p>To test:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo /etc/init.d/ssh restart
-<span class="nv">$ </span><span class="nb">exit</span>
-<span class="nv">$ </span>ssh pi@&lt;PI IP&gt;
-<span class="nv">$ </span>perl -e <span class="nb">exit</span></code></pre></div>
-
-<p>External References:</p>
-
-<ul>
-<li><a href="http://stackoverflow.com/questions/2499794/how-can-i-fix-a-locale-warning-from-perl">http://stackoverflow.com/questions/2499794/how-can-i-fix-a-locale-warning-from-perl</a></li>
-</ul>
-
-<h1>Optimizations</h1>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get purge consolekit desktop-base* desktop-file-utils* gnome-icon-theme* gnome-themes-standard* hicolor-icon-theme* leafpad* lxde* lxde-core* midori* xserver-common* xserver-xorg* xserver-xorg-core* xserver-xorg-input-all* xserver-xorg-input-evdev* xserver-xorg-input-synaptics* xserver-xorg-video-fbdev* gconf gconf2 gconf2-common gnome-accessibility-themes libmenu-cache1 lxappearance lxinput lxmenu-data lxpanel lxpolkit lxrandr lxsession lxsession-edit lxshortcut lxtask lxterminal scratch
-<span class="nv">$ </span>sudo apt-get -y remove cups* gnome* x11-common*
-<span class="nv">$ </span>sudo apt-get -y autoremove
-<span class="nv">$ </span>sudo apt-get -y autoclean</code></pre></div>
-
-<h1>Update</h1>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get update
-<span class="nv">$ </span>sudo apt-get upgrade
-<span class="nv">$ </span>uname -a
-<span class="nv">$ </span>sudo apt-get -y dist-upgrade</code></pre></div>
-
-<h1>SSH setup</h1>
-
-<p>Regenerate unique host public/private keys:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo rm /etc/ssh/ssh_host_*
-<span class="nv">$ </span>sudo dpkg-reconfigure openssh-server</code></pre></div>
-
-<p>Add public key:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mkdir /home/pi/.ssh
-<span class="nv">$ </span>emacs /home/pi/.ssh/authorized_keys</code></pre></div>
-
-<p>Add content of <code>id_rsa.pub</code>.</p>
-
-<h1>avahi/netatalk setup</h1>
-
-<p>Install avahi:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install avahi-daemon
-<span class="nv">$ </span>sudo insserv avahi-daemon</code></pre></div>
-
-<p>Setup conf file:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/avahi/services/multiple.service</code></pre></div>
-
-<p>Insert:</p>
-
-<div class="highlight"><pre><code class="xml"><span class="cp">&lt;?xml version=&quot;1.0&quot; standalone=&#39;no&#39;?&gt;</span>
-<span class="cp">&lt;!DOCTYPE service-group SYSTEM &quot;avahi-service.dtd&quot;&gt;</span>
-<span class="nt">&lt;service-group&gt;</span>
-        <span class="nt">&lt;name</span> <span class="na">replace-wildcards=</span><span class="s">&quot;yes&quot;</span><span class="nt">&gt;</span>%h<span class="nt">&lt;/name&gt;</span>
-        <span class="nt">&lt;service&gt;</span>
-                <span class="nt">&lt;type&gt;</span>_device-info._tcp<span class="nt">&lt;/type&gt;</span>
-                <span class="nt">&lt;port&gt;</span>0<span class="nt">&lt;/port&gt;</span>
-                <span class="nt">&lt;txt-record&gt;</span>model=RackMac<span class="nt">&lt;/txt-record&gt;</span>
-        <span class="nt">&lt;/service&gt;</span>
-        <span class="nt">&lt;service&gt;</span>
-                <span class="nt">&lt;type&gt;</span>_ssh._tcp<span class="nt">&lt;/type&gt;</span>
-                <span class="nt">&lt;port&gt;</span>22<span class="nt">&lt;/port&gt;</span>
-        <span class="nt">&lt;/service&gt;</span>
-<span class="nt">&lt;/service-group&gt;</span></code></pre></div>
-
-<p>Restart avahi daemon:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo /etc/init.d/avahi-daemon restart</code></pre></div>
-
-<p>Install netatalk:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install netatalk</code></pre></div>
-
-<p>Can be tested with:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install avahi-utils
-<span class="nv">$ </span>avahi-browse -arp</code></pre></div>
-
-<p>External References:</p>
-
-<ul>
-<li><a href="http://elinux.org/RPi_Advanced_Setup">http://elinux.org/RPi_Advanced_Setup</a></li>
-<li><a href="http://gettingstartedwithraspberrypi.tumblr.com/post/24398167109/file-sharing-with-afp-and-auto-discovery-with-bonjour">http://gettingstartedwithraspberrypi.tumblr.com/post/24398167109/file-sharing-with-afp-and-auto-discovery-with-bonjour</a></li>
-</ul>
-]]></content:encoded>
-      <dc:date>2013-09-17T00:00:00+02:00</dc:date>
-    </item>
-    <dc:date>2015-03-26T00:00:00+01:00</dc:date>
+    <dc:date>2015-08-26T00:00:00+02:00</dc:date>
   </channel>
 </rss>

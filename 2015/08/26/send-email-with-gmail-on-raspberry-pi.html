@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Backup a Synology NAS to a raspberry pi</title>
+        <title>Send email with gmail on raspberry pi</title>
         <meta name="description" content="The personal website of a generalist developer living in France.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -18,7 +18,7 @@
         
 
         <!-- OG meta -->
-        <meta property="og:title" content="Backup a Synology NAS to a raspberry pi" />
+        <meta property="og:title" content="Send email with gmail on raspberry pi" />
         
 
         
@@ -31,8 +31,6 @@
               <meta property="article:tag" content="raspberrypi" />
             
               <meta property="article:tag" content="pickup.local" />
-            
-              <meta property="article:tag" content="chezak.local" />
             
           
         
@@ -72,7 +70,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="post-header">
-              <h2 class='post-title'>Backup a Synology NAS to a raspberry pi</h2>
+              <h2 class='post-title'>Send email with gmail on raspberry pi</h2>
               
                 <ul class="post-tags">
                   
@@ -80,11 +78,9 @@
                   
                     <li><a href="/tags/#pickup.local-ref">#pickup.local</a></li>
                   
-                    <li><a href="/tags/#chezak.local-ref">#chezak.local</a></li>
-                  
                 </ul>
               
-              <p class="meta">22 Dec 2014</p>
+              <p class="meta">26 Aug 2015</p>
             </div>
 
             <div class="post">
@@ -94,75 +90,35 @@
 <li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
 </ul>
 
-<h1>Setup raspberry</h1>
+<h1>Setup</h1>
 
-<p>Add a user for <code>synology</code>:</p>
+<p>Install <a href="https://wiki.debian.org/sSMTP">ssmtp</a>:</p>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo useradd synology -m -G users
-<span class="nv">$ </span>sudo passwd synology</code></pre></div>
-
-<p>Mount USB drive on <code>/mnt/usbdrive</code>:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mkdir /mnt/usbdrive
-
-<span class="nv">$ </span>sudo fdisk -l
-<span class="nv">$ </span>sudo emacs /etc/fstab</code></pre></div>
-<div class="highlight"><pre><code class="language-text" data-lang="text">/dev/sdb1       /mnt/usbdrive   ext4    defaults,user     0       0
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install ssmtp
+<span class="nv">$ </span>sudo emacs /etc/ssmtp/ssmtp.conf</code></pre></div>
+<div class="highlight"><pre><code class="language-text" data-lang="text">root=YOUR_EMAIL
+mailhub=smtp.gmail.com:587
+hostname=PI_HOSTNAME
+AuthUser=YOUR_EMAIL
+AuthPass=YOUR_PASSWORD
+FromLineOverride=YES
+UseSTARTTLS=YES
 </code></pre></div>
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mount -a</code></pre></div>
+<p>Install <a href="http://heirloom.sourceforge.net/mailx.html">heirloom-mailx</a>:</p>
 
-<p>Create backup directory:</p>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install heirloom-mailx</code></pre></div>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mkdir /mnt/usbdrive/chezak_backup
-<span class="nv">$ </span>sudo chown synology:users /mnt/usbdrive/chezak_backup</code></pre></div>
+<h1>Test</h1>
 
-<h1>Configure synology</h1>
+<p>Send a mail to <code>DESTINATION_EMAIL</code>:</p>
 
-<p>Go to <code>Backup and Restore</code> then</p>
-
-<ul>
-<li>Create: Databackup task</li>
-<li>Task: Pickup Full Backup</li>
-</ul>
-
-<p>Network Backup (rsync-compatible server)</p>
-
-<ul>
-<li>Server name of IP address: 192.168.0.41</li>
-<li>Username: synology</li>
-<li>Password: *********</li>
-<li>Backup module: /mnt/usbdrive/</li>
-<li>Directory: chezak_backup</li>
-</ul>
-
-<p>Check:</p>
-
-<ul>
-<li>Enable transfer encryption</li>
-<li>Enable metadata backup</li>
-</ul>
-
-<p>Select to backup:</p>
-
-<ul>
-<li>Configuration</li>
-<li>Shared folder (all)</li>
-</ul>
-
-<p>Enable backup schedule</p>
-
-<ul>
-<li>Day: Daily</li>
-<li>Hour(s): 03</li>
-<li>Minute: 30</li>
-</ul>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span><span class="nb">echo </span>This is a <span class="nb">test</span> <span class="p">|</span> mail -v -s <span class="s2">&quot;A mail from your pi&quot;</span> DESTINATION_EMAIL</code></pre></div>
 
 <h1>External references</h1>
 
 <ul>
-<li><a href="http://www.vdsar.net/rsync-backup-synology-remote-raspberry-pi/">http://www.vdsar.net/rsync-backup-synology-remote-raspberry-pi/</a></li>
-<li><a href="http://www.synology.com/en-us/support/tutorials/461">http://www.synology.com/en-us/support/tutorials/461</a></li>
-<li><a href="http://www.prodeta.nl/synology-network-backups-to-rsync-compatible-servers/">http://www.prodeta.nl/synology-network-backups-to-rsync-compatible-servers/</a></li>
+<li><a href="http://doc.ubuntu-fr.org/ssmtp">http://doc.ubuntu-fr.org/ssmtp</a></li>
+<li><a href="http://blog.hotfirenet.com/envoyer-mail-depuis-le-raspberry-pi/">http://blog.hotfirenet.com/envoyer-mail-depuis-le-raspberry-pi/</a></li>
 </ul>
 
             </div>

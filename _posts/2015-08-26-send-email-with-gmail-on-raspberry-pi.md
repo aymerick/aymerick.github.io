@@ -4,7 +4,6 @@ kind: post
 title: Send email with gmail on raspberry pi
 tags:
 - raspberrypi
-- pickup.local
 ---
 
 # Prerequisites

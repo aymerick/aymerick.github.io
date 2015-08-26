@@ -41,7 +41,7 @@ $ sudo emacs /etc/fstab
 $ sudo mount -a
 {% endhighlight %}
 
-Create bakckup directory:
+Create backup directory:
 
 {% highlight bash %}
 $ sudo mkdir /mnt/usbdrive/chezak_backup

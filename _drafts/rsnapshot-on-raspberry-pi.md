@@ -81,6 +81,8 @@ cmd_rsnapshot_diff	/usr/bin/rsnapshot-diff
 retain	weekly	4
 retain	monthly	3
 
+verbose	3
+
 ssh_args	-i /root/.ssh/rsnapshot_dsa
 
 rsync_long_args --delete --numeric-ids --delete-excluded --stats

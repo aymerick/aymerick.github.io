@@ -176,6 +176,10 @@ $ sudo /usr/bin/rsync -av --delete --numeric-ids --delete-excluded --no-relative
 
 Then, when sync is finished, remove `usbdrive2` mount point from `/etc/fstab` file.
 
+{% highlight bash %}
+$ sudo umount /mnt/usbdrive2
+{% endhighlight %}
+
 Plug back the hard drive on new raspberry.
 
 

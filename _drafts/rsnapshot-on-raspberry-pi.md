@@ -79,7 +79,7 @@ cmd_rsnapshot_diff	/usr/bin/rsnapshot-diff
 #retain	hourly	6
 #retain	daily	7
 retain	weekly	4
-retain	monthly	3
+retain	monthly	2
 
 verbose	3
 
@@ -98,7 +98,7 @@ backup  synology@pickup.local:/mnt/usbdrive/chezak_backup/	chezak/
 Meaning:
 
 	- keep the 4 last "weekly" backups
-	- keep the 3 last "monthly" backups
+	- keep the 2 last "monthly" backups
 
 
 # Setup reporting

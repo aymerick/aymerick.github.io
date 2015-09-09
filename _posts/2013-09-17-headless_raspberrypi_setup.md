@@ -35,11 +35,51 @@ External References:
 
 - <http://elinux.org/RPi_Easy_SD_Card_Setup#Using_command_line_tools_.282.29>
 
+Optional: external HDD setup
+============================
 
-Optional: USB Stick setup
+This is an optional step if you want to run the system on an external hard drive (the SD card will only be used to boot).
+
+Find your drive with:
+
+{% highlight bash %}
+$ lsusb
+$ dmesg
+{% endhighlight %}
+
+Execute that script to setup everything:
+
+{% highlight bash %}
+$ git clone https://github.com/adafruit/Adafruit-Pi-ExternalRoot-Helper.git
+$ cd Adafruit-Pi-ExternalRoot-Helper
+$ sudo ./adafruit-pi-externalroot-helper -d /dev/sda
+{% endhighlight %}
+
+Then reboot:
+
+{% highlight bash %}
+$ sudo reboot
+{% endhighlight %}
+
+Check setup with:
+
+{% highlight bash %}
+$ df -h
+$ readlink /dev/root
+$ ls -l /dev/disk/by-uuid
+$ ls -l /dev/disk/by-label
+$ mount | grep root
+{% endhighlight %}
+
+External References:
+
+- <https://learn.adafruit.com/external-drive-as-raspberry-pi-root/hooking-up-the-drive-and-copying-slash>
+
+
+Optional: USB Stick setup [DEPRECATED]
 =========================
 
-This is an optional step if you want to run the system on an USB stick (the SD card will only by used to boot).
+**THIS IS DEPRECATED AND SHOULD BE REPLACED BY THE SAME METHOD AS FOR HDD SETUP**
 
 So let's install raspbian on the USB stick.
 

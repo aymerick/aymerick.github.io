@@ -83,9 +83,17 @@ retain	monthly	2
 
 verbose	3
 
+logfile /var/log/rsnapshot.log
+
 ssh_args	-i /root/.ssh/rsnapshot_dsa
 
 rsync_long_args --delete --numeric-ids --delete-excluded --stats
+
+exclude /@app
+exclude /incoming
+exclude /installs
+exclude /video
+exclude @eaDir
 
 #backup /home/	localhost/
 #backup /etc/	localhost/

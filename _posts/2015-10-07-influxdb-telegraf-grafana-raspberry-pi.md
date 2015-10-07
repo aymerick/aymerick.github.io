@@ -1,7 +1,7 @@
 ---
 layout: post
 kind: post
-title: InfluxDB, Telegraf and Grafana on Raspberry Pi 2
+title: InfluxDB, Telegraf and Grafana on a Raspberry Pi 2
 tags:
 - raspberrypi
 ---

@@ -1,7 +1,7 @@
 ---
 layout: post
 kind: post
-title: InfluxDB, Telegraf and Grafana on Raspberry Pi
+title: InfluxDB, Telegraf and Grafana on Raspberry Pi 2
 tags:
 - raspberrypi
 ---
@@ -242,6 +242,8 @@ Add the telegraf influxdb datasource as explained at: <http://docs.grafana.org/d
     - Password: admin
 
 You can now create cool `grafana` dashboards. Enjoy.
+
+![JeeLink](/img/grafana.png)
 
 ## External References
 

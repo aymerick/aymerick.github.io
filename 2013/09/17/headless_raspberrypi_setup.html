@@ -92,7 +92,7 @@
 <p>Look for the new device that wasn&#39;t listed last time (eg: <code>/dev/disk2s1</code>).</p>
 
 <div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo diskutil unmount /dev/disk2s1
-<span class="nv">$ </span>sudo dd <span class="nv">bs</span><span class="o">=</span>1m <span class="k">if</span><span class="o">=</span>~/Downloads/2015-05-05-raspbian-wheezy.img <span class="nv">of</span><span class="o">=</span>/dev/rdisk2
+<span class="nv">$ </span>sudo dd <span class="nv">bs</span><span class="o">=</span>1m <span class="k">if</span><span class="o">=</span>~/Downloads/2015-09-24-raspbian-jessie.img <span class="nv">of</span><span class="o">=</span>/dev/rdisk2
 <span class="nv">$ </span>sudo diskutil eject /dev/rdisk2</code></pre></div>
 
 <p>Insert SDCard in the raspberry pi then power it.</p>
@@ -105,9 +105,51 @@
 <li><a href="http://elinux.org/RPi_Easy_SD_Card_Setup#Using_command_line_tools_.282.29">http://elinux.org/RPi_Easy_SD_Card_Setup#Using_command_line_tools_.282.29</a></li>
 </ul>
 
-<h1>Optional: USB Stick setup</h1>
+<h1>Optional: external HDD setup</h1>
 
-<p>This is an optional step if you want to run the system on an USB stick (the SD card will only by used to boot).</p>
+<p>This is an optional step if you want to run the system on an external hard drive (the SD card will only be used to boot).</p>
+
+<p>Find your drive with:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>lsusb
+<span class="nv">$ </span>dmesg</code></pre></div>
+
+<p>Execute that script to setup everything:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>git clone https://github.com/adafruit/Adafruit-Pi-ExternalRoot-Helper.git
+<span class="nv">$ </span><span class="nb">cd </span>Adafruit-Pi-ExternalRoot-Helper
+<span class="nv">$ </span>sudo ./adafruit-pi-externalroot-helper -d /dev/sda</code></pre></div>
+
+<p>If you see errors like:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Error: Partition(s) on /dev/sda are being used.
+</code></pre></div>
+<p>Then unmount partitions:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mount -l
+<span class="nv">$ </span>sudo umount /media/pi/rootfs
+<span class="nv">$ </span>sudo ./adafruit-pi-externalroot-helper -d /dev/sda</code></pre></div>
+
+<p>Finally, you can reboot:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo reboot</code></pre></div>
+
+<p>Check setup with:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>df -h
+<span class="nv">$ </span>readlink /dev/root
+<span class="nv">$ </span>ls -l /dev/disk/by-uuid
+<span class="nv">$ </span>ls -l /dev/disk/by-label
+<span class="nv">$ </span>mount <span class="p">|</span> grep root</code></pre></div>
+
+<p>External References:</p>
+
+<ul>
+<li><a href="https://learn.adafruit.com/external-drive-as-raspberry-pi-root/hooking-up-the-drive-and-copying-slash">https://learn.adafruit.com/external-drive-as-raspberry-pi-root/hooking-up-the-drive-and-copying-slash</a></li>
+</ul>
+
+<h1>Optional: USB Stick setup [DEPRECATED]</h1>
+
+<p><strong>THIS IS DEPRECATED AND SHOULD BE REPLACED BY THE SAME METHOD AS FOR HDD SETUP</strong></p>
 
 <p>So let&#39;s install raspbian on the USB stick.</p>
 
@@ -247,14 +289,15 @@
 <li>Advanced Options &gt; Update</li>
 <li>Expand Filesystem</li>
 <li>Change User Password</li>
-<li>Enable Boot to Desktop: No</li>
+<li>Boot Options &gt; Console</li>
 <li>Internationalisation Options &gt; Change Timezone</li>
-<li>Overclock &gt; Medium</li>
+<li>Overclock &gt; Medium (or: Pi2)</li>
 <li>Advanced Options &gt; Hostname</li>
 <li>Advanced Options &gt; Memory Split: 16</li>
 </ul>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install emacs23-nox
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get update
+<span class="nv">$ </span>sudo apt-get install emacs23-nox
 <span class="nv">$ </span>sudo reboot</code></pre></div>
 
 <h1>Fix the &#39;Setting locale failed&#39; issue during ssh</h1>

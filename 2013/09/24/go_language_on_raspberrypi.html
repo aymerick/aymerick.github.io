@@ -96,14 +96,18 @@
 
 <h1>Install</h1>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>wget http://dave.cheney.net/paste/go1.1.2.linux-arm~multiarch-armv6-1.tar.gz
-<span class="nv">$ </span>sudo tar -C /usr/local -xzf go1.1.2.linux-arm~multiarch-armv6-1.tar.gz</code></pre></div>
+<p><em>Note that you can install pre-built packages here: <a href="http://dave.cheney.net/unofficial-arm-tarballs">http://dave.cheney.net/unofficial-arm-tarballs</a></em></p>
 
-<h1>Setup</h1>
+<p>Install go 1.5 using Go Version Manager:</p>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>emacs /etc/profile</code></pre></div>
-
-<p>Add <code>:/usr/local/go/bin</code> to <code>PATH</code> then relog.</p>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>bash &lt; &lt;<span class="o">(</span>curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer<span class="o">)</span>
+<span class="nv">$ </span><span class="nb">source</span> /home/pi/.gvm/scripts/gvm
+<span class="nv">$ </span>sudo apt-get install bison
+<span class="nv">$ </span>gvm install go1.4
+<span class="nv">$ </span>gvm use go1.4
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">GOROOT_BOOTSTRAP</span><span class="o">=</span><span class="nv">$GOROOT</span>
+<span class="nv">$ </span>gvm install go1.5
+<span class="nv">$ </span>gvm use go1.5 --default</code></pre></div>
 
 <h1>Test</h1>
 
@@ -124,6 +128,8 @@
 <h1>External References</h1>
 
 <ul>
+<li><a href="https://nicolas.steinmetz.fr/blog/post/InfluxDB-0.9.3-sur-un-RaspberriPy">https://nicolas.steinmetz.fr/blog/post/InfluxDB-0.9.3-sur-un-RaspberriPy</a></li>
+<li><a href="https://github.com/moovweb/gvm">https://github.com/moovweb/gvm</a></li>
 <li><a href="http://dave.cheney.net/unofficial-arm-tarballs">http://dave.cheney.net/unofficial-arm-tarballs</a></li>
 <li><a href="http://tip.golang.org/doc/install">http://tip.golang.org/doc/install</a></li>
 </ul>

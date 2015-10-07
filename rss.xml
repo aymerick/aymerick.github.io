@@ -8,7 +8,212 @@
     <title>Aymerick's stuff</title>
     <link>http://www.aymerick.com</link>
     <description>The personal website of a generalist developer living in France.</description>
-    <pubDate>Wed, 26 Aug 2015 00:00:00 +0200</pubDate>
+    <pubDate>Wed, 07 Oct 2015 00:00:00 +0200</pubDate>
+    <item>
+      <title>InfluxDB, Telegraf and Grafana on Raspberry Pi</title>
+      <link>http://www.aymerick.com/2015/10/07/influxdb-telegraf-grafana-raspberry-pi.html</link>
+      <description><![CDATA[Prerequisites
+]]></description>
+      <pubDate>Wed, 07 Oct 2015 00:00:00 +0200</pubDate>
+      <guid>http://www.aymerick.com/2015/10/07/influxdb-telegraf-grafana-raspberry-pi.html</guid>
+      <content:encoded><![CDATA[<h2>Prerequisites</h2>
+
+<ul>
+<li><a href="/2013/09/24/go_language_on_raspberrypi.html">Go language on Raspberry Pi</a></li>
+</ul>
+
+<h2>InfluxDB</h2>
+
+<h3>Install dependencies</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install ruby-dev gcc
+<span class="nv">$ </span>sudo gem install fpm</code></pre></div>
+
+<h3>Build package</h3>
+
+<p>Let&#39;s build <code>InfluxDB 0.9.4</code>.</p>
+
+<p>Setup a <code>gvm</code> package set:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>gvm pkgset create influxdb
+<span class="nv">$ </span>gvm pkgset use influxdb</code></pre></div>
+
+<p>Checkout sources:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mkdir -p ~/.gvm/pkgsets/go1.5/influxdb/src/github.com/influxdb
+<span class="nv">$ </span><span class="nb">cd</span> ~/.gvm/pkgsets/go1.5/influxdb/src/github.com/influxdb
+<span class="nv">$ </span>git clone https://github.com/influxdb/influxdb.git</code></pre></div>
+
+<p>Build <code>debian</code> package:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span><span class="nb">cd </span>influxdb
+<span class="nv">$ </span>./package.sh -t deb -p 0.9.4</code></pre></div>
+
+<h3>Install</h3>
+
+<p>Install package:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo dpkg -i influxdb_0.9.4_armhf.deb</code></pre></div>
+
+<p>Start server:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo service influxdb start</code></pre></div>
+
+<p>Test server:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>/opt/influxdb/influx</code></pre></div>
+
+<p>Note: configuration file is located at: <code>/etc/opt/influxdb/influxdb.conf</code></p>
+
+<h2>Telegraf</h2>
+
+<h3>Install dependencies</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install rpm</code></pre></div>
+
+<h3>Build package</h3>
+
+<p>Let&#39;s build <code>Telegraf 0.1.9</code>.</p>
+
+<p>Setup a <code>gvm</code> package set:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>gvm pkgset create telegraf
+<span class="nv">$ </span>gvm pkgset use telegraf</code></pre></div>
+
+<p>Install <code>godep</code>:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>go get github.com/tools/godep</code></pre></div>
+
+<p>Checkout sources:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mkdir -p ~/.gvm/pkgsets/go1.5/telegraf/src/github.com/influxdb
+<span class="nv">$ </span><span class="nb">cd</span> ~/.gvm/pkgsets/go1.5/telegraf/src/github.com/influxdb
+<span class="nv">$ </span>git clone https://github.com/influxdb/telegraf.git</code></pre></div>
+
+<p>Build <code>debian</code> package:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span><span class="nb">cd </span>telegraf
+<span class="nv">$ </span>./scripts/package.sh</code></pre></div>
+
+<p>Respond to questions:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">...
+Commence creation of unknown packages, version 0.1.9-27-gb4e8a23? [Y/n] Y
+...
+Publish packages to S3? [y/N] N
+...
+</code></pre></div>
+<h3>Install</h3>
+
+<p>Install package:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo dpkg -i telegraf_0.1.9-27-gb4e8a23_armhf.deb</code></pre></div>
+
+<p>Start server:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo service telegraf start</code></pre></div>
+
+<p>Configuration file is located at: <code>/etc/opt/telegraf/telegraf.conf</code></p>
+
+<h2>Grafana</h2>
+
+<h3>Install dependencies</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install ruby-dev rpm
+<span class="nv">$ </span>sudo gem install fpm</code></pre></div>
+
+<h3>Install nodejs</h3>
+
+<p><em>NOTE: You can skip that part if you already have node.js installed</em></p>
+
+<p>Install pre-built binaries. In that case, we fetch the <code>armv7l</code> package for a Raspberry Pi 2:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mkdir /opt/node
+<span class="nv">$ </span>wget https://nodejs.org/dist/v4.1.2/node-v4.1.2-linux-armv7l.tar.gz
+<span class="nv">$ </span>tar zxvf node-v4.1.2-linux-armv7l.tar.gz
+<span class="nv">$ </span>sudo cp -r node-v4.1.2-linux-armv7l/* /opt/node
+<span class="nv">$ </span>rm node-v4.1.2-linux-armv7l.tar.gz</code></pre></div>
+
+<p>Adds those lines to <code>/etc/profile</code> juste before <code>export PATH</code>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">NODE_JS_HOME=&quot;/opt/node&quot;
+PATH=&quot;$PATH:$NODE_JS_HOME/bin&quot;
+</code></pre></div>
+<h3>Build package</h3>
+
+<p>Let&#39;s build <code>Grafana 2.1.3</code>.</p>
+
+<p>Setup a <code>gvm</code> package set:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>gvm pkgset create grafana
+<span class="nv">$ </span>gvm pkgset use grafana</code></pre></div>
+
+<p>Fetch sources:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>go get github.com/grafana/grafana
+<span class="nv">$ </span><span class="nb">cd</span> ~/.gvm/pkgsets/go1.5/grafana/src/github.com/grafana/grafana/
+<span class="nv">$ </span>git checkout tags/v2.1.3</code></pre></div>
+
+<p>Setup build:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>go run build.go setup
+<span class="nv">$ </span>godep restore
+<span class="nv">$ </span>npm install
+<span class="nv">$ </span>sudo /opt/node/bin/npm install -g grunt-cli</code></pre></div>
+
+<p>Change <code>build.go</code> file, line 76, with <code>grunt(&quot;--force&quot;,&quot;release&quot;)</code> to bypass an issue with <code>phantomjs</code> (cf. <a href="https://github.com/grafana/grafana/issues/2683">https://github.com/grafana/grafana/issues/2683</a>).</p>
+
+<p>Then fix a timeout issue:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sed -i <span class="s1">&#39;s/baseUrl: &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;.\/app&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;,/baseUrl: &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;.\/app&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;,waitSeconds: 0,/&#39;</span> tasks/options/requirejs.js</code></pre></div>
+
+<p>Build package:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>go run build.go build package</code></pre></div>
+
+<h3>Install</h3>
+
+<p>Install package:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo dpkg -i dist/grafana_2.1.3_armhf.deb</code></pre></div>
+
+<p>Setup service:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo update-rc.d grafana-server defaults 95 10</code></pre></div>
+
+<p>Start server:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo service grafana-server start</code></pre></div>
+
+<p>Configuration files are located at: <code>/etc/default/grafana-server</code> and <code>/etc/grafana/grafana.ini</code>.</p>
+
+<h3>Create dashboards</h3>
+
+<p>Navigate with a browser to: <a href="http://RPI_IP:3000/">http://RPI_IP:3000/</a></p>
+
+<p>Authenticate with <code>admin</code> / <code>admin</code> credendials then change password at: <a href="http://RPI_IP:3000/profile/password">http://RPI_IP:3000/profile/password</a>.</p>
+
+<p>Add the telegraf influxdb datasource as explained at: <a href="http://docs.grafana.org/datasources/influxdb/">http://docs.grafana.org/datasources/influxdb/</a>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">- Name: RPI-NAME
+- Default: checked
+- Type: InfluxDB 0.9.x
+- Url: http://localhost:8086/
+- Access: proxy
+- Basic Auth: NOT checked
+- Database: telegraf
+- User: admin
+- Password: admin
+</code></pre></div>
+<p>You can now create cool <code>grafana</code> dashboards. Enjoy.</p>
+
+<h2>External References</h2>
+
+<ul>
+<li><a href="https://nicolas.steinmetz.fr/blog/post/InfluxDB-0.9.3-sur-un-RaspberriPy">https://nicolas.steinmetz.fr/blog/post/InfluxDB-0.9.3-sur-un-RaspberriPy</a></li>
+<li><a href="http://docs.grafana.org/project/building_from_source/">http://docs.grafana.org/project/building_from_source/</a></li>
+<li><a href="https://github.com/fg2it/grafana-on-raspberry/blob/master/v2.1.2%2FREADME.md">https://github.com/fg2it/grafana-on-raspberry/blob/master/v2.1.2%2FREADME.md</a></li>
+</ul>
+]]></content:encoded>
+      <dc:date>2015-10-07T00:00:00+02:00</dc:date>
+    </item>
     <item>
       <title>Send email with gmail on raspberry pi</title>
       <link>http://www.aymerick.com/2015/08/26/send-email-with-gmail-on-raspberry-pi.html</link>
@@ -1557,14 +1762,18 @@ export PATH=$PATH:$GOPATH/bin
 
 <h1>Install</h1>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>wget http://dave.cheney.net/paste/go1.1.2.linux-arm~multiarch-armv6-1.tar.gz
-<span class="nv">$ </span>sudo tar -C /usr/local -xzf go1.1.2.linux-arm~multiarch-armv6-1.tar.gz</code></pre></div>
+<p><em>Note that you can install pre-built packages here: <a href="http://dave.cheney.net/unofficial-arm-tarballs">http://dave.cheney.net/unofficial-arm-tarballs</a></em></p>
 
-<h1>Setup</h1>
+<p>Install go 1.5 using Go Version Manager:</p>
 
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>emacs /etc/profile</code></pre></div>
-
-<p>Add <code>:/usr/local/go/bin</code> to <code>PATH</code> then relog.</p>
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>bash &lt; &lt;<span class="o">(</span>curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer<span class="o">)</span>
+<span class="nv">$ </span><span class="nb">source</span> /home/pi/.gvm/scripts/gvm
+<span class="nv">$ </span>sudo apt-get install bison
+<span class="nv">$ </span>gvm install go1.4
+<span class="nv">$ </span>gvm use go1.4
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">GOROOT_BOOTSTRAP</span><span class="o">=</span><span class="nv">$GOROOT</span>
+<span class="nv">$ </span>gvm install go1.5
+<span class="nv">$ </span>gvm use go1.5 --default</code></pre></div>
 
 <h1>Test</h1>
 
@@ -1585,6 +1794,8 @@ export PATH=$PATH:$GOPATH/bin
 <h1>External References</h1>
 
 <ul>
+<li><a href="https://nicolas.steinmetz.fr/blog/post/InfluxDB-0.9.3-sur-un-RaspberriPy">https://nicolas.steinmetz.fr/blog/post/InfluxDB-0.9.3-sur-un-RaspberriPy</a></li>
+<li><a href="https://github.com/moovweb/gvm">https://github.com/moovweb/gvm</a></li>
 <li><a href="http://dave.cheney.net/unofficial-arm-tarballs">http://dave.cheney.net/unofficial-arm-tarballs</a></li>
 <li><a href="http://tip.golang.org/doc/install">http://tip.golang.org/doc/install</a></li>
 </ul>
@@ -2098,76 +2309,6 @@ sleep 6s
 ]]></content:encoded>
       <dc:date>2013-09-19T00:00:00+02:00</dc:date>
     </item>
-    <item>
-      <title>TL-WN725N wifi dongle on Raspberry Pi</title>
-      <link>http://www.aymerick.com/2013/09/18/wifi_dongle_on_raspberrypi.html</link>
-      <description><![CDATA[Prerequisites
-]]></description>
-      <pubDate>Wed, 18 Sep 2013 00:00:00 +0200</pubDate>
-      <guid>http://www.aymerick.com/2013/09/18/wifi_dongle_on_raspberrypi.html</guid>
-      <content:encoded><![CDATA[<h1>Prerequisites</h1>
-
-<ul>
-<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
-</ul>
-
-<h1>Network setup</h1>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo nano /etc/network/interfaces</code></pre></div>
-
-<p>Set:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">auto lo
-
-iface lo inet loopback
-iface eth0 inet dhcp
-
-allow-hotplug wlan0
-iface wlan0 inet dhcp
-wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
-iface default inet dhcp
-</code></pre></div>
-<h1>WPA setup</h1>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo nano /etc/wpa_supplicant/wpa_supplicant.conf</code></pre></div>
-
-<p>Set:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-update_config=1
-
-network={
- ssid=&quot;chezak_ng&quot;
- proto=RSN
- key_mgmt=WPA-PSK
- pairwise=CCMP TKIP
- group=CCMP TKIP
- psk=&quot;&lt;PASSWORD&gt;&quot;
-}
-</code></pre></div>
-<h1>Fix TL-WN725N v2.0 issue</h1>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>wget https://dl.dropboxusercontent.com/u/80256631/8188eu-20130209.tar.gz
-<span class="nv">$ </span>tar -zxvf 8188eu-20130209.tar.gz
-<span class="nv">$ </span>sudo install -p -m 644 8188eu.ko /lib/modules/3.6.11+/kernel/drivers/net/wireless
-<span class="nv">$ </span>sudo depmod -a
-<span class="nv">$ </span>sudo modprobe 8188eu
-<span class="nv">$ </span>ifconfig -a
-<span class="nv">$ </span>sudo reboot</code></pre></div>
-
-<p>If wifi becomes unavailable after an update, run:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo depmod -a
-<span class="nv">$ </span>sudo modprobe 8188eu</code></pre></div>
-
-<h1>External References</h1>
-
-<ul>
-<li><a href="http://www.raspberrypi.org/phpBB3/viewtopic.php?f=65&amp;t=43398">http://www.raspberrypi.org/phpBB3/viewtopic.php?f=65&amp;t=43398</a></li>
-<li><a href="http://burogu.makotoworkshop.org/index.php?post/2013/04/27/TL-WN725N-v2">http://burogu.makotoworkshop.org/index.php?post/2013/04/27/TL-WN725N-v2</a></li>
-<li><a href="http://blog.pi3g.com/2013/05/tp-link-tl-wn725n-nano-wifi-adapter-v2-0-raspberry-pi-driver/">http://blog.pi3g.com/2013/05/tp-link-tl-wn725n-nano-wifi-adapter-v2-0-raspberry-pi-driver/</a></li>
-</ul>
-]]></content:encoded>
-      <dc:date>2013-09-18T00:00:00+02:00</dc:date>
-    </item>
-    <dc:date>2015-08-26T00:00:00+02:00</dc:date>
+    <dc:date>2015-10-07T00:00:00+02:00</dc:date>
   </channel>
 </rss>

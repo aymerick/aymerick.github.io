@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>InfluxDB, Telegraf and Grafana on Raspberry Pi</title>
+        <meta name="description" content="The personal website of a generalist developer living in France.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/png" href="/favicon.png" />
+
+        <link rel="alternate" type="application/rss+xml" title="Aymerick's stuff" href="http://www.aymerick.com/rss.xml">
+
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/assets/css/syntax.css">
+        <link rel="stylesheet" href="/assets/css/main.css">
+
+        
+
+        <!-- OG meta -->
+        <meta property="og:title" content="InfluxDB, Telegraf and Grafana on Raspberry Pi" />
+        
+
+        
+          <meta property="og:type" content="article" />
+          
+            
+          
+          
+            
+              <meta property="article:tag" content="raspberrypi" />
+            
+          
+        
+    </head>
+
+    <body id="">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a href="/index.html" class='navbar-brand'>Aymerick</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li class="">
+                  <a href="/about.html">About</a>
+                </li>
+                <!--  <li class="">
+                  <a href="/timeline.html">Timeline</a>
+                </li> -->
+                <li class="">
+                  <a href="/stuff.html">Stuff</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="post-header">
+              <h2 class='post-title'>InfluxDB, Telegraf and Grafana on Raspberry Pi</h2>
+              
+                <ul class="post-tags">
+                  
+                    <li><a href="/tags/#raspberrypi-ref">#raspberrypi</a></li>
+                  
+                </ul>
+              
+              <p class="meta">07 Oct 2015</p>
+            </div>
+
+            <div class="post">
+            <h2>Prerequisites</h2>
+
+<ul>
+<li><a href="/2013/09/24/go_language_on_raspberrypi.html">Go language on Raspberry Pi</a></li>
+</ul>
+
+<h2>InfluxDB</h2>
+
+<h3>Install dependencies</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install ruby-dev gcc
+<span class="nv">$ </span>sudo gem install fpm</code></pre></div>
+
+<h3>Build package</h3>
+
+<p>Let&#39;s build <code>InfluxDB 0.9.4</code>.</p>
+
+<p>Setup a <code>gvm</code> package set:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>gvm pkgset create influxdb
+<span class="nv">$ </span>gvm pkgset use influxdb</code></pre></div>
+
+<p>Checkout sources:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mkdir -p ~/.gvm/pkgsets/go1.5/influxdb/src/github.com/influxdb
+<span class="nv">$ </span><span class="nb">cd</span> ~/.gvm/pkgsets/go1.5/influxdb/src/github.com/influxdb
+<span class="nv">$ </span>git clone https://github.com/influxdb/influxdb.git</code></pre></div>
+
+<p>Build <code>debian</code> package:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span><span class="nb">cd </span>influxdb
+<span class="nv">$ </span>./package.sh -t deb -p 0.9.4</code></pre></div>
+
+<h3>Install</h3>
+
+<p>Install package:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo dpkg -i influxdb_0.9.4_armhf.deb</code></pre></div>
+
+<p>Start server:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo service influxdb start</code></pre></div>
+
+<p>Test server:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>/opt/influxdb/influx</code></pre></div>
+
+<p>Note: configuration file is located at: <code>/etc/opt/influxdb/influxdb.conf</code></p>
+
+<h2>Telegraf</h2>
+
+<h3>Install dependencies</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install rpm</code></pre></div>
+
+<h3>Build package</h3>
+
+<p>Let&#39;s build <code>Telegraf 0.1.9</code>.</p>
+
+<p>Setup a <code>gvm</code> package set:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>gvm pkgset create telegraf
+<span class="nv">$ </span>gvm pkgset use telegraf</code></pre></div>
+
+<p>Install <code>godep</code>:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>go get github.com/tools/godep</code></pre></div>
+
+<p>Checkout sources:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mkdir -p ~/.gvm/pkgsets/go1.5/telegraf/src/github.com/influxdb
+<span class="nv">$ </span><span class="nb">cd</span> ~/.gvm/pkgsets/go1.5/telegraf/src/github.com/influxdb
+<span class="nv">$ </span>git clone https://github.com/influxdb/telegraf.git</code></pre></div>
+
+<p>Build <code>debian</code> package:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span><span class="nb">cd </span>telegraf
+<span class="nv">$ </span>./scripts/package.sh</code></pre></div>
+
+<p>Respond to questions:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">...
+Commence creation of unknown packages, version 0.1.9-27-gb4e8a23? [Y/n] Y
+...
+Publish packages to S3? [y/N] N
+...
+</code></pre></div>
+<h3>Install</h3>
+
+<p>Install package:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo dpkg -i telegraf_0.1.9-27-gb4e8a23_armhf.deb</code></pre></div>
+
+<p>Start server:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo service telegraf start</code></pre></div>
+
+<p>Configuration file is located at: <code>/etc/opt/telegraf/telegraf.conf</code></p>
+
+<h2>Grafana</h2>
+
+<h3>Install dependencies</h3>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install ruby-dev rpm
+<span class="nv">$ </span>sudo gem install fpm</code></pre></div>
+
+<h3>Install nodejs</h3>
+
+<p><em>NOTE: You can skip that part if you already have node.js installed</em></p>
+
+<p>Install pre-built binaries. In that case, we fetch the <code>armv7l</code> package for a Raspberry Pi 2:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo mkdir /opt/node
+<span class="nv">$ </span>wget https://nodejs.org/dist/v4.1.2/node-v4.1.2-linux-armv7l.tar.gz
+<span class="nv">$ </span>tar zxvf node-v4.1.2-linux-armv7l.tar.gz
+<span class="nv">$ </span>sudo cp -r node-v4.1.2-linux-armv7l/* /opt/node
+<span class="nv">$ </span>rm node-v4.1.2-linux-armv7l.tar.gz</code></pre></div>
+
+<p>Adds those lines to <code>/etc/profile</code> juste before <code>export PATH</code>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">NODE_JS_HOME=&quot;/opt/node&quot;
+PATH=&quot;$PATH:$NODE_JS_HOME/bin&quot;
+</code></pre></div>
+<h3>Build package</h3>
+
+<p>Let&#39;s build <code>Grafana 2.1.3</code>.</p>
+
+<p>Setup a <code>gvm</code> package set:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>gvm pkgset create grafana
+<span class="nv">$ </span>gvm pkgset use grafana</code></pre></div>
+
+<p>Fetch sources:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>go get github.com/grafana/grafana
+<span class="nv">$ </span><span class="nb">cd</span> ~/.gvm/pkgsets/go1.5/grafana/src/github.com/grafana/grafana/
+<span class="nv">$ </span>git checkout tags/v2.1.3</code></pre></div>
+
+<p>Setup build:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>go run build.go setup
+<span class="nv">$ </span>godep restore
+<span class="nv">$ </span>npm install
+<span class="nv">$ </span>sudo /opt/node/bin/npm install -g grunt-cli</code></pre></div>
+
+<p>Change <code>build.go</code> file, line 76, with <code>grunt(&quot;--force&quot;,&quot;release&quot;)</code> to bypass an issue with <code>phantomjs</code> (cf. <a href="https://github.com/grafana/grafana/issues/2683">https://github.com/grafana/grafana/issues/2683</a>).</p>
+
+<p>Then fix a timeout issue:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sed -i <span class="s1">&#39;s/baseUrl: &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;.\/app&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;,/baseUrl: &#39;</span><span class="se">\&#39;</span><span class="s1">&#39;.\/app&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;,waitSeconds: 0,/&#39;</span> tasks/options/requirejs.js</code></pre></div>
+
+<p>Build package:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>go run build.go build package</code></pre></div>
+
+<h3>Install</h3>
+
+<p>Install package:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo dpkg -i dist/grafana_2.1.3_armhf.deb</code></pre></div>
+
+<p>Setup service:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo update-rc.d grafana-server defaults 95 10</code></pre></div>
+
+<p>Start server:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo service grafana-server start</code></pre></div>
+
+<p>Configuration files are located at: <code>/etc/default/grafana-server</code> and <code>/etc/grafana/grafana.ini</code>.</p>
+
+<h3>Create dashboards</h3>
+
+<p>Navigate with a browser to: <a href="http://RPI_IP:3000/">http://RPI_IP:3000/</a></p>
+
+<p>Authenticate with <code>admin</code> / <code>admin</code> credendials then change password at: <a href="http://RPI_IP:3000/profile/password">http://RPI_IP:3000/profile/password</a>.</p>
+
+<p>Add the telegraf influxdb datasource as explained at: <a href="http://docs.grafana.org/datasources/influxdb/">http://docs.grafana.org/datasources/influxdb/</a>:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">- Name: RPI-NAME
+- Default: checked
+- Type: InfluxDB 0.9.x
+- Url: http://localhost:8086/
+- Access: proxy
+- Basic Auth: NOT checked
+- Database: telegraf
+- User: admin
+- Password: admin
+</code></pre></div>
+<p>You can now create cool <code>grafana</code> dashboards. Enjoy.</p>
+
+<h2>External References</h2>
+
+<ul>
+<li><a href="https://nicolas.steinmetz.fr/blog/post/InfluxDB-0.9.3-sur-un-RaspberriPy">https://nicolas.steinmetz.fr/blog/post/InfluxDB-0.9.3-sur-un-RaspberriPy</a></li>
+<li><a href="http://docs.grafana.org/project/building_from_source/">http://docs.grafana.org/project/building_from_source/</a></li>
+<li><a href="https://github.com/fg2it/grafana-on-raspberry/blob/master/v2.1.2%2FREADME.md">https://github.com/fg2it/grafana-on-raspberry/blob/master/v2.1.2%2FREADME.md</a></li>
+</ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        <footer>
+          <div class="container-fluid">
+            <div class="row footer">
+              <div class="col-md-12">
+                <p>
+                  <a href="https://github.com/aymerick">github</a> |
+                  <a href="https://twitter.com/aymerick">twitter</a> |
+                  <a href="http://www.linkedin.com/in/aymerick">linkedin</a> |
+                  <a href="https://careers.stackoverflow.com/aymerick">so careers</a> |
+                  <a href="https://pinboard.in/u:aymerick">pinboard</a> |
+                  <a href="http://fudahu.tumblr.com/">tumblr</a> |
+                  <a href="http://www.flickr.com/photos/aymerick">flickr</a> |
+                  <a href="http://www.youtube.com/ajehanne">youtube</a> |
+                  <a href="http://soundcloud.com/aymerick-jehanne">soundcloud</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </footer>
+
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="/assets/js/bootstrap.min.js"></script>
+
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-52977462-1', 'auto');
+          ga('send', 'pageview');
+        </script>
+    </body>
+</html>

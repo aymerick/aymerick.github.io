@@ -10,7 +10,7 @@
     <description>The personal website of a generalist developer living in France.</description>
     <pubDate>Wed, 07 Oct 2015 00:00:00 +0200</pubDate>
     <item>
-      <title>InfluxDB, Telegraf and Grafana on Raspberry Pi</title>
+      <title>InfluxDB, Telegraf and Grafana on a Raspberry Pi 2</title>
       <link>http://www.aymerick.com/2015/10/07/influxdb-telegraf-grafana-raspberry-pi.html</link>
       <description><![CDATA[Prerequisites
 ]]></description>
@@ -203,6 +203,8 @@ PATH=&quot;$PATH:$NODE_JS_HOME/bin&quot;
 - Password: admin
 </code></pre></div>
 <p>You can now create cool <code>grafana</code> dashboards. Enjoy.</p>
+
+<p><img src="/img/grafana.png" alt="JeeLink"></p>
 
 <h2>External References</h2>
 

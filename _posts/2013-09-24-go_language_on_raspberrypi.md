@@ -16,19 +16,20 @@ Prerequisites
 Install
 =======
 
-{% highlight bash %}
-$ wget http://dave.cheney.net/paste/go1.1.2.linux-arm~multiarch-armv6-1.tar.gz
-$ sudo tar -C /usr/local -xzf go1.1.2.linux-arm~multiarch-armv6-1.tar.gz
-{% endhighlight %}
+_Note that you can install pre-built packages here: <http://dave.cheney.net/unofficial-arm-tarballs>_
 
-Setup
-=====
+Install go 1.5 using Go Version Manager:
 
 {% highlight bash %}
-$ emacs /etc/profile
+$ bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+$ source /home/pi/.gvm/scripts/gvm
+$ sudo apt-get install bison
+$ gvm install go1.4
+$ gvm use go1.4
+$ export GOROOT_BOOTSTRAP=$GOROOT
+$ gvm install go1.5
+$ gvm use go1.5 --default
 {% endhighlight %}
-
-Add `:/usr/local/go/bin` to `PATH` then relog.
 
 Test
 ====
@@ -55,5 +56,7 @@ $ go run hello.go
 External References
 ===================
 
+- <https://nicolas.steinmetz.fr/blog/post/InfluxDB-0.9.3-sur-un-RaspberriPy>
+- <https://github.com/moovweb/gvm>
 - <http://dave.cheney.net/unofficial-arm-tarballs>
 - <http://tip.golang.org/doc/install>

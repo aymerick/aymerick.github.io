@@ -22,7 +22,7 @@ Look for the new device that wasn't listed last time (eg: `/dev/disk2s1`).
 
 {% highlight bash %}
 $ sudo diskutil unmount /dev/disk2s1
-$ sudo dd bs=1m if=~/Downloads/2015-05-05-raspbian-wheezy.img of=/dev/rdisk2
+$ sudo dd bs=1m if=~/Downloads/2015-09-24-raspbian-jessie.img of=/dev/rdisk2
 $ sudo diskutil eject /dev/rdisk2
 {% endhighlight %}
 
@@ -55,7 +55,19 @@ $ cd Adafruit-Pi-ExternalRoot-Helper
 $ sudo ./adafruit-pi-externalroot-helper -d /dev/sda
 {% endhighlight %}
 
-Then reboot:
+If you see errors like:
+
+    Error: Partition(s) on /dev/sda are being used.
+
+Then unmount partitions:
+
+{% highlight bash %}
+$ mount -l
+$ sudo umount /media/pi/rootfs
+$ sudo ./adafruit-pi-externalroot-helper -d /dev/sda
+{% endhighlight %}
+
+Finally, you can reboot:
 
 {% highlight bash %}
 $ sudo reboot
@@ -263,13 +275,14 @@ $ sudo raspi-config
 - Advanced Options > Update
 - Expand Filesystem
 - Change User Password
-- Enable Boot to Desktop: No
+- Boot Options > Console
 - Internationalisation Options > Change Timezone
-- Overclock > Medium
+- Overclock > Medium (or: Pi2)
 - Advanced Options > Hostname
 - Advanced Options > Memory Split: 16
 
 {% highlight bash %}
+$ sudo apt-get update
 $ sudo apt-get install emacs23-nox
 $ sudo reboot
 {% endhighlight %}

@@ -75,6 +75,10 @@ module.exports = function(app) {
 };
 {% endhighlight %}
 
+Adds `express` dependency:
+
+    $ npm install express --save-dev
+
 Start the server:
 
     $ ember server

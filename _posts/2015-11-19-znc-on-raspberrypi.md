@@ -1,9 +1,8 @@
 ---
 layout: post
-title: ZNC on Raspberry Pi
+title: ZNC IRC bouncer on Raspberry Pi
 tags:
 - raspberrypi
-- pikan.local
 ---
 
 Prerequisites

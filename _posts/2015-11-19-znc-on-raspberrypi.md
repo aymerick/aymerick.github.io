@@ -108,8 +108,8 @@ Generate configuration file:
 Login to web admin: https://<IP>:<PORT>
 
 
-Start znc on server start
-=========================
+Keep znc running
+================
 
 Edit crontab:
 

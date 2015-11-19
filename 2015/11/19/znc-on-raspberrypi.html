@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>ZNC IRC bouncer on Raspberry Pi</title>
+        <meta name="description" content="The personal website of a generalist developer living in France.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/png" href="/favicon.png" />
+
+        <link rel="alternate" type="application/rss+xml" title="Aymerick's stuff" href="http://www.aymerick.com/rss.xml">
+
+        <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/assets/css/syntax.css">
+        <link rel="stylesheet" href="/assets/css/main.css">
+
+        
+
+        <!-- OG meta -->
+        <meta property="og:title" content="ZNC IRC bouncer on Raspberry Pi" />
+        
+
+        
+          <meta property="og:type" content="website" />
+        
+    </head>
+
+    <body id="">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <a href="/index.html" class='navbar-brand'>Aymerick</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbar-collapse-1">
+              <ul class="nav navbar-nav">
+                <li class="">
+                  <a href="/about.html">About</a>
+                </li>
+                <!--  <li class="">
+                  <a href="/timeline.html">Timeline</a>
+                </li> -->
+                <li class="">
+                  <a href="/stuff.html">Stuff</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="post-header">
+              <h2 class='post-title'>ZNC IRC bouncer on Raspberry Pi</h2>
+              
+                <ul class="post-tags">
+                  
+                    <li><a href="/tags/#raspberrypi-ref">#raspberrypi</a></li>
+                  
+                </ul>
+              
+              <p class="meta">19 Nov 2015</p>
+            </div>
+
+            <div class="post">
+            <h1>Prerequisites</h1>
+
+<ul>
+<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+</ul>
+
+<h1>Install from sources</h1>
+
+<p>The raspbian package is very old, so its preferable to install it from sources:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ wget http://znc.in/releases/znc-1.6.2.tar.gz
+$ tar zxvf znc-1.6.2.tar.gz
+$ cd znc-1.6.2
+$ sudo apt-get install build-essential libssl-dev libperl-dev pkg-config
+$ ./configure
+$ make
+</code></pre></div>
+<p>Wait.... 30 minutes on a rpi2... one hour on a rpi1...</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ sudo make install
+</code></pre></div>
+<p>Generate configuration file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ znc --makeconf
+
+[ .. ] Checking for list of available modules...
+[ &gt;&gt; ] ok
+[ ** ]
+[ ** ] -- Global settings --
+[ ** ]
+[ ?? ] Listen on port (1025 to 65534): &lt;PORT&gt;
+[ ?? ] Listen using SSL (yes/no) [no]: yes
+[ ?? ] Listen using both IPv4 and IPv6 (yes/no) [yes]: yes
+[ .. ] Verifying the listener...
+[ &gt;&gt; ] ok
+[ ** ] Unable to locate pem file: [/home/pi/.znc/znc.pem], creating it
+[ .. ] Writing Pem file [/home/pi/.znc/znc.pem]...
+[ &gt;&gt; ] ok
+[ ** ] Enabled global modules [webadmin]
+[ ** ]
+[ ** ] -- Admin user settings --
+[ ** ]
+[ ?? ] Username (alphanumeric): aymerick
+[ ?? ] Enter password:
+[ ?? ] Confirm password:
+[ ?? ] Nick [aymerick]:
+[ ?? ] Alternate nick [aymerick_]:
+[ ?? ] Ident [aymerick]:
+[ ?? ] Real name [Got ZNC?]: Rieul Nem
+[ ?? ] Bind host (optional): 0.0.0.0
+[ ** ] Enabled user modules [chansaver, controlpanel]
+[ ** ]
+[ ?? ] Set up a network? (yes/no) [yes]: yes
+[ ** ]
+[ ** ] -- Network settings --
+[ ** ]
+[ ?? ] Name [freenode]:
+[ ?? ] Server host [chat.freenode.net]:
+[ ?? ] Server uses SSL? (yes/no) [yes]:
+[ ?? ] Server port (1 to 65535) [6697]:
+[ ?? ] Server password (probably empty):
+[ ?? ] Initial channels: #test
+[ ** ] Enabled network modules [simple_away]
+[ ** ]
+[ .. ] Writing config [/home/pi/.znc/configs/znc.conf]...
+[ &gt;&gt; ] ok
+[ ** ]
+[ ** ] To connect to this ZNC you need to connect to it as your IRC server
+[ ** ] using the port that you supplied.  You have to supply your login info
+[ ** ] as the IRC server password like this: user/network:pass.
+[ ** ]
+[ ** ] Try something like this in your IRC client...
+[ ** ] /server &lt;znc_server_ip&gt; +48914 aymerick:&lt;pass&gt;
+[ ** ]
+[ ** ] To manage settings, users and networks, point your web browser to
+[ ** ] https://&lt;znc_server_ip&gt;:48914/
+[ ** ]
+[ ?? ] Launch ZNC now? (yes/no) [yes]: yes
+[ .. ] Opening config [/home/pi/.znc/configs/znc.conf]...
+[ &gt;&gt; ] ok
+[ .. ] Loading global module [webadmin]...
+[ &gt;&gt; ] [/usr/local/lib/znc/webadmin.so]
+[ .. ] Binding to port [+48914]...
+[ &gt;&gt; ] ok
+[ ** ] Loading user [aymerick]
+[ ** ] Loading network [freenode]
+[ .. ] Loading network module [simple_away]...
+[ &gt;&gt; ] [/usr/local/lib/znc/simple_away.so]
+[ .. ] Adding server [chat.freenode.net +6697 ]...
+[ &gt;&gt; ] ok
+[ .. ] Loading user module [chansaver]...
+[ &gt;&gt; ] ok
+[ .. ] Loading user module [controlpanel]...
+[ &gt;&gt; ] ok
+[ .. ] Forking into the background...
+[ &gt;&gt; ] [pid: 17547]
+[ ** ] ZNC 1.6.2 - http://znc.in
+</code></pre></div>
+<p>Login to web admin: https://<IP>:<PORT></p>
+
+<h1>Start znc on server start</h1>
+
+<p>Edit crontab:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ crontab -e
+</code></pre></div>
+<p>Add:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">*/5 * * * * /usr/local/bin/znc &gt;/dev/null 2&gt;&amp;1
+</code></pre></div>
+<h1>Log stuff</h1>
+
+<p>Go to <code>https://&lt;SERVER&gt;:&lt;PORT&gt;/mods/global/webadmin/edituser</code> and check the <strong>log</strong> module (and only there).</p>
+
+<p>Logs are now saved into <code>/home/pi/.znc/users/&lt;USERNAME&gt;/moddata/log</code>.</p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        <footer>
+          <div class="container-fluid">
+            <div class="row footer">
+              <div class="col-md-12">
+                <p>
+                  <a href="https://github.com/aymerick">github</a> |
+                  <a href="https://twitter.com/aymerick">twitter</a> |
+                  <a href="http://www.linkedin.com/in/aymerick">linkedin</a> |
+                  <a href="https://careers.stackoverflow.com/aymerick">so careers</a> |
+                  <a href="https://pinboard.in/u:aymerick">pinboard</a> |
+                  <a href="http://fudahu.tumblr.com/">tumblr</a> |
+                  <a href="http://www.flickr.com/photos/aymerick">flickr</a> |
+                  <a href="http://www.youtube.com/ajehanne">youtube</a> |
+                  <a href="http://soundcloud.com/aymerick-jehanne">soundcloud</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </footer>
+
+        <script src="/assets/js/jquery.min.js"></script>
+        <script src="/assets/js/bootstrap.min.js"></script>
+
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-52977462-1', 'auto');
+          ga('send', 'pageview');
+        </script>
+    </body>
+</html>

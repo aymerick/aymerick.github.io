@@ -8,7 +8,127 @@
     <title>Aymerick's stuff</title>
     <link>http://www.aymerick.com</link>
     <description>The personal website of a generalist developer living in France.</description>
-    <pubDate>Wed, 07 Oct 2015 00:00:00 +0200</pubDate>
+    <pubDate>Thu, 19 Nov 2015 00:00:00 +0100</pubDate>
+    <item>
+      <title>ZNC IRC bouncer on Raspberry Pi</title>
+      <link>http://www.aymerick.com/2015/11/19/znc-on-raspberrypi.html</link>
+      <description><![CDATA[Prerequisites
+]]></description>
+      <pubDate>Thu, 19 Nov 2015 00:00:00 +0100</pubDate>
+      <guid>http://www.aymerick.com/2015/11/19/znc-on-raspberrypi.html</guid>
+      <content:encoded><![CDATA[<h1>Prerequisites</h1>
+
+<ul>
+<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
+</ul>
+
+<h1>Install from sources</h1>
+
+<p>The raspbian package is very old, so its preferable to install it from sources:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ wget http://znc.in/releases/znc-1.6.2.tar.gz
+$ tar zxvf znc-1.6.2.tar.gz
+$ cd znc-1.6.2
+$ sudo apt-get install build-essential libssl-dev libperl-dev pkg-config
+$ ./configure
+$ make
+</code></pre></div>
+<p>Wait.... 30 minutes on a rpi2... one hour on a rpi1...</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ sudo make install
+</code></pre></div>
+<p>Generate configuration file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ znc --makeconf
+
+[ .. ] Checking for list of available modules...
+[ &gt;&gt; ] ok
+[ ** ]
+[ ** ] -- Global settings --
+[ ** ]
+[ ?? ] Listen on port (1025 to 65534): &lt;PORT&gt;
+[ ?? ] Listen using SSL (yes/no) [no]: yes
+[ ?? ] Listen using both IPv4 and IPv6 (yes/no) [yes]: yes
+[ .. ] Verifying the listener...
+[ &gt;&gt; ] ok
+[ ** ] Unable to locate pem file: [/home/pi/.znc/znc.pem], creating it
+[ .. ] Writing Pem file [/home/pi/.znc/znc.pem]...
+[ &gt;&gt; ] ok
+[ ** ] Enabled global modules [webadmin]
+[ ** ]
+[ ** ] -- Admin user settings --
+[ ** ]
+[ ?? ] Username (alphanumeric): aymerick
+[ ?? ] Enter password:
+[ ?? ] Confirm password:
+[ ?? ] Nick [aymerick]:
+[ ?? ] Alternate nick [aymerick_]:
+[ ?? ] Ident [aymerick]:
+[ ?? ] Real name [Got ZNC?]: Rieul Nem
+[ ?? ] Bind host (optional): 0.0.0.0
+[ ** ] Enabled user modules [chansaver, controlpanel]
+[ ** ]
+[ ?? ] Set up a network? (yes/no) [yes]: yes
+[ ** ]
+[ ** ] -- Network settings --
+[ ** ]
+[ ?? ] Name [freenode]:
+[ ?? ] Server host [chat.freenode.net]:
+[ ?? ] Server uses SSL? (yes/no) [yes]:
+[ ?? ] Server port (1 to 65535) [6697]:
+[ ?? ] Server password (probably empty):
+[ ?? ] Initial channels: #test
+[ ** ] Enabled network modules [simple_away]
+[ ** ]
+[ .. ] Writing config [/home/pi/.znc/configs/znc.conf]...
+[ &gt;&gt; ] ok
+[ ** ]
+[ ** ] To connect to this ZNC you need to connect to it as your IRC server
+[ ** ] using the port that you supplied.  You have to supply your login info
+[ ** ] as the IRC server password like this: user/network:pass.
+[ ** ]
+[ ** ] Try something like this in your IRC client...
+[ ** ] /server &lt;znc_server_ip&gt; +48914 aymerick:&lt;pass&gt;
+[ ** ]
+[ ** ] To manage settings, users and networks, point your web browser to
+[ ** ] https://&lt;znc_server_ip&gt;:48914/
+[ ** ]
+[ ?? ] Launch ZNC now? (yes/no) [yes]: yes
+[ .. ] Opening config [/home/pi/.znc/configs/znc.conf]...
+[ &gt;&gt; ] ok
+[ .. ] Loading global module [webadmin]...
+[ &gt;&gt; ] [/usr/local/lib/znc/webadmin.so]
+[ .. ] Binding to port [+48914]...
+[ &gt;&gt; ] ok
+[ ** ] Loading user [aymerick]
+[ ** ] Loading network [freenode]
+[ .. ] Loading network module [simple_away]...
+[ &gt;&gt; ] [/usr/local/lib/znc/simple_away.so]
+[ .. ] Adding server [chat.freenode.net +6697 ]...
+[ &gt;&gt; ] ok
+[ .. ] Loading user module [chansaver]...
+[ &gt;&gt; ] ok
+[ .. ] Loading user module [controlpanel]...
+[ &gt;&gt; ] ok
+[ .. ] Forking into the background...
+[ &gt;&gt; ] [pid: 17547]
+[ ** ] ZNC 1.6.2 - http://znc.in
+</code></pre></div>
+<p>Login to web admin: https://<IP>:<PORT></p>
+
+<h1>Start znc on server start</h1>
+
+<p>Edit crontab:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ crontab -e
+</code></pre></div>
+<p>Add:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">*/5 * * * * /usr/local/bin/znc &gt;/dev/null 2&gt;&amp;1
+</code></pre></div>
+<h1>Log stuff</h1>
+
+<p>Go to <code>https://&lt;SERVER&gt;:&lt;PORT&gt;/mods/global/webadmin/edituser</code> and check the <strong>log</strong> module (and only there).</p>
+
+<p>Logs are now saved into <code>/home/pi/.znc/users/&lt;USERNAME&gt;/moddata/log</code>.</p>
+]]></content:encoded>
+      <dc:date>2015-11-19T00:00:00+01:00</dc:date>
+    </item>
     <item>
       <title>InfluxDB, Telegraf and Grafana on a Raspberry Pi 2</title>
       <link>http://www.aymerick.com/2015/10/07/influxdb-telegraf-grafana-raspberry-pi.html</link>
@@ -2173,147 +2293,6 @@ sleep 6s
 ]]></content:encoded>
       <dc:date>2013-09-20T00:00:00+02:00</dc:date>
     </item>
-    <item>
-      <title>Audio on Raspberry Pi</title>
-      <link>http://www.aymerick.com/2013/09/19/audio_on_raspberrypi.html</link>
-      <description><![CDATA[Prerequisites
-]]></description>
-      <pubDate>Thu, 19 Sep 2013 00:00:00 +0200</pubDate>
-      <guid>http://www.aymerick.com/2013/09/19/audio_on_raspberrypi.html</guid>
-      <content:encoded><![CDATA[<h1>Prerequisites</h1>
-
-<ul>
-<li><a href="/2013/09/17/headless_raspberrypi_setup.html">Headless Raspberry Pi setup</a></li>
-</ul>
-
-<h1>Sound tests</h1>
-
-<p>List sound devices:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>aplay -L</code></pre></div>
-
-<p>Play a sound on default RPI output:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>aplay /usr/share/scratch/Media/Sounds/Vocals/Singer2.wav</code></pre></div>
-
-<h1>Install a DAC</h1>
-
-<p>I bought <a href="http://www.ebay.fr/itm/New-PCM2704-USB-DAC-USB-to-S-PDIF-Sound-Card-Decoder-Board-with-Aluminum-Housing-/160945210698">this USB DAC</a> but it is cheaper <a href="http://www.ebay.fr/itm/New-PCM2704-USB-DAC-USB-to-S-PDIF-Sound-Card-Decoder-Board-3-5mm-Analog-Output-/160945208556">without the enclosure</a>.</p>
-
-<p>Play on USB DAC:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>aplay -D default:CARD<span class="o">=</span>DAC /usr/share/scratch/Media/Sounds/Vocals/Singer2.wav</code></pre></div>
-
-<p>Set USB DAC as default output:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/modprobe.d/alsa-base.conf</code></pre></div>
-
-<p>Comment that line:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">options snd-usb-audio index=-2
-</code></pre></div>
-<p>Add that line:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">options snd-usb-audio nrpacks=1
-</code></pre></div>
-<p>Restart daemon:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo /etc/init.d/alsasound restart</code></pre></div>
-
-<h1>Install squeezelite</h1>
-
-<p>I already have a <a href="http://en.wikipedia.org/wiki/Logitech_Media_Server">Logitec Media Server</a> installed on my <a href="http://www.synology.com/">NAS</a> for my [Squeezebox Radio](http://en.wikipedia.org/wiki/Squeezebox<em>(network</em>music_player). So let&#39;s install <a href="https://code.google.com/p/squeezelite/">SqueezeLite</a> client on the raspberry pi.</p>
-
-<p>Install dependencies:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install libflac-dev
-<span class="nv">$ </span>sudo apt-get install libfaad2
-<span class="nv">$ </span>sudo apt-get install libmad0</code></pre></div>
-
-<p>Install squeezelite:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mkdir squeezelite
-<span class="nv">$ </span><span class="nb">cd </span>squeezelite
-<span class="nv">$ </span>wget http://squeezelite.googlecode.com/files/squeezelite-armv6hf
-<span class="nv">$ </span>sudo mv squeezelite-armv6hf /usr/bin
-<span class="nv">$ </span>chmod u+x /usr/bin/squeezelite-armv6hf</code></pre></div>
-
-<p>Test with:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>squeezelite-armv6hf -l
-<span class="nv">$ </span>squeezelite-armv6hf -o default:CARD<span class="o">=</span>ALSA -a 200
-<span class="nv">$ </span>squeezelite-armv6hf -n <span class="s2">&quot;PI-NAME&quot;</span> -a 200</code></pre></div>
-
-<p>Install daemon:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo wget http://www.gerrelt.nl/RaspberryPi/squeezelitehf.sh
-<span class="nv">$ </span>sudo mv squeezelitehf.sh /etc/init.d/squeezelite
-<span class="nv">$ </span>sudo chmod a+x /etc/init.d/squeezelite</code></pre></div>
-
-<p>Fix daemon script:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo emacs /etc/init.d/squeezelite</code></pre></div>
-
-<p>Remove &#39;SLMAC&#39; stuff and set:</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">SLOPTIONS=&quot;-a 200 -n PI-NAME&quot;
-</code></pre></div>
-<p>Start daemon:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo update-rc.d squeezelite defaults
-<span class="nv">$ </span>sudo service squeezelite start</code></pre></div>
-
-<p>External References:</p>
-
-<ul>
-<li><a href="http://www.raspberrypi.org/phpBB3/viewtopic.php?f=38&amp;t=23108">http://www.raspberrypi.org/phpBB3/viewtopic.php?f=38&amp;t=23108</a></li>
-</ul>
-
-<h1>Install AirPlay</h1>
-
-<p>Now I want to stream the music stored on my <a href="http://www.synology.com/">NAS</a> to the raspberry pi through <a href="http://www.synology.com/dsm/home_home_applications_audio_station.php">Audio Station</a>, controlling it with <a href="http://www.synology.com/dsm/home_mobile_support_ds_audio.php">DS Audio</a>.</p>
-
-<p>Thanks to <a href="https://github.com/abrasive/shairport">ShairPort</a> that&#39;s easy.</p>
-
-<p>Install dependencies:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo apt-get install git libao-dev libssl-dev libcrypt-openssl-rsa-perl libio-socket-inet6-perl libwww-perl avahi-utils
-<span class="nv">$ </span>sudo cpan install Net::SDP</code></pre></div>
-
-<p>Install ShairPort:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>git clone https://github.com/abrasive/shairport.git shairport
-<span class="nv">$ </span><span class="nb">cd </span>shairport
-<span class="nv">$ </span>./configure
-<span class="nv">$ </span>make
-<span class="nv">$ </span>sudo make install</code></pre></div>
-
-<p>Test:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>shairport.pl -a ShairPort</code></pre></div>
-
-<p>Install daemon:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo cp ./shairport.init.sample /etc/init.d/shairport
-<span class="nv">$ </span>sudo chmod a+x /etc/init.d/shairport</code></pre></div>
-
-<p>Fix daemon:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>emacs /etc/init.d/shairport</code></pre></div>
-
-<p>Change name: <code>NAME=ShairPort</code></p>
-
-<p>Start daemon:</p>
-
-<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>sudo update-rc.d shairport defaults
-<span class="nv">$ </span>sudo service shairport start</code></pre></div>
-
-<p>External References:</p>
-
-<ul>
-<li><a href="http://pihomeserver.wordpress.com/2012/12/05/raspberry-pi-home-server-etape-6-installer-un-serveur-airplay-avec-shairport/">http://pihomeserver.wordpress.com/2012/12/05/raspberry-pi-home-server-etape-6-installer-un-serveur-airplay-avec-shairport/</a></li>
-<li><a href="http://blog.nicolargo.com/2013/03/utiliser-votre-raspberry-pi-comme-borne-airplay.html">http://blog.nicolargo.com/2013/03/utiliser-votre-raspberry-pi-comme-borne-airplay.html</a></li>
-</ul>
-]]></content:encoded>
-      <dc:date>2013-09-19T00:00:00+02:00</dc:date>
-    </item>
-    <dc:date>2015-10-07T00:00:00+02:00</dc:date>
+    <dc:date>2015-11-19T00:00:00+01:00</dc:date>
   </channel>
 </rss>

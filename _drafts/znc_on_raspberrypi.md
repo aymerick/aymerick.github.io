@@ -68,7 +68,7 @@ Generate configuration file:
     [ ?? ] Server uses SSL? (yes/no) [yes]:
     [ ?? ] Server port (1 to 65535) [6697]:
     [ ?? ] Server password (probably empty):
-    [ ?? ] Initial channels: #fotonauts
+    [ ?? ] Initial channels: #test
     [ ** ] Enabled network modules [simple_away]
     [ ** ]
     [ .. ] Writing config [/home/pi/.znc/configs/znc.conf]...

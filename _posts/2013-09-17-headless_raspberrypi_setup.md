@@ -22,7 +22,7 @@ Look for the new device that wasn't listed last time (eg: `/dev/disk2s1`).
 
 {% highlight bash %}
 $ sudo diskutil unmount /dev/disk2s1
-$ sudo dd bs=1m if=~/Downloads/2015-09-24-raspbian-jessie.img of=/dev/rdisk2
+$ sudo dd bs=1m if=~/Downloads/2015-11-21-raspbian-jessie-lite.img of=/dev/rdisk2
 $ sudo diskutil eject /dev/rdisk2
 {% endhighlight %}
 
@@ -279,50 +279,12 @@ $ sudo raspi-config
 - Internationalisation Options > Change Timezone
 - Overclock > Medium (or: Pi2)
 - Advanced Options > Hostname
-- Advanced Options > Memory Split: 16
+- Advanced Options > Memory Split: 0
 
 {% highlight bash %}
 $ sudo apt-get update
 $ sudo apt-get install emacs23-nox
 $ sudo reboot
-{% endhighlight %}
-
-
-Fix the 'Setting locale failed' issue during ssh
-================================================
-
-{% highlight bash %}
-$ sudo emacs /etc/ssh/sshd_config
-{% endhighlight %}
-
-Comment that line:
-
-```
-AcceptEnv LANG LC_*
-```
-
-To test:
-{% highlight bash %}
-$ sudo /etc/init.d/ssh restart
-$ exit
-$ ssh pi@<PI IP>
-$ perl -e exit
-{% endhighlight %}
-
-
-External References:
-
-- <http://stackoverflow.com/questions/2499794/how-can-i-fix-a-locale-warning-from-perl>
-
-
-Optimizations
-=============
-
-{% highlight bash %}
-$ sudo apt-get purge consolekit desktop-base* desktop-file-utils* gnome-icon-theme* gnome-themes-standard* hicolor-icon-theme* leafpad* lxde* lxde-core* midori* xserver-common* xserver-xorg* xserver-xorg-core* xserver-xorg-input-all* xserver-xorg-input-evdev* xserver-xorg-input-synaptics* xserver-xorg-video-fbdev* gconf gconf2 gconf2-common gnome-accessibility-themes libmenu-cache1 lxappearance lxinput lxmenu-data lxpanel lxpolkit lxrandr lxsession lxsession-edit lxshortcut lxtask lxterminal scratch
-$ sudo apt-get -y remove cups* gnome* x11-common*
-$ sudo apt-get -y autoremove
-$ sudo apt-get -y autoclean
 {% endhighlight %}
 
 

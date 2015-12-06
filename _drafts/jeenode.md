@@ -83,23 +83,20 @@ Jeenode on pikan.local FTDI
 
 References:
 - http://jeelabs.org/2012/09/20/serial-hookup-jeenode-to-raspberry-pi/
+- https://www.raspberrypi.org/forums/viewtopic.php?t=123081&p=828879
 
 $ sudo usermod -a -G tty pi
 
 # Relog
 
-$ sudo emacs /etc/inittab
-
-# Comment line:
-# T0:23:respawn:/sbin/getty -L ttyAMA0 115200 vt100
-
-$ sudo kill -1 1
+$ sudo systemctl stop serial-getty@ttyAMA0.service
+$ sudo systemctl disable serial-getty@ttyAMA0.service
 
 $ sudo emacs /boot/cmdline.txt
 
-# Remove text: console=ttyAMA0,115200 kgdboc=ttyAMA0,115200
+# Remove text: console=ttyAMA0,115200
 
-$ sudo shutdown -r now
+$ sudo reboot
 
 # Plug Jeenode on pikan.local
 
@@ -219,4 +216,3 @@ ATTiny84A
 
 References:
 - http://forum.arduino.cc/index.php?topic=150870.0
-

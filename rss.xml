@@ -1896,7 +1896,6 @@ export PATH=$PATH:$GOPATH/bin
 <span class="nv">$ </span>sudo apt-get install bison
 <span class="nv">$ </span>gvm install go1.4
 <span class="nv">$ </span>gvm use go1.4
-<span class="nv">$ </span><span class="nb">export </span><span class="nv">GOROOT_BOOTSTRAP</span><span class="o">=</span><span class="nv">$GOROOT</span>
 <span class="nv">$ </span>gvm install go1.5
 <span class="nv">$ </span>gvm use go1.5 --default</code></pre></div>
 

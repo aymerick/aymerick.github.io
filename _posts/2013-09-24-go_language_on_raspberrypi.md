@@ -26,7 +26,6 @@ $ source /home/pi/.gvm/scripts/gvm
 $ sudo apt-get install bison
 $ gvm install go1.4
 $ gvm use go1.4
-$ export GOROOT_BOOTSTRAP=$GOROOT
 $ gvm install go1.5
 $ gvm use go1.5 --default
 {% endhighlight %}
